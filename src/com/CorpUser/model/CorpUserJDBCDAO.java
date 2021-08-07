@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
 
 public class CorpUserJDBCDAO implements CorpUserDAO_interface {
 
@@ -37,12 +38,12 @@ public class CorpUserJDBCDAO implements CorpUserDAO_interface {
 			pstmt.setString(2, corpUserVO.getCorpAccount());
 			pstmt.setString(3, corpUserVO.getCorpPassword());
 			pstmt.setString(4, corpUserVO.getCompanyName());
-			pstmt.setInt(5, corpUserVO.getLtdNo());
+			pstmt.setString(5, corpUserVO.getLtdNo());
 			pstmt.setString(6, corpUserVO.getEmail());
 			pstmt.setString(7, corpUserVO.getPhone());
 			pstmt.setString(8, corpUserVO.getAddress());
-			pstmt.setBlob(9, corpUserVO.getProfilePic());
-			pstmt.setDate(10, corpUserVO.getCreatedTime());
+			pstmt.setBytes(9, corpUserVO.getProfilePic());
+			pstmt.setTimestamp(10, corpUserVO.getCreatedTime());
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
@@ -85,12 +86,12 @@ public class CorpUserJDBCDAO implements CorpUserDAO_interface {
 			pstmt.setString(2, corpUserVO.getCorpAccount());
 			pstmt.setString(3, corpUserVO.getCorpPassword());
 			pstmt.setString(4, corpUserVO.getCompanyName());
-			pstmt.setInt(5, corpUserVO.getLtdNo());
+			pstmt.setString(5, corpUserVO.getLtdNo());
 			pstmt.setString(6, corpUserVO.getEmail());
 			pstmt.setString(7, corpUserVO.getPhone());
 			pstmt.setString(8, corpUserVO.getAddress());
-			pstmt.setBlob(9, corpUserVO.getProfilePic());
-			pstmt.setDate(10, corpUserVO.getCreatedTime());
+			pstmt.setBytes(9, corpUserVO.getProfilePic());
+			pstmt.setTimestamp(10, corpUserVO.getCreatedTime());
 			pstmt.setInt(11, corpUserVO.getCorpUserId());
 			pstmt.executeUpdate();
 
@@ -185,12 +186,12 @@ public class CorpUserJDBCDAO implements CorpUserDAO_interface {
 				corpUserVO.setCorpAccount(rs.getString("corpAccount"));
 				corpUserVO.setCorpPassword(rs.getString("corpPassword"));
 				corpUserVO.setCompanyName(rs.getString("companyName"));
-				corpUserVO.setLtdNo(rs.getInt("ltdNo"));
+				corpUserVO.setLtdNo(rs.getString("ltdNo"));
 				corpUserVO.setEmail(rs.getString("email"));
 				corpUserVO.setPhone(rs.getString("phone"));
 				corpUserVO.setAddress(rs.getString("address"));
-				corpUserVO.setProfilePic(rs.getBlob("profilePic"));
-				corpUserVO.setCreatedTime(rs.getDate("createdTime"));
+				corpUserVO.setProfilePic(rs.getBytes("profilePic"));
+				corpUserVO.setCreatedTime(rs.getTimestamp("createdTime"));
 			}
 
 			// Handle any driver errors
@@ -250,12 +251,12 @@ public class CorpUserJDBCDAO implements CorpUserDAO_interface {
 				corpUserVO.setCorpAccount(rs.getString("corpAccount"));
 				corpUserVO.setCorpPassword(rs.getString("corpPassword"));
 				corpUserVO.setCompanyName(rs.getString("companyName"));
-				corpUserVO.setLtdNo(rs.getInt("ltdNo"));
+				corpUserVO.setLtdNo(rs.getString("ltdNo"));
 				corpUserVO.setEmail(rs.getString("email"));
 				corpUserVO.setPhone(rs.getString("phone"));
 				corpUserVO.setAddress(rs.getString("address"));
-				corpUserVO.setProfilePic(rs.getBlob("profilePic"));
-				corpUserVO.setCreatedTime(rs.getDate("createdTime"));
+				corpUserVO.setProfilePic(rs.getBytes("profilePic"));
+				corpUserVO.setCreatedTime(rs.getTimestamp("createdTime"));
 				list.add(corpUserVO); // Store the row in the list
 			}
 			// Handle any driver errors

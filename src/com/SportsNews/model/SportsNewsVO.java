@@ -1,14 +1,15 @@
 //¥»ªí¥ÑTFA10201¶À¹©Á¾­t³d
 package com.SportsNews.model;
 
-import java.sql.Date;
+
+import java.sql.Timestamp;
 
 public class SportsNewsVO {
 	private Integer newsSn;
 	private Integer	managerId;
 	private String	title;
 	private String	content;
-	private Date	newsDate;
+	private Timestamp newsDate;
 	private String	newsSource;
 	private Integer	newsType;
 	
@@ -40,10 +41,10 @@ public class SportsNewsVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getNewsDate() {
+	public Timestamp getNewsDate() {
 		return newsDate;
 	}
-	public void setNewsDate(Date newsDate) {
+	public void setNewsDate(Timestamp newsDate) {
 		this.newsDate = newsDate;
 	}
 	public String getNewsSource() {
@@ -57,6 +58,12 @@ public class SportsNewsVO {
 	}
 	public void setNewsType(Integer newsType) {
 		this.newsType = newsType;
+	}
+
+	@Override
+	public String toString() {
+		return "SportsNewsVO [newsSn=" + newsSn + ", managerId=" + managerId + ", title=" + title + ", content="
+				+ content + ", newsDate=" + newsDate + ", newsSource=" + newsSource + ", newsType=" + newsType + "]";
 	}
 
 

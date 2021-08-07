@@ -9,10 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 
 
 
@@ -44,7 +40,7 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 			pstmt.setString(2, webManagerVO.getManagerEmail());
 			pstmt.setString(3, webManagerVO.getManagerAccount());
 			pstmt.setString(4, webManagerVO.getManagerPassword());
-			pstmt.setBlob(5, webManagerVO.getManagerPic());
+			pstmt.setBytes(5, webManagerVO.getManagerPic());
 			pstmt.setInt(6, webManagerVO.getManagerStatus());
 			pstmt.executeUpdate();
 
@@ -88,7 +84,7 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 			pstmt.setString(2, webManagerVO.getManagerEmail());
 			pstmt.setString(3, webManagerVO.getManagerAccount());
 			pstmt.setString(4, webManagerVO.getManagerPassword());
-			pstmt.setBlob(5, webManagerVO.getManagerPic());
+			pstmt.setBytes(5, webManagerVO.getManagerPic());
 			pstmt.setInt(6, webManagerVO.getManagerStatus());
 			pstmt.setInt(7, webManagerVO.getManagerId());
 			pstmt.executeUpdate();
@@ -179,13 +175,13 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 			while (rs.next()) {
 				// webManagerVO 也稱為 Domain objects
 				webManagerVO = new WebManagerVO();
-				pstmt.setInt(1, webManagerVO.getManagerId());
-				pstmt.setString(2, webManagerVO.getManagerName());
-				pstmt.setString(3, webManagerVO.getManagerEmail());
-				pstmt.setString(4, webManagerVO.getManagerAccount());
-				pstmt.setString(5, webManagerVO.getManagerPassword());
-				pstmt.setBlob(6, webManagerVO.getManagerPic());
-				pstmt.setInt(7, webManagerVO.getManagerStatus());
+				webManagerVO.setManagerId(managerId);
+				webManagerVO.setManagerName(rs.getString("ManagerName"));
+				webManagerVO.setManagerEmail(rs.getString("ManagerEmail"));
+				webManagerVO.setManagerAccount(rs.getString("ManagerAccount"));
+				webManagerVO.setManagerPassword(rs.getString("ManagerPassword"));
+				webManagerVO.setManagerPic(rs.getBytes("managerPic"));
+				webManagerVO.setManagerStatus(rs.getInt("managerStatus"));
 			}
 
 			// Handle any driver errors
@@ -240,13 +236,13 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 			while (rs.next()) {
 				// webManagerVO 也稱為 Domain objects
 				webManagerVO = new WebManagerVO();
-				pstmt.setInt(1, webManagerVO.getManagerId());
-				pstmt.setString(2, webManagerVO.getManagerName());
-				pstmt.setString(3, webManagerVO.getManagerEmail());
-				pstmt.setString(4, webManagerVO.getManagerAccount());
-				pstmt.setString(5, webManagerVO.getManagerPassword());
-				pstmt.setBlob(6, webManagerVO.getManagerPic());
-				pstmt.setInt(7, webManagerVO.getManagerStatus());
+				webManagerVO.setManagerId(rs.getInt("managerId"));
+				webManagerVO.setManagerName(rs.getString("ManagerName"));
+				webManagerVO.setManagerEmail(rs.getString("ManagerEmail"));
+				webManagerVO.setManagerAccount(rs.getString("ManagerAccount"));
+				webManagerVO.setManagerPassword(rs.getString("ManagerPassword"));
+				webManagerVO.setManagerPic(rs.getBytes("managerPic"));
+				webManagerVO.setManagerStatus(rs.getInt("managerStatus"));
 				list.add(webManagerVO); // Store the row in the list
 			}
 

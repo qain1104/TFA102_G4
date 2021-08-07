@@ -1,8 +1,12 @@
 //本表由TFA10201黃鼎謙負責
 package com.GeneralUser.model;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Blob;
 //VO的目的：用在client端與server端間傳遞資料
 import java.sql.Date;
+import java.sql.Timestamp;
 //貼上Serializalbe標籤才能讓物件被傳輸出去
 public class GeneralUserVO implements java.io.Serializable {
 	private Integer userId;
@@ -14,8 +18,8 @@ public class GeneralUserVO implements java.io.Serializable {
 	private String  email;
 	private String  address;
 	private String  phone;
-	private Blob    profilePic;
-	private Date 	createdTime;
+	private byte[]  profilePic;
+	private Timestamp createdTime;
 	private Integer gender;
 	
 	public GeneralUserVO() {
@@ -94,19 +98,19 @@ public class GeneralUserVO implements java.io.Serializable {
 		this.phone = phone;
 	}
 
-	public Blob getProfilePic() {
+	public byte[] getProfilePic() {
 		return profilePic;
 	}
 
-	public void setProfilePic(Blob profilePic) {
+	public void setProfilePic(byte[] profilePic) {
 		this.profilePic = profilePic;
 	}
 
-	public Date getCreatedTime() {
+	public Timestamp getCreatedTime() {
 		return createdTime;
 	}
 
-	public void setCreatedTime(Date createdTime) {
+	public void setCreatedTime(Timestamp createdTime) {
 		this.createdTime = createdTime;
 	}
 
@@ -117,6 +121,34 @@ public class GeneralUserVO implements java.io.Serializable {
 	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
+
+	@Override
+	public String toString() {
+		return "GeneralUserVO [userId=" + userId + ", registerStatus=" + registerStatus + ", userAccount=" + userAccount
+				+ ", userPassword=" + userPassword + ", userName=" + userName + ", id=" + id + ", email=" + email
+				+ ", address=" + address + ", phone=" + phone + ", profilePic=" + profilePic + ", createdTime="
+				+ createdTime + ", gender=" + gender + "]";
+	}
 	
-	
+	public static byte[] getPictureByteArray(String path)  {
+		FileInputStream fis =null;
+		byte[] buffer = null;
+		try {
+			fis = new FileInputStream(path);
+			buffer = new byte[fis.available()];
+			fis.read(buffer);
+			return buffer;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return buffer;
+	}
 }

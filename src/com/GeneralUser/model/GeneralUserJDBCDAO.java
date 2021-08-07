@@ -17,7 +17,7 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 	private static final String GET_ALL_STMT = "SELECT userId,registerStatus,userAccount,userPassword,userName,id,email,address,phone,profilePic,createdTime,gender FROM GENERAL_USER order by userId";
 	private static final String GET_ONE_STMT = "SELECT userId,registerStatus,userAccount,userPassword,userName,id,email,address,phone,profilePic,createdTime,gender FROM GENERAL_USER where userId = ?";
 	private static final String DELETE = "DELETE FROM GENERAL_USER where userId = ?";
-	private static final String UPDATE = "UPDATE GENERAL_USER set registerStatus=?,userAccount=?,userPassword=?,userName=?,id=?,email=?,address=?,phone=?,profilePic=?,createdTime=?,gender=?,where userId=?";
+	private static final String UPDATE = "UPDATE GENERAL_USER set registerStatus=?,userAccount=?,userPassword=?,userName=?,id=?,email=?,address=?,phone=?,profilePic=?,createdTime=?,gender=? where userId=?";
 
 	@Override
 	public void insert(GeneralUserVO generalUserVO) {
@@ -38,8 +38,8 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 			pstmt.setString(6, generalUserVO.getEmail());
 			pstmt.setString(7, generalUserVO.getAddress());
 			pstmt.setString(8, generalUserVO.getPhone());
-			pstmt.setBlob(9, generalUserVO.getProfilePic());
-			pstmt.setDate(10, generalUserVO.getCreatedTime());
+			pstmt.setBytes(9, generalUserVO.getProfilePic());
+			pstmt.setTimestamp(10, generalUserVO.getCreatedTime());
 			pstmt.setInt(11, generalUserVO.getGender());
 			pstmt.executeUpdate();
 
@@ -87,8 +87,8 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 			pstmt.setString(6, generalUserVO.getEmail());
 			pstmt.setString(7, generalUserVO.getAddress());
 			pstmt.setString(8, generalUserVO.getPhone());
-			pstmt.setBlob(9, generalUserVO.getProfilePic());
-			pstmt.setDate(10, generalUserVO.getCreatedTime());
+			pstmt.setBytes(9, generalUserVO.getProfilePic());
+			pstmt.setTimestamp(10, generalUserVO.getCreatedTime());
 			pstmt.setInt(11, generalUserVO.getGender());
 			pstmt.setInt(12, generalUserVO.getUserId());
 			pstmt.executeUpdate();
@@ -187,8 +187,8 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 				generalUserVO.setEmail(rs.getString("email"));
 				generalUserVO.setAddress(rs.getString("address"));
 				generalUserVO.setPhone(rs.getString("phone"));
-				generalUserVO.setProfilePic(rs.getBlob("profilePic"));
-				generalUserVO.setCreatedTime(rs.getDate("createdTime"));
+				generalUserVO.setProfilePic(rs.getBytes("profilePic"));
+				generalUserVO.setCreatedTime(rs.getTimestamp("createdTime"));
 				generalUserVO.setGender(rs.getInt("gender"));
 			}
 			// Handle any driver errors
@@ -252,8 +252,8 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 				generalUserVO.setEmail(rs.getString("email"));
 				generalUserVO.setAddress(rs.getString("address"));
 				generalUserVO.setPhone(rs.getString("phone"));
-				generalUserVO.setProfilePic(rs.getBlob("profilePic"));
-				generalUserVO.setCreatedTime(rs.getDate("createdTime"));
+				generalUserVO.setProfilePic(rs.getBytes("profilePic"));
+				generalUserVO.setCreatedTime(rs.getTimestamp("createdTime"));
 				generalUserVO.setGender(rs.getInt("gender"));
 				list.add(generalUserVO); // Store the row in the list
 			}

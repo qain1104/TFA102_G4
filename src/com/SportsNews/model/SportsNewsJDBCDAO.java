@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +14,15 @@ import java.util.List;
 
 public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/db01?serverTimezone=Asia/Taipei";
+	String url = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
 	String userid = "root";
 	String passwd = "password";
-
+	
 	private static final String INSERT_STMT = "INSERT INTO SPORT_NEWS(managerId,title,content,newsDate,newsSource,newsType)VALUES (?,?,?,?,?,?)";
 	private static final String GET_ALL_STMT = "SELECT newsSn,managerId,title,content,newsDate,newsSource,newsType FROM SPORT_NEWS order by newsSn";
 	private static final String GET_ONE_STMT = "SELECT newsSn,managerId,title,content,newsDate,newsSource,newsType FROM SPORT_NEWS where newsSn = ?";
 	private static final String DELETE = "DELETE FROM SPORT_NEWS where newsSn = ?";
-	private static final String UPDATE = "UPDATE SPORT_NEWS set newsSn=?,managerId=?,title=?,content=?,newsDate=?,newsSource=?,newsType=?,where newsSn=?";
+	private static final String UPDATE = "UPDATE SPORT_NEWS set managerId=?,title=?,content=?,newsDate=?,newsSource=?,newsType=? where newsSn=?";
 
 	@Override
 	public void insert(SportsNewsVO sportsNewsVO) {
@@ -37,7 +38,7 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 			pstmt.setInt(1, sportsNewsVO.getManagerId());
 			pstmt.setString(2, sportsNewsVO.getTitle());
 			pstmt.setString(3, sportsNewsVO.getContent());
-			pstmt.setDate(4, sportsNewsVO.getNewsDate());
+			pstmt.setTimestamp(4, sportsNewsVO.getNewsDate());
 			pstmt.setString(5, sportsNewsVO.getNewsSource());
 			pstmt.setInt(6, sportsNewsVO.getNewsType());
 			pstmt.executeUpdate();
@@ -81,7 +82,7 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 			pstmt.setInt(1, sportsNewsVO.getManagerId());
 			pstmt.setString(2, sportsNewsVO.getTitle());
 			pstmt.setString(3, sportsNewsVO.getContent());
-			pstmt.setDate(4, sportsNewsVO.getNewsDate());
+			pstmt.setTimestamp(4, sportsNewsVO.getNewsDate());
 			pstmt.setString(5, sportsNewsVO.getNewsSource());
 			pstmt.setInt(6, sportsNewsVO.getNewsType());
 			pstmt.setInt(7, sportsNewsVO.getNewsSn());
@@ -173,14 +174,15 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 
 			while (rs.next()) {
 				sportsNewsVO = new SportsNewsVO();
-				pstmt.setInt(1, sportsNewsVO.getNewsSn());
-				pstmt.setInt(2, sportsNewsVO.getManagerId());
-				pstmt.setString(3, sportsNewsVO.getTitle());
-				pstmt.setString(4, sportsNewsVO.getContent());
-				pstmt.setDate(5, sportsNewsVO.getNewsDate());
-				pstmt.setString(6, sportsNewsVO.getNewsSource());
-				pstmt.setInt(7, sportsNewsVO.getNewsType());
+				sportsNewsVO.setNewsSn(newsSn);
+				sportsNewsVO.setManagerId(rs.getInt("managerId"));
+				sportsNewsVO.setTitle(rs.getString("title"));
+				sportsNewsVO.setContent(rs.getString("content"));
+				sportsNewsVO.setNewsDate(rs.getTimestamp("newsDate"));
+				sportsNewsVO.setNewsSource(rs.getString("newsSource"));
+				sportsNewsVO.setNewsType(rs.getInt("newsType"));
 			}
+			
 
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
@@ -234,13 +236,13 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 			while (rs.next()) {
 				// SportsNewsVO ¤]ºÙ¬° Domain objects
 				sportsNewsVO = new SportsNewsVO();
-				pstmt.setInt(1, sportsNewsVO.getNewsSn());
-				pstmt.setInt(2, sportsNewsVO.getManagerId());
-				pstmt.setString(3, sportsNewsVO.getTitle());
-				pstmt.setString(4, sportsNewsVO.getContent());
-				pstmt.setDate(5, sportsNewsVO.getNewsDate());
-				pstmt.setString(6, sportsNewsVO.getNewsSource());
-				pstmt.setInt(7, sportsNewsVO.getNewsType());
+				sportsNewsVO.setNewsSn(rs.getInt("newsSn"));
+				sportsNewsVO.setManagerId(rs.getInt("managerId"));
+				sportsNewsVO.setTitle(rs.getString("title"));
+				sportsNewsVO.setContent(rs.getString("content"));
+				sportsNewsVO.setNewsDate(rs.getTimestamp("newsDate"));
+				sportsNewsVO.setNewsSource(rs.getString("newsSource"));
+				sportsNewsVO.setNewsType(rs.getInt("newsType"));
 				list.add(sportsNewsVO); // Store the row in the list
 			}
 
