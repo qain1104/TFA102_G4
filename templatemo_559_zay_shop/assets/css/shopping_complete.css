@@ -1,0 +1,131 @@
+div.paying{ 
+    position: relative;
+}
+div.paying_status{ 
+    position: absolute; 
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    left: 33%;
+}
+div.status_bar{
+    border: 1px solid black;
+    width: 150px;
+    height: 60px;
+    box-shadow: 5px 5px 0px rgb(212, 212, 212);
+}
+#checking_purchasing_list{
+    background-color: #f8f9fa;
+    padding: 15px;
+}
+#choosing_method{
+    background-color: #f8f9fa;
+}
+#purchasing_completed{
+    background-color: #59AB6E;
+    color: white;
+    padding: 15px;
+}
+div.orderlist{
+    border: 1px solid rgb(224, 224, 224, 50%);
+    margin-top: 50px;
+    margin-bottom: 30px;
+    margin-left: 0px;
+}
+
+tr.shopping_tr td{
+    border: 1px solid black;
+}
+th img{
+    height: 100px;
+    width: 100px;
+    position: relative;
+    left: 25%;
+}
+div.shopping_list{
+    padding: 10px;
+}
+div.button_before_footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 50px;
+}
+div.shopping a{
+    color: inherit; 
+    text-decoration: none;
+}
+tr, th, td{
+    text-align: center;
+}
+tr th img{
+    left: 0px;
+} 
+td.merchandise_quantity{
+    position: relative;
+    left: 50px;
+    width: 15%;
+}
+td ul.list-inline{
+    position: absolute;
+    margin: 0 auto;
+    max-width: 100%;
+    left: -50px;
+}
+div.list_block{
+    margin-bottom: 30px;
+}
+div.receiver{
+    display: inline-block;
+}
+div.same_buyer{
+    display: inline-block;
+}
+form.receiver_data{
+    border: 1px solid rgb(224, 224, 224, 50%);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+fieldset.paying_type{
+    border: 1px solid black;
+    margin: -16px -8px 10px;
+    padding: 5px;
+    border: 1px solid rgb(224, 224, 224, 50%);
+}
+div.form-check{
+    padding-left: 0px;
+}
+table.table{
+    width: auto !important;
+}
+
+div.orderlist div div{
+    padding: 8px 5px;
+}
+
+@media all and (max-width: 768px){
+    section.container{
+        margin: 70px 0px 0px 0px;
+    }
+
+}
+@media all and (max-width: 576px){
+    div.paying_status{
+        flex-direction: column;
+    }
+    section.container{
+        margin: 90px 0px 0px 0px;
+    }
+}
+
+@media all and (max-width: 768px){
+    div.under_list{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+}
+
+
+
+  
