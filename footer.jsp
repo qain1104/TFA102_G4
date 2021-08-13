@@ -75,7 +75,7 @@
     </footer>
     <!-- End Footer -->
     
-        <!-- Start Script -->
+    <!-- Start Script -->
     <script src="<%=request.getContextPath() %>/assets/js/jquery-3.6.0.min.js"></script>
     <script src="<%=request.getContextPath() %>/assets/js/jquery-migrate-1.2.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/assets/js/bootstrap.bundle.min.js"></script>
@@ -84,5 +84,40 @@
     <script src="<%=request.getContextPath() %>/assets/js/shoppingcart.js" charset="UTF-8"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <!-- End Script -->
+    
+    <!-- Start Slider Script -->
+    <script src="<%= request.getContextPath() %>/assets/js/slick.min.js"></script>
+    <script>
+        $('#carousel-related-product').slick({
+            infinite: true,
+            arrows: false,
+            slidesToShow: 4,
+            slidesToScroll: 3,
+            dots: true,
+            responsive: [{
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 3
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 3
+                    }
+                }
+            ]
+        });
+    </script>
+    <!-- End Slider Script -->
 </body>
 </html>
