@@ -5,6 +5,7 @@
 <%@ page import="com.article.model.*"%>
 
 
+
 <%
 	Integer userId = 1001;
 	List<ARTICLEVO> list = null;
@@ -68,11 +69,11 @@ pageContext.setAttribute("list", list);%>
 	<jsp:include page="/header.jsp" flush="true" />
 	<!-- 論壇本體 -->
 	<section class="bg-light">
-		<div class="container">
+		<div class="container pb-5 pt-5">
 			<div class="row justify-content-center article-main">
 
 				<!-- 左邊side -->
-				<div class="col-md-2 mt-5 side">
+				<div class="col-md-2 side">
 					<div class="card sticky-top">
 						<div class="list-group list-group-flush">
 							<%
@@ -103,7 +104,7 @@ pageContext.setAttribute("list", list);%>
 				<!-- close左邊side -->
 
 				<!-- 論壇本體本體 -->
-				<div class="col-md-8 mt-5 mb-5 article-zone">
+				<div class="col-md-8 article-zone">
 					<!-- 外框 -->
 					<div class="card col-lg-12 article-card">
 						<!-- 第一行 大標 -->

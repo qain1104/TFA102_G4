@@ -5,10 +5,8 @@
 
 <%
 	Integer userId = 1001;
-	Integer articleSN =(Integer) request.getAttribute("articleSN");
-	ARTICLEService aSvc=new ARTICLEService();
-	ARTICLEVO aVO =aSvc.getOneArticle(articleSN);
-	
+	ARTICLEVO articleVO = (ARTICLEVO) request.getAttribute("articleVO");
+	Datahandle dh = new Datahandle();
 %>
 <!DOCTYPE html>
 <html>
@@ -40,17 +38,18 @@
 <body>
 	<!-- 論壇本體 -->
 	<section class="bg-light">
-		<div class="container pt-5 pb-5">
+		<div class="container pb-5 pt-5">
 			<div class="row justify-content-center article-main">
 
 				<!-- 左邊side -->
-				<div class="col-md-2 mt-5 side">
+				<div class="col-md-2 side">
 					<div class="card sticky-top">
 						<div class="list-group list-group-flush">
 							<%
 								int whichClass = 0;
 							%>
-							<a href="<%=request.getContextPath()%>/article/article.jsp?whichClass=0"
+							<a
+								href="<%=request.getContextPath()%>/article/article.jsp?whichClass=0"
 								class="list-group-item list-group-item-action list-group-item-success"
 								aria-current="true"> 論壇首頁 </a> <a
 								href="<%=request.getRequestURI()%>?whichClass=1"
@@ -74,7 +73,7 @@
 				<!-- close左邊side -->
 
 				<!-- 論壇本體本體 -->
-				<div class="col-md-8 mt-5 article-zone">
+				<div class="col-md-8 article-zone">
 					<!-- 外框 -->
 					<div class="card col-lg-12 pb-3 article-card">
 						<!-- 第一行 大標 -->
@@ -82,7 +81,7 @@
 							<div
 								class="row justify-content-between align-items-end articletitle">
 								<div class="col-auto">
-									<p class="fs-2 fw-bold text-success">發表文章</p>
+									<p class="fs-2 fw-bold text-success">編輯文章</p>
 								</div>
 								<%-- 錯誤表列 --%>
 								<c:if test="${not empty errorMsgs}">
@@ -100,44 +99,55 @@
 									<p class="fs-5 text-success">文章分類</p>
 									<div class="col-md-3 mb-3">
 										<!--隱藏input -->
-										<input type="hidden" name="userId" value="<%=userId%>">
-										<input type="hidden" name="articlePop" value="0">
-										<input type="hidden" name="articleLikes" value="0">
-										<input type="hidden" name="articleDate" value=<%=new Date()%>>
-										<input type="hidden" name="articleUpDate" value="<%=new Date()%>">
-										<input type="hidden" name="articleStatus" value="0">
+										<input type="hidden" name="articleSN"
+											value="${articleVO.articleSN}">
 										<!--!隱藏input -->
 										<select class="form-select" name="articleClass" required>
-											<option selected disabled>分類</option>
-											<option value="0">運動休閒</option>
-											<option value="1">商品分享</option>
-											<option value="2">運動賽事</option>
+											<option disabled>分類</option>
+											<option value="0"
+												${(articleVO.articleClass==0)?"selected":""}>運動休閒</option>
+											<option value="1"
+												${(articleVO.articleClass==1)?"selected":""}>商品分享</option>
+											<option value="2"
+												${(articleVO.articleClass==2)?"selected":""}>運動賽事</option>
 										</select>
 									</div>
 									<div class="input-group mb-3">
 										<div class="col-md-3">
 											<select class="form-select" name="articleType" required>
-												<option selected disabled>類型</option>
-												<option value="0">討論</option>
-												<option value="1">發問</option>
-												<option value="2">心得</option>
+												<option disabled>類型</option>
+												<option value="0"
+													${(articleVO.articleType==0)?'selected':''}>討論</option>
+												<option value="1"
+													${(articleVO.articleType==1)?'selected':''}>發問</option>
+												<option value="2"
+													${(articleVO.articleType==2)?'selected':''}>心得</option>
 											</select>
 										</div>
-										<input type="text" class="form-control" name="articleTitle" placeholder="請輸入標題" value="<%= (aVO==null)? "" : aVO.getArticleTitle()%>" required>
+										<input type="text" class="form-control" name="articleTitle"
+											placeholder="請輸入標題"
+											value="<%=(articleVO == null) ? "" : articleVO.getArticleTitle()%>"
+											required>
 									</div>
 									<div class="mb-3">
 										<label for="exampleFormControlTextarea1" class="form-label">內容</label>
 										<script
 											src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
-										<textarea name="articleContent"></textarea>
+										<textarea name="articleContent">
+											<%
+												byte[] bytes = articleVO.getArticleContent();
+												String acontent = dh.getArticleContent(bytes);
+											%>
+										<%=acontent%></textarea>
 										<script>
 											CKEDITOR.replace("articleContent");
 										</script>
 									</div>
-
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-										<input type="hidden" name="action" value="insert"> <input
-											class="btn btn-success" type="submit" value="送出文章">
+										<button class="btn btn-success" name="action" value="upstatus"
+											type="submit">刪除文章</button><button
+											class="btn btn-success" name="action" value="upedita"
+											type="submit">編輯文章</button>
 									</div>
 								</form>
 								<%-- !表單 --%>

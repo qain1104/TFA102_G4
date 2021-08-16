@@ -38,7 +38,7 @@ public class REPLYJDBCDAO implements REPLYDAO_interface {
 			
 			pstmt.setInt(1,replyVO.getArticleSN());
 			pstmt.setInt(2,replyVO.getUserId());
-			pstmt.setBlob(3,replyVO.getReplyContent());
+			pstmt.setBytes(3,replyVO.getReplyContent());
 			pstmt.setInt(4,replyVO.getReplyLikes());
 			pstmt.setTimestamp(5,replyVO.getReplyDate());
 			if(replyVO.getReplyUpDate()==null) {
@@ -92,7 +92,7 @@ public class REPLYJDBCDAO implements REPLYDAO_interface {
 
 			pstmt.setInt(1,replyVO.getArticleSN());
 			pstmt.setInt(2,replyVO.getUserId());
-			pstmt.setBlob(3,replyVO.getReplyContent());
+			pstmt.setBytes(3,replyVO.getReplyContent());
 			pstmt.setInt(4,replyVO.getReplyLikes());
 			pstmt.setTimestamp(5,replyVO.getReplyDate());
 			if(replyVO.getReplyUpDate()==null) {
@@ -200,7 +200,7 @@ public class REPLYJDBCDAO implements REPLYDAO_interface {
 				replyVO.setReplySN(rs.getInt("replySN"));
 				replyVO.setArticleSN(rs.getInt("articleSN"));
 				replyVO.setUserId(rs.getInt("userId"));
-				replyVO.setReplyContent(rs.getBlob("replyContent"));
+				replyVO.setReplyContent(rs.getBytes("replyContent"));
 				replyVO.setReplyLikes(rs.getInt("replyLikes"));
 				replyVO.setReplyDate(rs.getTimestamp("replyDate"));
 				replyVO.setReplyUpDate(rs.getTimestamp("replyUpDate"));
@@ -264,7 +264,7 @@ public class REPLYJDBCDAO implements REPLYDAO_interface {
 				replyVO.setReplySN(rs.getInt("replySN"));
 				replyVO.setArticleSN(rs.getInt("articleSN"));
 				replyVO.setUserId(rs.getInt("userId"));
-				replyVO.setReplyContent(rs.getBlob("replyContent"));
+				replyVO.setReplyContent(rs.getBytes("replyContent"));
 				replyVO.setReplyLikes(rs.getInt("replyLikes"));
 				replyVO.setReplyDate(rs.getTimestamp("replyDate"));
 				replyVO.setReplyUpDate(rs.getTimestamp("replyUpDate"));
@@ -306,56 +306,5 @@ public class REPLYJDBCDAO implements REPLYDAO_interface {
 		}
 		return list;
 	}
-
-	public static void main(String[] args) throws SerialException, SQLException {
-
-		REPLYJDBCDAO dao = new REPLYJDBCDAO();
-		byte[] bytes = "A byte array".getBytes();
-		Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-		
-		//		 新增
-//			REPLYVO aVO1 = new REPLYVO();
-//			aVO1.setArticleSN(4006);
-//			aVO1.setUserId(1004);
-//			aVO1.setReplyContent(blob);
-//			aVO1.setReplyLikes(0);
-//			aVO1.setReplyDate(java.sql.Timestamp.valueOf("2021-07-19 09:20:00.0"));
-//			aVO1.setReplyUpDate(java.sql.Timestamp.valueOf("2021-07-19 09:20:00.0"));
-//			aVO1.setReplyStatus(0);
-//			int updateCount_insert = dao.insert(aVO1);
-//			System.out.println(updateCount_insert);
-	    
-				
-
-		 //修改
-//		REPLYVO aVO2 = new REPLYVO();
-//		aVO2.setReplySN(6005);
-//		aVO2.setArticleSN(4001);
-//		aVO2.setUserId(1004);
-//		aVO2.setReplyContent(blob);
-//		aVO2.setReplyLikes(0);
-//		aVO2.setReplyDate(java.sql.Timestamp.valueOf("2021-07-19 09:20:00.0"));
-//		aVO2.setReplyUpDate(null);
-//		aVO2.setReplyStatus(0);
-//		 int updateCount_update = dao.update(aVO2);
-//		 System.out.println(updateCount_update);
-				
-
-		 //刪除
-//		 int updateCount_delete = dao.delete(6006);
-//		 System.out.println(updateCount_delete);
-
-		// 查詢
-//		REPLYVO aVO3 = dao.findByPrimaryKey(6003);
-//		System.out.println(aVO3.toString());
-//		System.out.println("---------------------");
-
-//		// 查詢
-//		List<REPLYVO> list = dao.getAll();
-//		for (REPLYVO aEmp : list) {
-//			System.out.println(aEmp.toString());
-//		}
-	}
-	
 	
 }

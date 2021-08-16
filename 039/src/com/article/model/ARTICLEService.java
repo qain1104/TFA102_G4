@@ -45,6 +45,30 @@ public class ARTICLEService {
 		return articleVO;
 	}
 	
+	public ARTICLEVO updateastatus(ARTICLEVO articleVO,Integer articleStatus) {
+		
+		articleVO.setArticleStatus(articleStatus);
+		dao.update(articleVO);
+		
+		return articleVO;
+	}
+	
+
+	public ARTICLEVO editArticle(ARTICLEVO articleVO,Integer articleClass,Integer articleType,String articleTitle,byte[] articleContent)
+	{
+
+		articleVO.setArticleClass(articleClass);
+		articleVO.setArticleType(articleType);
+		articleVO.setArticleTitle(articleTitle);
+		articleVO.setArticleContent(articleContent);
+		articleVO.setArticleUpDate(new java.sql.Timestamp(new java.util.Date().getTime()));
+		
+		dao.update(articleVO);
+
+		return articleVO;
+	}
+	
+	
 	public ARTICLEVO updateArticle(Integer articleSN,Integer articleClass,Integer articleType,String articleTitle,byte[] articleContent,Integer articlePop,Integer articleLikes,Timestamp articleUpDate,Integer articleStatus)
 	{
 

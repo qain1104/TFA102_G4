@@ -1,6 +1,5 @@
 package com.reply.model;
 
-import java.sql.Blob;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -8,7 +7,7 @@ public class REPLYVO implements java.io.Serializable{
 	private Integer replySN; //文章回覆編號
 	private Integer articleSN; //文章編號
 	private Integer userId; //會員編號,
-	private Blob replyContent; //文章內容
+	private byte[] replyContent; //文章內容
 	private Integer replyLikes; //按讚數
 	private Timestamp replyDate; //上架日期
 	private Timestamp replyUpDate; //編輯日期
@@ -40,10 +39,10 @@ public class REPLYVO implements java.io.Serializable{
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-	public Blob getReplyContent() {
+	public byte[] getReplyContent() {
 		return replyContent;
 	}
-	public void setReplyContent(Blob replyContent) {
+	public void setReplyContent(byte[] replyContent) {
 		this.replyContent = replyContent;
 	}
 	public Integer getReplyLikes() {
