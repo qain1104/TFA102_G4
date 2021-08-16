@@ -1,7 +1,16 @@
+<%@page import="javax.crypto.spec.DHGenParameterSpec"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.article.model.*"%>
+
+<%
+	String[] atype = {"討論", "發問", "心得"};
+	request.setAttribute("atype", atype);
+	ARTICLEVO aVO=(ARTICLEVO)request.getAttribute("articleVO");
+	ARTICLEService aSvc= new ARTICLEService();
+	Datahandle dh=new Datahandle();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +50,8 @@
 							<%
 								int whichClass = 0;
 							%>
-							<a href="<%=request.getContextPath()%>/article/article.jsp?whichClass=0"
+							<a
+								href="<%=request.getContextPath()%>/article/article.jsp?whichClass=0"
 								class="list-group-item list-group-item-action list-group-item-success"
 								aria-current="true"> 論壇首頁 </a> <a
 								href="<%=request.getRequestURI()%>?whichClass=1"
@@ -71,7 +81,13 @@
 						<!-- 最上面標題 -->
 						<div class="row">
 							<div class="col-lg-12">
-								<p class="fs-1 mb-0 px-1">[類型]標題很長很長</p>
+								<p class="fs-2 mb-0 px-1 text-success">
+									<c:choose>
+										<c:when test="${articleVO.articleType==0}">[討論]</c:when>
+										<c:when test="${articleVO.articleType==1}">[發問]</c:when>
+										<c:when test="${articleVO.articleType==2}">[心得]</c:when>
+										<c:otherwise>錯誤</c:otherwise>
+									</c:choose>${articleVO.articleTitle}</p>
 							</div>
 						</div>
 						<!-- !最上面標題 -->
@@ -90,15 +106,26 @@
 								<div class="container mt-4">
 									<div class="row justify-content-between">
 										<div class="col-auto">
-											<h6>某樓</h6>
-											<h6>最後編輯時間之類的吧</h6>
+											<p class="fs-5 mb-0 text-success">樓主</p>
+											<p class="fs-5 mb-0 text-success">
+												<c:choose>
+													<c:when
+														test="${articleVO.articleUpDate == articleVO.articleDate}">發文時間: </c:when>
+													<c:when
+														test="${articleVO.articleUpDate != articleVO.articleDate}">最後編輯時間: </c:when>
+													<c:otherwise>錯誤</c:otherwise>
+												</c:choose>${articleVO.articleUpDate}</p>
 										</div>
 										<div class="col-auto">
 											<button class="btn btn-success" type="button">編輯</button>
 										</div>
 									</div>
-									<div class="card mt-3" style="min-height: 300px;">
-										很長很長的文章</div>
+									<div class="card mt-3 p-3" style="min-height: 300px;">
+							<%
+							byte[] bytes=aVO.getArticleContent();
+								String acontent=dh.getArticleContent(bytes);%>
+								<%=acontent%>
+										</div>
 									<div class="row justify-content-between mt-2">
 										<div class="col-auto d-grid gap-2 d-md-flex">
 											<div class="row align-items-end">

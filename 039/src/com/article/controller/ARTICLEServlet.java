@@ -9,9 +9,8 @@ import javax.servlet.http.*;
 import com.article.model.*;
 import com.sun.jmx.snmp.Timestamp;
 
-public class ARTICLEServlet extends HttpServlet{
-	public void doGet(HttpServletRequest req, HttpServletResponse res)
-			throws ServletException, IOException {
+public class ARTICLEServlet extends HttpServlet {
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
 
@@ -61,7 +60,7 @@ public class ARTICLEServlet extends HttpServlet{
 					java.sql.Timestamp articleDate = new java.sql.Timestamp(new java.util.Date().getTime());
 					java.sql.Timestamp articleUpDate = new java.sql.Timestamp(new java.util.Date().getTime());
 					
-					byte[] bytes = articleContent.getBytes();
+					byte[] bytes = articleContent.getBytes("UTF-8");
 					
 					ARTICLEVO aVO1 = new ARTICLEVO();
 					aVO1.setUserId(userId);
@@ -103,9 +102,47 @@ public class ARTICLEServlet extends HttpServlet{
 			}
 		 
 		 if("topost".equals(action)) {
-			 String url = "/article/post.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
-				successView.forward(req, res);			
+			 String url = req.getContextPath()+"/article/post.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+//				successView.forward(req, res);
+				res.sendRedirect(url);
+		 }
+		 
+		 if ("uppopa".equals(action)) { // 來自update_emp_input.jsp的請求
+			 List<String> errorMsgs = new LinkedList<String>();
+				// Store this set in the request scope, in case we need to
+				// send the ErrorPage view.
+				req.setAttribute("errorMsgs", errorMsgs);
+			 try {
+					/***************************1.接收請求參數****************************************/
+					Integer articleSN=new Integer(req.getParameter("articleSN").trim());
+					/***************************2.開始查詢資料****************************************/
+					ARTICLEService artSvc = new ARTICLEService();
+					ARTICLEVO apopVO = artSvc.getOneArticle(articleSN);
+
+					if (!errorMsgs.isEmpty()) {
+						req.setAttribute("apopVO", apopVO); // 含有輸入格式錯誤的empVO物件,也存入req
+						RequestDispatcher failureView = req
+								.getRequestDispatcher("/article/testerror.jsp");
+						failureView.forward(req, res);
+						return; //程式中斷
+					}
+					
+					/***************************2.開始修改資料*****************************************/					
+					artSvc.updateapop(apopVO);
+					/***************************3.修改完成,準備轉交(Send the Success view)*************/
+					req.setAttribute("articleVO", apopVO); // 資料庫update成功後,正確的的empVO物件,存入req
+					String url = "/article/reply.jsp?sn="+articleSN;
+					RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
+					successView.forward(req, res);
+
+					/***************************其他可能的錯誤處理*************************************/
+				} catch (Exception e) {
+					errorMsgs.add("修改資料失敗:"+e.getMessage());
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/article/testerror.jsp");
+					failureView.forward(req, res);
+				}
 		 }
 	}
 }
