@@ -7,6 +7,10 @@ public class ProductImageVO implements java.io.Serializable{
 	private Integer productSN;
 	private Blob productImage;
 	
+	public ProductImageVO() {
+		super();		
+	}
+
 	public Integer getProductImageSN() {
 		return productImageSN;
 	}
@@ -24,6 +28,12 @@ public class ProductImageVO implements java.io.Serializable{
 	}
 	public void setProductImage(Blob productImage) {
 		this.productImage = productImage;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductImageVO [productImageSN=" + productImageSN + ", productSN=" + productSN + ", productImage="
+				+ productImage + "]";
 	}
 	
 	

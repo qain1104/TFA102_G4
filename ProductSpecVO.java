@@ -8,6 +8,10 @@ public class ProductSpecVO implements java.io.Serializable{
 	private Integer productPrice;
 	private String productSpec;
 	
+	public ProductSpecVO() {
+		super();		
+	}
+
 	public Integer getProductSpecId() {
 		return productSpecId;
 	}
@@ -37,6 +41,12 @@ public class ProductSpecVO implements java.io.Serializable{
 	}
 	public void setProductSpec(String productSpec) {
 		this.productSpec = productSpec;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductSpecVO [productSpecId=" + productSpecId + ", productSN=" + productSN + ", productStock="
+				+ productStock + ", productPrice=" + productPrice + ", productSpec=" + productSpec + "]";
 	}
 	
 	
