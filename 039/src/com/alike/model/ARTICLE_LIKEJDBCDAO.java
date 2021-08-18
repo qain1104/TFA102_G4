@@ -276,48 +276,4 @@ public class ARTICLE_LIKEJDBCDAO implements ARTICLE_LIKEDAO_interface {
 		}
 		return list;
 	}
-	
-	
-	public static void main(String[] args) {
-
-		ARTICLE_LIKEJDBCDAO dao = new ARTICLE_LIKEJDBCDAO();
-
-//		 新增
-//		ARTICLE_LIKEVO aVO1 = new ARTICLE_LIKEVO();
-//		aVO1.setArticleSN(4002);
-//		aVO1.setUserId(1002);
-//		 int updateCount_insert = dao.insert(aVO1);
-//		 System.out.println(updateCount_insert);
-				
-
-		 //修改
-//		ARTICLE_LIKEVO aVO2 = new ARTICLE_LIKEVO();
-//		aVO2.setArticleLikeSN(5002);
-//		aVO2.setArticleSN(4005);
-//		aVO2.setUserId(1002);
-//		 int updateCount_update = dao.update(aVO2);
-//		 System.out.println(updateCount_update);
-				
-
-		 //刪除
-//		 int updateCount_delete = dao.delete(5007);
-//		 System.out.println(updateCount_delete);
-
-		// 查詢
-//		ARTICLE_LIKEVO aVO3 = dao.findByPrimaryKey(5001);
-//		System.out.print(aVO3.getArticleLikeSN() + ",");
-//		System.out.print(aVO3.getArticleSN() + ",");
-//		System.out.print(aVO3.getUserId() + ",");
-//		System.out.println("---------------------");
-
-//		// 查詢
-//		List<ARTICLE_LIKEVO> list = dao.getAll();
-//		for (ARTICLE_LIKEVO aEmp : list) {
-//			System.out.print(aEmp.getArticleLikeSN() + ",");
-//			System.out.print(aEmp.getArticleSN() + ",");
-//			System.out.print(aEmp.getUserId());
-//			System.out.println();
-//		}
-	}
-	
 }

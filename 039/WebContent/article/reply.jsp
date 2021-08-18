@@ -18,6 +18,7 @@
 	Datahandle dh = new Datahandle();
 	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 %>
+<c:set var="loguser" value="<%=userId%>"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -144,6 +145,16 @@ img {
 
 												</div>
 											</div>
+											<%-- 錯誤表列 --%>
+											<c:if test="${not empty errorMsgs}">
+												<font style="color: red">請修正以下錯誤:</font>
+												<ul>
+													<c:forEach var="message" items="${errorMsgs}">
+														<li style="color: red">${message}</li>
+													</c:forEach>
+												</ul>
+											</c:if>
+											<%-- !錯誤表列 --%>
 											<div class="card mt-3 p-3" style="min-height: 300px;">
 												<%
 													byte[] bytes = articleVO.getArticleContent();
@@ -155,7 +166,14 @@ img {
 												<div class="col-auto d-grid gap-2 d-md-flex">
 													<div class="row align-items-end">
 														<div class="col-auto">
-															<button class="btn btn-success" type="button">推推</button>
+															<form METHOD="post"
+																ACTION="<%=request.getContextPath()%>/article/article.do">
+																<input type="hidden" name="action" value="alike">
+																<input type="hidden" name="articleSN"
+																	value="${articleVO.articleSN}"> <input
+																	type="hidden" name="loguserId" value="${loguser}">
+																<button class="btn btn-success" type="submit">推推</button>
+															</form>
 														</div>
 														<div class="card col-auto">
 															<div>${articleVO.articleLikes}</div>
@@ -227,9 +245,9 @@ img {
 															<form METHOD="post"
 																ACTION="<%=request.getContextPath()%>/article/reply.do">
 																<input type="hidden" name="action" value="toeditr">
-																<input type="hidden" name="floor" value="${floor.count + 1 }">
-																<input type="hidden" name="replySN"
-																	value="${replyVO.replySN}">
+																<input type="hidden" name="floor"
+																	value="${floor.count + 1 }"> <input
+																	type="hidden" name="replySN" value="${replyVO.replySN}">
 																<button class="btn btn-success" type="submit">編輯</button>
 															</form>
 
@@ -246,7 +264,16 @@ img {
 														<div class="col-auto d-grid gap-2 d-md-flex">
 															<div class="row align-items-end">
 																<div class="col-auto">
-																	<button class="btn btn-success" type="button">推推</button>
+																	<form METHOD="post"
+																		ACTION="<%=request.getContextPath()%>/article/reply.do">
+																		<input type="hidden" name="action" value="rlike">
+																		<input type="hidden" name="articleSN"
+																			value="${articleVO.articleSN}"><input
+																			type="hidden" name="replySN"
+																			value="${replyVO.replySN}"> <input
+																			type="hidden" name="loguserId" value="${loguser}">
+																		<button class="btn btn-success" type="submit">推推</button>
+																	</form>
 																</div>
 																<div class="card col-auto">
 																	<div>${replyVO.replyLikes}</div>

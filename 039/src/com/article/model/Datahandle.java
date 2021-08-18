@@ -1,7 +1,6 @@
 package com.article.model;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 
 public class Datahandle {
 

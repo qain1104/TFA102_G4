@@ -1,12 +1,8 @@
 package com.article.model;
 
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import oracle.sql.BLOB;
 
 public class ARTICLEService {
 
@@ -40,6 +36,22 @@ public class ARTICLEService {
 	public ARTICLEVO updateapop(ARTICLEVO articleVO) {
 		
 		articleVO.setArticlePop(articleVO.getArticlePop()+1);
+		dao.update(articleVO);
+		
+		return articleVO;
+	}
+	
+	public ARTICLEVO addlike(ARTICLEVO articleVO) {
+		
+		articleVO.setArticleLikes(articleVO.getArticleLikes()+1);
+		dao.update(articleVO);
+		
+		return articleVO;
+	}
+	
+	public ARTICLEVO reducelike(ARTICLEVO articleVO) {
+		
+		articleVO.setArticleLikes(articleVO.getArticleLikes()-1);
 		dao.update(articleVO);
 		
 		return articleVO;

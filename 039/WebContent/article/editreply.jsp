@@ -9,6 +9,7 @@
 	REPLYVO replyVO = (REPLYVO) request.getAttribute("replyVO");
 	ARTICLEService aSvc = new ARTICLEService();
 	ARTICLEVO articleVO = aSvc.getOneArticle(replyVO.getArticleSN());
+	request.setAttribute("articleVO", articleVO);
 	Datahandle dh = new Datahandle();
 %>
 <!DOCTYPE html>
@@ -40,7 +41,7 @@
 </head>
 <body>
 	<!-- 論壇本體 -->
-	<section class="bg-light">
+	<div class="bg-light">
 		<div class="container pb-5 pt-5">
 			<div class="row justify-content-center article-main">
 
@@ -102,8 +103,9 @@
 									<p class="fs-5 text-success">文章分類</p>
 									<div class="col-md-3 mb-3">
 										<!--隱藏input -->
-										<input type="hidden" name="replySN"
-											value="${replyVO.replySN}">
+										<input type="hidden" name="replySN" value="${replyVO.replySN}">
+										<input type="hidden" name="articleSN"
+											value="${articleVO.articleSN}">
 										<!--!隱藏input -->
 										<select class="form-select" name="articleClass" disabled>
 											<option disabled>分類</option>
@@ -133,23 +135,24 @@
 											disabled>
 									</div>
 									<div class="mb-3">
-										<label for="exampleFormControlTextarea1" class="form-label">內容</label>
+										<label for="exampleFormControlTextarea1" class="form-label fs-5 text-success">
+												${floor}樓:內容</label>
 										<script
 											src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
-										<textarea name="articleContent">
+										<textarea name="replyContent">
 											<%
-												byte[] bytes = articleVO.getArticleContent();
+												byte[] bytes = replyVO.getReplyContent();
 												String acontent = dh.getArticleContent(bytes);
 											%>
 										<%=acontent%></textarea>
 										<script>
-											CKEDITOR.replace("articleContent");
+											CKEDITOR.replace("replyContent");
 										</script>
 									</div>
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 										<button class="btn btn-success" name="action" value="upstatus"
-											type="submit">刪除文章</button><button
-											class="btn btn-success" name="action" value="upeditr"
+											type="submit">刪除文章</button>
+										<button class="btn btn-success" name="action" value="upeditr"
 											type="submit">編輯文章</button>
 									</div>
 								</form>
@@ -161,7 +164,8 @@
 					<!-- close外框 -->
 				</div>
 			</div>
-	</section>
+			</div>
+	</div>
 	<!-- CLOSE 論壇本體 -->
 </body>
 </html>

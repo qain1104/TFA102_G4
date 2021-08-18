@@ -275,48 +275,5 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 			}
 		}
 		return list;
-	}
-	
-	public static void main(String[] args) {
-
-		REPLY_LIKEJDBCDAO dao = new REPLY_LIKEJDBCDAO();
-
-//		 新增
-//		REPLY_LIKEVO aVO1 = new REPLY_LIKEVO();
-//		aVO1.setReplySN(6004);
-//		aVO1.setUserId(1004);
-//		 int updateCount_insert = dao.insert(aVO1);
-//		 System.out.println(updateCount_insert);
-				
-
-		 //修改
-//		REPLY_LIKEVO aVO2 = new REPLY_LIKEVO();
-//		aVO2.setReplyLikeSN(7004);
-//		aVO2.setReplySN(6004);
-//		aVO2.setUserId(1001);
-//		 int updateCount_update = dao.update(aVO2);
-//		 System.out.println(updateCount_update);
-				
-
-		 //刪除
-//		 int updateCount_delete = dao.delete(7004);
-//		 System.out.println(updateCount_delete);
-
-		// 查詢
-//		REPLY_LIKEVO aVO3 = dao.findByPrimaryKey(5001);
-//		System.out.print(aVO3.getReplyLikeSN() + ",");
-//		System.out.print(aVO3.getReplySN() + ",");
-//		System.out.print(aVO3.getUserId() + ",");
-//		System.out.println("---------------------");
-
-//		// 查詢
-//		List<REPLY_LIKEVO> list = dao.getAll();
-//		for (REPLY_LIKEVO aEmp : list) {
-//			System.out.print(aEmp.getReplyLikeSN() + ",");
-//			System.out.print(aEmp.getReplySN() + ",");
-//			System.out.print(aEmp.getUserId());
-//			System.out.println();
-//		}
-	}
-	
+	}	
 }

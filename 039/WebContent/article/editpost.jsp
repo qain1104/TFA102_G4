@@ -130,7 +130,7 @@
 											required>
 									</div>
 									<div class="mb-3">
-										<label for="exampleFormControlTextarea1" class="form-label">內容</label>
+										<label for="exampleFormControlTextarea1" class="form-label fs-5 text-success">內容</label>
 										<script
 											src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
 										<textarea name="articleContent">
@@ -157,6 +157,7 @@
 					</div>
 					<!-- close外框 -->
 				</div>
+			</div>
 			</div>
 	</section>
 	<!-- CLOSE 論壇本體 -->

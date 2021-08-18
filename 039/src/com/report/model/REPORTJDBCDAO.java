@@ -2,8 +2,6 @@ package com.report.model;
 
 import java.util.*;
 
-import javax.sql.rowset.serial.SerialException;
-
 import java.sql.*;
 
 public class REPORTJDBCDAO implements REPORTDAO_interface {
@@ -334,54 +332,4 @@ public class REPORTJDBCDAO implements REPORTDAO_interface {
 		}
 		return list;
 	}
-
-	public static void main(String[] args) throws SerialException, SQLException {
-
-		REPORTJDBCDAO dao = new REPORTJDBCDAO();
-
-		// 新增
-//		REPORTVO aVO1 = new REPORTVO();
-//		aVO1.setArticleSN(4006);
-//		aVO1.setReplySN(6002);
-//		aVO1.setUserId(1005);
-//		aVO1.setReportClass(0);
-//		aVO1.setReportContent("12345");
-//		aVO1.setReportDate(java.sql.Timestamp.valueOf("2021-07-19 09:20:00.0"));
-//		aVO1.setReportStatus(0);
-//		aVO1.setManagerId(null);
-//		aVO1.setReportAuditDate(java.sql.Timestamp.valueOf("2021-07-19 09:20:00.0"));
-//		int updateCount_insert = dao.insert(aVO1);
-//		System.out.println(updateCount_insert);
-
-		// 修改
-//		REPORTVO aVO2 = new REPORTVO();
-//		aVO2.setReportSN(8014);
-//		aVO2.setArticleSN(4001);
-//		aVO2.setReplySN(null);
-//		aVO2.setUserId(1005);
-//		aVO2.setReportClass(0);
-//		aVO2.setReportContent("1234567");
-//		aVO2.setReportDate(java.sql.Timestamp.valueOf("2021-07-19 09:20:00.0"));
-//		aVO2.setReportStatus(0);
-//		aVO2.setManagerId(null);
-//		aVO2.setReportAuditDate(null);
-//		int updateCount_update = dao.update(aVO2);
-//		 System.out.println(updateCount_update);
-
-		// 刪除
-//		 int updateCount_delete = dao.delete(8013);
-//		 System.out.println(updateCount_delete);
-
-		// 查詢
-//		REPORTVO aVO3 = dao.findByPrimaryKey(8003);
-//		System.out.println(aVO3.toString());
-//		System.out.println("---------------------");
-//		// 查詢
-//		List<REPORTVO> list = dao.getAll();
-//		for (REPORTVO aEmp : list) {
-//			System.out.println(aEmp.toString());
-//		}
-
-	}
-
 }

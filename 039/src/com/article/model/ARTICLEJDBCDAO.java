@@ -2,10 +2,6 @@ package com.article.model;
 
 import java.util.*;
 
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
-
-import java.io.InputStream;
 import java.sql.*;
 
 public class ARTICLEJDBCDAO implements ARTICLEDAO_interface {

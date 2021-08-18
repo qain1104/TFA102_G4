@@ -7,7 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.article.model.*;
-import com.sun.jmx.snmp.Timestamp;
+import com.alike.model.*;
 
 public class ARTICLEServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -257,6 +257,54 @@ public class ARTICLEServlet extends HttpServlet {
 				artSvc.updateastatus(articleVO, articleStatus);
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("articleVO", articleVO); // 資料庫update成功後,正確的的empVO物件,存入req
+				String url = req.getContextPath() + "/article/reply.jsp?sn=" + articleSN;
+				res.sendRedirect(url);
+				
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		if ("alike".equals(action)) { // 來自update_emp_input.jsp的請求
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				Integer articleSN =null;
+				try {
+					articleSN = new Integer(req.getParameter("articleSN").trim());
+				} catch (NumberFormatException e) {
+					errorMsgs.add("沒有articleSN.");
+				}
+				
+				Integer loguserId =new Integer(req.getParameter("loguserId"));
+				/*************************** 2.開始查詢資料 ****************************************/
+				ARTICLEService artSvc = new ARTICLEService();
+				ARTICLEVO articleVO = artSvc.getOneArticle(articleSN);
+				ARTICLE_LIKEService alikeSvc=new ARTICLE_LIKEService();
+				List<ARTICLE_LIKEVO> alikelist=alikeSvc.getArticlelike(articleSN);
+				
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+					failureView.forward(req, res);
+					return; // 程式中斷
+				}
+				
+				/*************************** 2.開始修改資料 *****************************************/
+				if(alikelist.stream().noneMatch(e -> loguserId.equals(e.getUserId()))) {
+				artSvc.addlike(articleVO);
+				alikeSvc.addAlike(articleSN, loguserId);
+				}else {
+					artSvc.reducelike(articleVO);
+					Optional<ARTICLE_LIKEVO> alikeVO=alikelist.stream().filter(e -> e.getUserId().equals(loguserId)).findFirst();
+					alikeSvc.deleteAlike(alikeVO.get().getArticleLikeSN());
+				}
+				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				String url = req.getContextPath() + "/article/reply.jsp?sn=" + articleSN;
 				res.sendRedirect(url);
 				

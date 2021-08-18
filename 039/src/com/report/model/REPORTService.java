@@ -2,7 +2,6 @@ package com.report.model;
 
 import java.sql.Timestamp;
 import java.util.List;
-import oracle.sql.BLOB;
 
 public class REPORTService {
 

@@ -4,10 +4,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.article.model.ARTICLEVO;
-
-import oracle.sql.BLOB;
-
 public class REPLYService {
 
 	private REPLYDAO_interface dao;
@@ -16,7 +12,7 @@ public class REPLYService {
 		dao = new REPLYJDBCDAO();
 	}
 
-	public REPLYVO addReply(Integer articleSN,Integer userId,byte[] replyContent){
+	public REPLYVO addReply(Integer articleSN, Integer userId, byte[] replyContent) {
 
 		REPLYVO replyVO = new REPLYVO();
 		java.sql.Timestamp currentTime = new java.sql.Timestamp(new java.util.Date().getTime());
@@ -27,13 +23,14 @@ public class REPLYService {
 		replyVO.setReplyDate(currentTime);
 		replyVO.setReplyUpDate(currentTime);
 		replyVO.setReplyStatus(0);
-		
+
 		dao.insert(replyVO);
 
 		return replyVO;
 	}
 
-	public REPLYVO updateReply(Integer replySN,Integer articleSN,Integer userId,byte[] replyContent,Integer replyLikes,Timestamp replyDate,Timestamp replyUpDate,Integer replyStatus){
+	public REPLYVO updateReply(Integer replySN, Integer articleSN, Integer userId, byte[] replyContent,
+			Integer replyLikes, Timestamp replyDate, Timestamp replyUpDate, Integer replyStatus) {
 
 		REPLYVO replyVO = new REPLYVO();
 
@@ -45,7 +42,7 @@ public class REPLYService {
 		replyVO.setReplyDate(replyDate);
 		replyVO.setReplyUpDate(replyUpDate);
 		replyVO.setReplyStatus(replyStatus);
-		
+
 		dao.update(replyVO);
 
 		return replyVO;
@@ -62,18 +59,44 @@ public class REPLYService {
 	public List<REPLYVO> getAll() {
 		return dao.getAll();
 	}
-	
-	public List<REPLYVO> getReplybyArticle(Integer articleSN){
-		List<REPLYVO> replylist=dao.getAll().stream()
-				.filter(e ->e.getArticleSN().equals(articleSN))
+
+	public List<REPLYVO> getReplybyArticle(Integer articleSN) {
+		List<REPLYVO> replylist = dao.getAll().stream().filter(e -> e.getArticleSN().equals(articleSN))
 				.collect(Collectors.toList());
 		return replylist;
 	}
-	
-	public REPLYVO editreply(REPLYVO replyVO,byte[] replyContent) {
-		
+
+	public REPLYVO editreply(REPLYVO replyVO, byte[] replyContent) {
+
 		replyVO.setReplyContent(replyContent);
-		
+		replyVO.setReplyUpDate(new java.sql.Timestamp(new java.util.Date().getTime()));
+		dao.update(replyVO);
+
 		return replyVO;
 	}
+
+	public REPLYVO updateastatus(REPLYVO replyVO, Integer replyStatus) {
+
+		replyVO.setReplyStatus(replyStatus);
+		dao.update(replyVO);
+
+		return replyVO;
+	}
+
+	public REPLYVO addlike(REPLYVO replyVO) {
+
+		replyVO.setReplyLikes(replyVO.getReplyLikes() + 1);
+		dao.update(replyVO);
+
+		return replyVO;
+	}
+
+	public REPLYVO reducelike(REPLYVO replyVO) {
+
+		replyVO.setReplyLikes(replyVO.getReplyLikes() - 1);
+		dao.update(replyVO);
+
+		return replyVO;
+	}
+
 }

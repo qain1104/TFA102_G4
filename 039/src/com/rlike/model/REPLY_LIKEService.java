@@ -1,6 +1,7 @@
 package com.rlike.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class REPLY_LIKEService {
 
@@ -10,29 +11,26 @@ public class REPLY_LIKEService {
 		dao = new REPLY_LIKEJDBCDAO();
 	}
 
-	public REPLY_LIKEVO addRlike(Integer replySN,Integer userId)
-		{
+	public REPLY_LIKEVO addRlike(Integer replySN, Integer userId) {
 
 		REPLY_LIKEVO rlikeVO = new REPLY_LIKEVO();
 
 		rlikeVO.setReplySN(replySN);
 		rlikeVO.setUserId(userId);
-		
-		
+
 		dao.insert(rlikeVO);
 
 		return rlikeVO;
 	}
 
-	public REPLY_LIKEVO updateRlike(Integer rlikeSN,Integer replySN,Integer userId)
-	{
+	public REPLY_LIKEVO updateRlike(Integer rlikeSN, Integer replySN, Integer userId) {
 
 		REPLY_LIKEVO rlikeVO = new REPLY_LIKEVO();
-		
+
 		rlikeVO.setReplyLikeSN(rlikeSN);
 		rlikeVO.setReplySN(replySN);
 		rlikeVO.setUserId(userId);
-		
+
 		dao.update(rlikeVO);
 
 		return rlikeVO;
@@ -49,4 +47,12 @@ public class REPLY_LIKEService {
 	public List<REPLY_LIKEVO> getAll() {
 		return dao.getAll();
 	}
+	
+	public List<REPLY_LIKEVO> getReplylike(Integer replySN) {
+		List<REPLY_LIKEVO> alike=dao.getAll().stream()
+				.filter(e ->e.getReplySN().equals(replySN))
+				.collect(Collectors.toList());
+		return alike;
+	}
+
 }

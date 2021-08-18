@@ -7,7 +7,6 @@
 	ARTICLEVO articleVO = (ARTICLEVO) request.getAttribute("articleVO");
 	Integer userId = 1001;
 %>
-<!DOCTYPE html>
 <html>
 <head>
 <title>Sportify-article</title>
@@ -36,7 +35,7 @@
 </head>
 <body>
 	<!-- 論壇本體 -->
-	<section class="bg-light">
+	<div class="bg-light">
 		<div class="container pb-5 pt-5">
 			<div class="row justify-content-center article-main">
 
@@ -47,7 +46,8 @@
 							<%
 								int whichClass = 0;
 							%>
-							<a href="<%=request.getContextPath()%>/article/article.jsp?whichClass=0"
+							<a
+								href="<%=request.getContextPath()%>/article/article.jsp?whichClass=0"
 								class="list-group-item list-group-item-action list-group-item-success"
 								aria-current="true"> 論壇首頁 </a> <a
 								href="<%=request.getRequestURI()%>?whichClass=1"
@@ -98,11 +98,12 @@
 									<div class="col-md-3 mb-3">
 										<!--隱藏input -->
 										<input type="hidden" name="userId" value="<%=userId%>">
-										<input type="hidden" name="articlePop" value="0">
-										<input type="hidden" name="articleLikes" value="0">
-										<input type="hidden" name="articleDate" value=<%=new Date()%>>
-										<input type="hidden" name="articleUpDate" value="<%=new Date()%>">
-										<input type="hidden" name="articleStatus" value="0">
+										<input type="hidden" name="articlePop" value="0"> <input
+											type="hidden" name="articleLikes" value="0"> <input
+											type="hidden" name="articleDate" value=<%=new Date()%>>
+										<input type="hidden" name="articleUpDate"
+											value="<%=new Date()%>"> <input type="hidden"
+											name="articleStatus" value="0">
 										<!--!隱藏input -->
 										<select class="form-select" name="articleClass" required>
 											<option selected disabled>分類</option>
@@ -120,7 +121,10 @@
 												<option value="2">心得</option>
 											</select>
 										</div>
-										<input type="text" class="form-control" name="articleTitle" placeholder="請輸入標題" value="<%= (articleVO==null)? "" : articleVO.getArticleTitle()%>" required>
+										<input type="text" class="form-control" name="articleTitle"
+											placeholder="請輸入標題"
+											value="<%=(articleVO == null) ? "" : articleVO.getArticleTitle()%>"
+											required>
 									</div>
 									<div class="mb-3">
 										<label for="exampleFormControlTextarea1" class="form-label">內容</label>
@@ -145,7 +149,7 @@
 					<!-- close外框 -->
 				</div>
 			</div>
-	</section>
-	<!-- CLOSE 論壇本體 -->
+		</div>
+	</div>
 </body>
 </html>

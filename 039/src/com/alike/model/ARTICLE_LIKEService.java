@@ -1,8 +1,7 @@
 package com.alike.model;
 
-import java.sql.Timestamp;
 import java.util.List;
-import oracle.sql.BLOB;
+import java.util.stream.Collectors;
 
 public class ARTICLE_LIKEService {
 
@@ -40,8 +39,8 @@ public class ARTICLE_LIKEService {
 		return alikeVO;
 	}
 
-	public void deleteAlike(Integer alikeVO) {
-		dao.delete(alikeVO);
+	public void deleteAlike(Integer alikeSN) {
+		dao.delete(alikeSN);
 	}
 
 	public ARTICLE_LIKEVO getOneAlike(Integer alikeVO) {
@@ -51,4 +50,12 @@ public class ARTICLE_LIKEService {
 	public List<ARTICLE_LIKEVO> getAll() {
 		return dao.getAll();
 	}
+	
+	public List<ARTICLE_LIKEVO> getArticlelike(Integer articleSN) {
+		List<ARTICLE_LIKEVO> alike=dao.getAll().stream()
+				.filter(e ->e.getArticleSN().equals(articleSN))
+				.collect(Collectors.toList());
+		return alike;
+	}
+	
 }

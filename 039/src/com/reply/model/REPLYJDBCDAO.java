@@ -2,8 +2,6 @@ package com.reply.model;
 
 import java.util.*;
 
-import javax.sql.rowset.serial.SerialException;
-
 import java.sql.*;
 
 public class REPLYJDBCDAO implements REPLYDAO_interface {

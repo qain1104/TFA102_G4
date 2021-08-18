@@ -2,7 +2,7 @@ package com.report.model;
 
 import java.sql.Timestamp;
 
-public class REPORTVO {
+public class REPORTVO implements java.io.Serializable{
 	private Integer reportSN; //檢舉編號
 	private Integer articleSN; //文章編號
 	private Integer replySN; //文章回覆編號
