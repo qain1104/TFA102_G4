@@ -1,0 +1,99 @@
+div.paying{ 
+    position: relative;
+}
+div.paying_status{ 
+    position: absolute; 
+    display: flex;
+    flex-direction: row;
+    left: 33%;
+    text-align: center;
+}
+div.status_bar{
+    border: 1px solid black;
+    width: 150px;
+    height: 60px;
+    box-shadow: 5px 5px 0px rgb(212, 212, 212);
+}
+#checking_purchasing_list{
+    background-color: #59AB6E;
+    color: white;
+    padding: 15px;
+}
+#choosing_method{
+    background-color: #f8f9fa;
+    padding: 0 auto;
+}
+#purchasing_completed{
+    background-color: #f8f9fa;
+    padding: 15px;
+}
+tr.shopping_tr td{
+    border: 1px solid black;
+}
+th img{
+    height: 100px;
+    width: 100px;
+    position: relative;
+    left: 25%;
+}
+
+div.shopping_list{
+    padding: 10px;
+}
+div.button_before_footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 50px;
+}
+div.back_to_shop a{
+    color: inherit; 
+    text-decoration: none;
+}
+div.next_step a{
+    color: inherit; 
+    text-decoration: none;
+}
+tr, th, td{
+    text-align: center;
+}
+tr th img{
+    left: 0px;
+} 
+td.merchandise_quantity{
+    position: relative;
+    width: 15%;
+}
+td ul.list-inline{
+    position: absolute;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+
+@media all and (max-width: 576px){
+    div.paying_status{
+        flex-direction: column;
+    }
+    section.container{
+        margin: 70px 0px 0px 0px;
+    }
+}
+
+@media all and (max-width: 992px){
+    span.btn-minu, span.btn-plu{
+        display: none;
+    }
+}
+
+@media all and (max-width: 768px){
+    div.under_list{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+}
+
+
+
+  

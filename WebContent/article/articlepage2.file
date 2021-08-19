@@ -1,0 +1,32 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+  
+  <nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center">
+								<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichClass=${param.whichClass}&whichPage=1"
+									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+										<span class="sr-only">Previous</span>
+								</a></li>
+								
+								<%if(pageNumber<=3){
+								for(int i=1;i<=pageNumber;i++){%>
+								<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichClass=${param.whichClass}&whichPage=<%=i%>"><%=i%></a></li>
+								<%}}else{%>
+								<%if (whichPage<3) {
+								for(int i=1;i<=3;i++){%>
+								<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichClass=${param.whichClass}&whichPage=<%=i%>"><%=i%></a></li>
+								<%}}else if(whichPage>pageNumber-2){
+								for(int i=pageNumber-2;i<=pageNumber;i++){%>
+								<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichClass=${param.whichClass}&whichPage=<%=i%>"><%=i%></a></li>
+								<%}}else{
+								for(int i=whichPage-1;i<=whichPage+1;i++){%>
+								<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichClass=${param.whichClass}&whichPage=<%=i%>"><%=i%></a></li>
+								<%}}}%>
+								
+								<li class="page-item" >
+                                    <a class="page-link" href="<%=request.getRequestURI()%>?whichClass=${param.whichClass}&whichPage=<%=pageNumber%>" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+	</ul>
+</nav>

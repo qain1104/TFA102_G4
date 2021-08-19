@@ -34,7 +34,7 @@ public class SportsGroupService {
 		return sportsGroupVO;
 	}
 
-	public SportsGroupVO updateSportGroup(Integer sportsGroupSN, Integer userId, String sportsType,
+	public SportsGroupVO updateSportsGroup(Integer sportsGroupSN, Integer userId, String sportsType,
 			String sportsLocation, Timestamp exerciseTime, Integer numberUpLimit, Integer numberLowLimit,
 			Timestamp registTime, Timestamp registTimeEnd, Timestamp issueDATE, Integer participantNumber,
 			Integer success, String remarks) {
