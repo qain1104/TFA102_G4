@@ -28,28 +28,28 @@ public class TestWriteBlob {
 			pstmt = con.prepareStatement(SQL);
 
 			// 1. setBlob (JDBC 4.0)
-			pstmt.setInt(1, 11002);
-			InputStream is = getPictureStream("items/logo.png");
-			pstmt.setBlob(2, is);
-			pstmt.executeUpdate();
-			is.close();
+//			pstmt.setInt(1, 11002);
+//			InputStream is = getPictureStream("items/logo.png");
+//			pstmt.setBlob(2, is);
+//			pstmt.executeUpdate();
+//			is.close();
 
 //			// 2. setBytes
-//			pstmt.setInt(1, 2);
-//			pstmt.setString(2, "巴塞隆納");
-//			byte[] pic = getPictureByteArray("items/FC_Barcelona.png");
-//			pstmt.setBytes(3, pic);
-//			pstmt.executeUpdate();
-//
+			pstmt.setInt(1, 11002);
+			pstmt.setString(2, "撌游����");
+			byte[] pic = getPictureByteArray("items/logo.png");
+			pstmt.setBytes(2, pic);
+			pstmt.executeUpdate();
+
 //			// 3. setBinaryStream
 //			pstmt.setInt(1, 3);
-//			pstmt.setString(2, "皇家馬德里");
+//			pstmt.setString(2, "��振擐砍噸���");
 //			InputStream is2 = getPictureStream("items/FC_Real_Madrid.png");
 //			pstmt.setBinaryStream(3, is2);
 //			pstmt.executeUpdate();
 //			is2.close();
 
-			System.out.println("新增成功");
+			System.out.println("�憓���");
 
 		} catch (ClassNotFoundException ce) {
 			System.out.println(ce);
@@ -58,7 +58,7 @@ public class TestWriteBlob {
 		} catch (IOException ie) {
 			System.out.println(ie);
 		} finally {
-			// 依建立順序關閉資源 (越晚建立越早關閉)
+			// 靘遣蝡������� (頞�遣蝡�����)
 			if (pstmt != null) {
 				try {
 					pstmt.close();
@@ -77,13 +77,13 @@ public class TestWriteBlob {
 		}
 	}
 
-	// 使用InputStream資料流方式
-	public static InputStream getPictureStream(String path) throws IOException {
-		FileInputStream fis = new FileInputStream(path);
-		return fis;
-	}
+	// 雿輻InputStream鞈��撘�
+//	public static InputStream getPictureStream(String path) throws IOException {
+//		FileInputStream fis = new FileInputStream(path);
+//		return fis;
+//	}
 
-	// 使用byte[]方式
+	// 雿輻byte[]�撘�
 	public static byte[] getPictureByteArray(String path) throws IOException {
 		FileInputStream fis = new FileInputStream(path);
 		byte[] buffer = new byte[fis.available()];

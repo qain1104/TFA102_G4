@@ -5,7 +5,7 @@ import java.sql.Date;
 public class ProductImageVO implements java.io.Serializable{
 	private Integer productImageSN;
 	private Integer productSN;
-	private Blob productImage;
+	private byte[] productImage;
 	
 	public ProductImageVO() {
 		super();		
@@ -23,10 +23,10 @@ public class ProductImageVO implements java.io.Serializable{
 	public void setProductSN(Integer productSN) {
 		this.productSN = productSN;
 	}
-	public Blob getProductImage() {
+	public byte[] getProductImage() {
 		return productImage;
 	}
-	public void setProductImage(Blob productImage) {
+	public void setProductImage(byte[] productImage) {
 		this.productImage = productImage;
 	}
 

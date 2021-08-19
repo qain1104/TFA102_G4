@@ -30,18 +30,18 @@ public class TestReadBlob {
 			pstmt = con.prepareStatement(SQL);
 
 			// 1. getBlob
-			pstmt.setInt(1, 13003);
-			rs1 = pstmt.executeQuery();
-			rs1.next();
-			Blob blob = rs1.getBlob(1);
-			readPicture(blob);
+//			pstmt.setInt(1, 13003);
+//			rs1 = pstmt.executeQuery();
+//			rs1.next();
+//			Blob blob = rs1.getBlob(1);
+//			readPicture(blob);
 
 //			// 2. getBytes
-//			pstmt.setInt(1, 2);
-//			rs2 = pstmt.executeQuery();
-//			rs2.next();
-//			byte[] pic = rs2.getBytes(1);
-//			readPicture(pic);
+			pstmt.setInt(1, 13005);
+			rs2 = pstmt.executeQuery();
+			rs2.next();
+			byte[] pic = rs2.getBytes(1);
+			readPicture(pic);
 //
 //			// 3. getBinaryStream
 //			pstmt.setInt(1, 3);
@@ -50,7 +50,7 @@ public class TestReadBlob {
 //			InputStream is = rs3.getBinaryStream(1);
 //			readPicture(is);
 
-			System.out.println("查詢成功");
+			System.out.println("�閰Ｘ���");
 
 		} catch (ClassNotFoundException ce) {
 			System.out.println(ce);
@@ -59,7 +59,7 @@ public class TestReadBlob {
 		} catch (IOException ie) {
 			System.out.println(ie);
 		} finally {
-			// 依建立順序關閉資源 (越晚建立越早關閉)
+			// 靘遣蝡������� (頞�遣蝡�����)
 			if (pstmt != null) {
 				try {
 					pstmt.close();
@@ -103,25 +103,25 @@ public class TestReadBlob {
 	}
 
 	// Handle with blob data
-	public static void readPicture(Blob blob) throws IOException, SQLException {
-		InputStream is = blob.getBinaryStream();
-		FileOutputStream fos = new FileOutputStream("Output/1.png");
-		int i;
-		while ((i = is.read()) != -1) {
-			fos.write(i);
-			fos.flush();
-		}
-		fos.close();
-		is.close();
-	}
+//	public static void readPicture(Blob blob) throws IOException, SQLException {
+//		InputStream is = blob.getBinaryStream();
+//		FileOutputStream fos = new FileOutputStream("Output/1.png");
+//		int i;
+//		while ((i = is.read()) != -1) {
+//			fos.write(i);
+//			fos.flush();
+//		}
+//		fos.close();
+//		is.close();
+//	}
 
 	// Handle with byte array data
-//	public static void readPicture(byte[] bytes) throws IOException {
-//		FileOutputStream fos = new FileOutputStream("Output/2.png");
-//		fos.write(bytes);
-//		fos.flush();
-//		fos.close();
-//	}
+	public static void readPicture(byte[] bytes) throws IOException {
+		FileOutputStream fos = new FileOutputStream("Output/2.png");
+		fos.write(bytes);
+		fos.flush();
+		fos.close();
+	}
 //
 //	// Handle with stream data
 //	public static void readPicture(InputStream is) throws IOException {

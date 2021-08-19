@@ -12,7 +12,7 @@ public class ProductImageService {
 		dao = new ProductImageDAO();
 	}
 
-	public ProductImageVO addProductImage(Integer productSN, Blob productImage) {
+	public ProductImageVO addProductImage(Integer productSN, byte[] productImage) {
 
 		ProductImageVO productImageVO = new ProductImageVO();
 
@@ -24,7 +24,7 @@ public class ProductImageService {
 		return productImageVO;
 	}
 
-	public ProductImageVO updateProductImage(Integer productImageSN, Integer productSN, Blob productImage) {
+	public ProductImageVO updateProductImage(Integer productImageSN, Integer productSN, byte[] productImage) {
 
 		ProductImageVO productImageVO = new ProductImageVO();
 

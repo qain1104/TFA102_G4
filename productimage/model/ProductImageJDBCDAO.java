@@ -33,7 +33,7 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setInt(1, productImageVO.getProductSN());
-			pstmt.setBlob(2, productImageVO.getProductImage());
+			pstmt.setBytes(2, productImageVO.getProductImage());
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
@@ -77,7 +77,7 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setInt(1, productImageVO.getProductSN());
-			pstmt.setBlob(2, productImageVO.getProductImage());
+			pstmt.setBytes(2, productImageVO.getProductImage());
 			pstmt.setInt(3, productImageVO.getProductImageSN());
 			
 			pstmt.executeUpdate();
@@ -176,7 +176,7 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 				// empVo 也稱為 Domain objects
 				productImageVO = new ProductImageVO();
 				productImageVO.setProductSN(rs.getInt("productSN"));
-				productImageVO.setProductImage(rs.getBlob("productImage"));
+				productImageVO.setProductImage(rs.getBytes("productImage"));
 				productImageVO.setProductImageSN(rs.getInt("productImageSN"));
 			}
 
@@ -235,7 +235,7 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 				// empVO 也稱為 Domain objects
 				productImageVO = new ProductImageVO();
 				productImageVO.setProductSN(rs.getInt("productSN"));
-				productImageVO.setProductImage(rs.getBlob("productImage"));
+				productImageVO.setProductImage(rs.getBytes("productImage"));
 				productImageVO.setProductImageSN(rs.getInt("productImageSN"));
 				list.add(productImageVO); // Store the row in the list
 			}
