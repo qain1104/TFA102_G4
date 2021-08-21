@@ -2,6 +2,7 @@ package com.report.model;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class REPORTService {
 
@@ -60,5 +61,12 @@ public class REPORTService {
 
 	public List<REPORTVO> getAll() {
 		return dao.getAll();
+	}
+	
+	public List<REPORTVO> getReportStatus(Integer reportStatus) {
+		 List<REPORTVO> list=dao.getAll().stream()
+				 .filter(e ->e.getReportStatus().equals(reportStatus))
+				 .collect(Collectors.toList());
+		 return list;		 
 	}
 }

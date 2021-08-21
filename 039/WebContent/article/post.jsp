@@ -34,6 +34,7 @@
 	href="<%=request.getContextPath()%>/assets/css/fontawesome.min.css">
 </head>
 <body>
+<jsp:include page="/header.jsp" flush="true" />
 	<!-- 論壇本體 -->
 	<div class="bg-light">
 		<div class="container pb-5 pt-5">
@@ -41,32 +42,7 @@
 
 				<!-- 左邊side -->
 				<div class="col-md-2 side">
-					<div class="card sticky-top">
-						<div class="list-group list-group-flush">
-							<%
-								int whichClass = 0;
-							%>
-							<a
-								href="<%=request.getContextPath()%>/article/article.jsp?whichClass=0"
-								class="list-group-item list-group-item-action list-group-item-success"
-								aria-current="true"> 論壇首頁 </a> <a
-								href="<%=request.getRequestURI()%>?whichClass=1"
-								class="list-group-item list-group-item-action">運動休閒</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=2"
-								class="list-group-item list-group-item-action">商品分享</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=3"
-								class="list-group-item list-group-item-action">運動賽事</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=4"
-								class="list-group-item list-group-item-action">我的文章</a>
-						</div>
-						<div class="list-group list-group-flush">
-							<a href="#"
-								class="list-group-item list-group-item-action list-group-item-success"
-								aria-current="true"> 揪團首頁 </a> <a href="#"
-								class="list-group-item list-group-item-action">揪團</a> <a
-								href="#" class="list-group-item list-group-item-action">我的揪團</a>
-						</div>
-					</div>
+					<jsp:include page="articleside.jsp" flush="true"/>
 				</div>
 				<!-- close左邊side -->
 
@@ -151,5 +127,6 @@
 			</div>
 		</div>
 	</div>
+	<jsp:include page="/footer.jsp" flush="true" />
 </body>
 </html>

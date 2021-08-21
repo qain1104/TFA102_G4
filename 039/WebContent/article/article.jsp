@@ -5,10 +5,10 @@
 <%@ page import="com.article.model.*"%>
 
 
-
 <%
-	Integer userId = 1001;
-	List<ARTICLEVO> list = null;
+
+Integer loguser=0;	
+List<ARTICLEVO> list = null;
 	ARTICLEService articleSvc = new ARTICLEService();
 	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 %>
@@ -20,7 +20,7 @@
 	</c:when>
 	<c:when test="${param.whichClass==4}">
 		<%
-			list = articleSvc.getMyArticle(userId);
+			list = articleSvc.getMyArticle(loguser);
 		%>
 	</c:when>
 	<c:when test="${param.whichClass==5}">
@@ -74,32 +74,7 @@ pageContext.setAttribute("list", list);%>
 
 				<!-- 左邊side -->
 				<div class="col-md-2 side">
-					<div class="card sticky-top">
-						<div class="list-group list-group-flush">
-							<%
-								int whichClass = 0;
-							%>
-							<a
-								href="<%=request.getContextPath()%>/article/article.jsp?whichClass=0"
-								class="list-group-item list-group-item-action list-group-item-success"
-								aria-current="true"> 論壇首頁 </a> <a
-								href="<%=request.getRequestURI()%>?whichClass=1"
-								class="list-group-item list-group-item-action">運動休閒</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=2"
-								class="list-group-item list-group-item-action">商品分享</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=3"
-								class="list-group-item list-group-item-action">運動賽事</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=4"
-								class="list-group-item list-group-item-action">我的文章</a>
-						</div>
-						<div class="list-group list-group-flush">
-							<a href="#"
-								class="list-group-item list-group-item-action list-group-item-success"
-								aria-current="true"> 揪團首頁 </a> <a href="#"
-								class="list-group-item list-group-item-action">揪團</a> <a
-								href="#" class="list-group-item list-group-item-action">我的揪團</a>
-						</div>
-					</div>
+					<jsp:include page="articleside.jsp" flush="true"/>
 				</div>
 				<!-- close左邊side -->
 
@@ -155,7 +130,7 @@ pageContext.setAttribute("list", list);%>
 							<div class="d-md-flex justify-content-md-end">
 								<form METHOD="post"
 									ACTION="<%=request.getContextPath()%>/article/article.do">
-									<input type="hidden" name="action" value="topost"> <input
+									<input type="hidden" name="action" value="topost"> <input ${empty loguser? "disabled":""}
 										type="submit" class="btn btn-success" value="發文">
 								</form>
 

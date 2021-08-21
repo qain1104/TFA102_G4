@@ -113,5 +113,4 @@ public class ARTICLEVO implements java.io.Serializable{
 	public void setArticleStatus(Integer articleStatus) {
 		this.articleStatus = articleStatus;
 	}
-
 }

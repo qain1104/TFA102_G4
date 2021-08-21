@@ -6,8 +6,11 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import com.article.model.ARTICLEService;
+import com.article.model.ARTICLEVO;
 import com.reply.model.REPLYService;
 import com.reply.model.REPLYVO;
+import com.report.model.REPORTService;
 import com.rlike.model.REPLY_LIKEService;
 import com.rlike.model.REPLY_LIKEVO;
 
@@ -95,6 +98,9 @@ public class REPLYServlet extends HttpServlet{
 				failureView.forward(req, res);
 			}
 		}
+		
+		
+		
 		
 		
 		
@@ -250,6 +256,9 @@ public class REPLYServlet extends HttpServlet{
 				failureView.forward(req, res);
 			}
 		}
+		
+		
+		
 		
 	}
 

@@ -5,10 +5,12 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.article.model.*"%>
 <%@ page import="com.reply.model.*"%>
+<%@ page import="com.GeneralUser.model.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page import="util.*"%>
 <%
-	Integer userId = 1001;
 	Integer articleSN = Integer.parseInt(request.getParameter("sn"));
+	GeneralUserService guSvc = new GeneralUserService();
 	ARTICLEService aSvc = new ARTICLEService();
 	REPLYService rSvc = new REPLYService();
 	ARTICLEVO articleVO = aSvc.getOneArticle(articleSN);
@@ -18,7 +20,6 @@
 	Datahandle dh = new Datahandle();
 	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 %>
-<c:set var="loguser" value="<%=userId%>"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,41 +54,16 @@ img {
 </style>
 </head>
 <body>
+	<jsp:include page="/header.jsp" flush="true" />
 	<!-- 論壇回覆本體 -->
 	<section class="bg-light">
 		<div class="container pb-5 pt-5">
 			<div class="row justify-content-center">
-				<!-- 左邊side -->
+				<!-- 左邊框框 -->
 				<div class="col-md-2 side">
-					<div class="card sticky-top">
-						<div class="list-group list-group-flush">
-							<%
-								int whichClass = 0;
-							%>
-							<a
-								href="<%=request.getContextPath()%>/article/article.jsp?whichClass=0"
-								class="list-group-item list-group-item-action list-group-item-success"
-								aria-current="true"> 論壇首頁 </a> <a
-								href="<%=request.getRequestURI()%>?whichClass=1"
-								class="list-group-item list-group-item-action">運動休閒</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=2"
-								class="list-group-item list-group-item-action">商品分享</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=3"
-								class="list-group-item list-group-item-action">運動賽事</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=4"
-								class="list-group-item list-group-item-action">我的文章</a>
-						</div>
-						<div class="list-group list-group-flush">
-							<a href="#"
-								class="list-group-item list-group-item-action list-group-item-success"
-								aria-current="true"> 揪團首頁 </a> <a href="#"
-								class="list-group-item list-group-item-action">揪團</a> <a
-								href="#" class="list-group-item list-group-item-action">我的揪團</a>
-						</div>
-					</div>
+					<jsp:include page="articleside.jsp" flush="true" />
 				</div>
-				<!-- close左邊side -->
-
+				<!-- close左邊框框side -->
 				<!-- 右邊本體 -->
 				<div class="col-lg-10 article-zone">
 					<!-- 右邊row -->
@@ -112,11 +88,18 @@ img {
 								<!-- 文章內容外框 -->
 								<div class="row mt-3">
 									<div class="col-auto">
-										<div class="card sticky-top">
+										<div class="card sticky-top" style="max-width: 100px">
 											<div>
-												<img src="https://via.placeholder.com/100x100">
+												<img
+													src="<%=request.getContextPath()%>/Readerpic?id=${articleVO.userId}">
 											</div>
-											<div>${articleVO.userId}</div>
+											<div class="fs-5 text-success text-center">
+												<c:forEach var="userVO" items="<%=guSvc.getAll()%>">
+													<c:if test="${userVO.userId eq articleVO.userId}">
+	                    ${userVO.userName}
+                    </c:if>
+												</c:forEach>
+											</div>
 										</div>
 									</div>
 									<div class="card col-10 pb-3">
@@ -134,13 +117,16 @@ img {
 														</c:choose>
 													</p>
 												</div>
-												<div class="col-auto">
+												<div class="col-auto opacity-25">
 													<form METHOD="post"
 														ACTION="<%=request.getContextPath()%>/article/article.do">
 														<input type="hidden" name="action" value="toedita">
 														<input type="hidden" name="articleSN"
-															value="${articleVO.articleSN}">
-														<button class="btn btn-success" type="submit">編輯</button>
+															value="${articleVO.articleSN}"> <input
+															type="hidden" name="floor" value="1">
+														<button class="btn btn-success"
+															${loguser!=articleVO.userId? 'style="visibility:hidden"':''}
+															type="submit">編輯</button>
 													</form>
 
 												</div>
@@ -172,7 +158,7 @@ img {
 																<input type="hidden" name="articleSN"
 																	value="${articleVO.articleSN}"> <input
 																	type="hidden" name="loguserId" value="${loguser}">
-																<button class="btn btn-success" type="submit">推推</button>
+																<button class="btn btn-success" type="submit" ${empty loguser? "disabled":""}>推推</button>
 															</form>
 														</div>
 														<div class="card col-auto">
@@ -181,7 +167,16 @@ img {
 													</div>
 												</div>
 												<div class="col-auto d-grid gap-2 d-md-flex">
-													<button class="btn btn-success" type="button">檢舉</button>
+													<form METHOD="post"
+														ACTION="<%=request.getContextPath()%>/article/report.do">
+														<input type="hidden" name="action" value="toreport">
+														<input type="hidden" name="articleSN"
+															value="${articleVO.articleSN}"> <input
+															type="hidden" name="articleVO" value="<%=articleVO%>">
+														<input type="hidden" name="floor" value="1">
+														<button ${empty loguser? 'style="visibility:hidden"':''}
+															class="btn btn-success" type="submit">檢舉</button>
+													</form>
 												</div>
 											</div>
 										</div>
@@ -219,11 +214,17 @@ img {
 										<!-- 文章內容外框 -->
 										<div class="row mt-3">
 											<div class="col-auto">
-												<div class="card sticky-top">
+												<div class="card sticky-top" style="max-width: 100px">
 													<div>
-														<img src="https://via.placeholder.com/100x100">
+														<img
+															src="<%=request.getContextPath()%>/Readerpic?id=${replyVO.userId}">
 													</div>
-													<div>${replyVO.userId}</div>
+													<div class="fs-5 text-success text-center">
+														<c:forEach var="userVO" items="<%=guSvc.getAll()%>">
+													<c:if test="${userVO.userId eq replyVO.userId}">
+	                    ${userVO.userName}
+                    </c:if>
+												</c:forEach></div>
 												</div>
 											</div>
 											<div class="card col-10 pb-3">
@@ -241,7 +242,8 @@ img {
 																</c:choose>
 															</p>
 														</div>
-														<div class="col-auto">
+														<div class="col-auto"
+															${loguser!=replyVO.userId? 'style="visibility:hidden"':''}>
 															<form METHOD="post"
 																ACTION="<%=request.getContextPath()%>/article/reply.do">
 																<input type="hidden" name="action" value="toeditr">
@@ -272,7 +274,7 @@ img {
 																			type="hidden" name="replySN"
 																			value="${replyVO.replySN}"> <input
 																			type="hidden" name="loguserId" value="${loguser}">
-																		<button class="btn btn-success" type="submit">推推</button>
+																		<button class="btn btn-success" type="submit" ${empty loguser? "disabled":""}>推推</button>
 																	</form>
 																</div>
 																<div class="card col-auto">
@@ -281,7 +283,17 @@ img {
 															</div>
 														</div>
 														<div class="col-auto d-grid gap-2 d-md-flex">
-															<button class="btn btn-success" type="button">檢舉</button>
+															<form METHOD="post"
+																ACTION="<%=request.getContextPath()%>/article/report.do">
+																<input type="hidden" name="action" value="toreport">
+																<input type="hidden" name="articleSN"
+																	value="${articleVO.articleSN}"> <input
+																	type="hidden" name="replySN" value="${replyVO.replySN}">
+																<input type="hidden" name="floor"
+																	value="${floor.count + 1 }">
+																<button ${empty loguser? 'style="visibility:hidden"':''}
+																	class="btn btn-success" type="submit">檢舉</button>
+															</form>
 														</div>
 													</div>
 												</div>
@@ -313,37 +325,39 @@ img {
 
 
 						<!-- 回覆框框 -->
-						<div class="row mt-3">
-							<div class="col-auto">
-								<div class="sticky-top" style="width: 102px"></div>
-							</div>
+						<c:if test="${!empty loguser}">
+							<div class="row mt-3">
+								<div class="col-auto">
+									<div class="sticky-top" style="width: 102px"></div>
+								</div>
 
-							<div class="card col-10 pb-3">
-								<div class="container mt-4">
-									<p class="fs-4 mb-0 text-success">回覆</p>
-									<form METHOD="post"
-										ACTION="<%=request.getContextPath()%>/article/reply.do">
-										<!--隱藏input -->
-										<input type="hidden" name="userId" value="<%=userId%>">
-										<input type="hidden" name="articleSN" value="<%=articleSN%>">
-										<!--!隱藏input -->
-										<script
-											src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
-										<textarea name="replyContent"></textarea>
-										<script>
-											CKEDITOR.replace("replyContent");
-										</script>
-										<div
-											class="col-auto d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
-											<input type="hidden" name="action" value="insert">
-											<button class="btn btn-success" type="submit">送出</button>
-										</div>
-									</form>
+								<div class="card col-10 pb-3">
+									<div class="container mt-4">
+										<p class="fs-4 mb-0 text-success">回覆</p>
+										<form METHOD="post"
+											ACTION="<%=request.getContextPath()%>/article/reply.do">
+											<!--隱藏input -->
+											<input type="hidden" name="userId" value="${loguser}">
+											<input type="hidden" name="articleSN" value="<%=articleSN%>">
+											<!--!隱藏input -->
+											<script
+												src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
+											<textarea name="replyContent"></textarea>
+											<script>
+												CKEDITOR
+														.replace("replyContent");
+											</script>
+											<div
+												class="col-auto d-grid gap-2 d-md-flex mt-2 justify-content-md-end">
+												<input type="hidden" name="action" value="insert">
+												<button class="btn btn-success" type="submit">送出</button>
+											</div>
+										</form>
 
+									</div>
 								</div>
 							</div>
-
-						</div>
+						</c:if>
 						<!-- !回覆框框 -->
 
 					</div>
@@ -364,5 +378,6 @@ img {
 	<script src="<%=request.getContextPath()%>/assets/js/templatemo.js"></script>
 	<script src="<%=request.getContextPath()%>/assets/js/custom.js"></script>
 	<!-- End Script -->
+	<jsp:include page="/footer.jsp" flush="true" />
 </body>
 </html>

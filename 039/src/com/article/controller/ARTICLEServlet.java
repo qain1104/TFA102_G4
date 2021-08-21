@@ -101,8 +101,6 @@ public class ARTICLEServlet extends HttpServlet {
 
 		if ("topost".equals(action)) {
 			String url = req.getContextPath() + "/article/post.jsp";
-//				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
-//				successView.forward(req, res);
 			res.sendRedirect(url);
 		}
 
