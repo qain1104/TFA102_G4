@@ -27,6 +27,8 @@ public class ARTICLEService {
 		articleVO.setArticleDate(articleDate);
 		articleVO.setArticleUpDate(articleUpDate);
 		articleVO.setArticleStatus(articleStatus);
+		System.out.println(articleDate);
+		System.out.println("nnn");
 		
 		dao.insert(articleVO);
 

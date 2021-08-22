@@ -7,10 +7,12 @@
 <%
 	SportsGroupService sportsGroupSvc = new SportsGroupService();
 	List<SportsGroupVO> list = sportsGroupSvc.getAll();
+	SportsGroupVO sportsGroupVO = (SportsGroupVO) request.getAttribute("sportsGroupVO");
 	pageContext.setAttribute("list", list);
 	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+	Integer userId = 1005;
 %>
-
+<jsp:useBean id="generalUserSvc" scope="page" class="com.GeneralUser.model.GeneralUserService" />
 <html>
 <head>
 <title>揪團首頁</title>
@@ -28,7 +30,6 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/templatemo.css">
 <!-- <link rel="stylesheet" href="assets/css/custom.css"> -->
-
 <!-- Load fonts style after rendering the layout styles -->
 <!-- 設定字型 -->
 <link rel="stylesheet"
@@ -40,6 +41,7 @@
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/datetimepicker\daterangepicker.css" />
 </head>
+
 <body>
 	<jsp:include page="/header.jsp" flush="true" />
 	<!--Start 揪團body-->
@@ -49,29 +51,7 @@
 
 				<!-- 左邊side -->
 				<div class="col-md-2 side">
-					<div class="card sticky-top">
-						<div class="list-group list-group-flush">
-							<a
-								href="<%=request.getContextPath()%>/article/article.jsp?whichClass=0"
-								class="list-group-item list-group-item-action list-group-item-success"
-								aria-current="true"> 論壇首頁 </a> <a
-								href="<%=request.getRequestURI()%>?whichClass=1"
-								class="list-group-item list-group-item-action">運動休閒</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=2"
-								class="list-group-item list-group-item-action">商品分享</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=3"
-								class="list-group-item list-group-item-action">運動賽事</a> <a
-								href="<%=request.getRequestURI()%>?whichClass=4"
-								class="list-group-item list-group-item-action">我的文章</a>
-						</div>
-						<div class="list-group list-group-flush">
-							<a href="#"
-								class="list-group-item list-group-item-action list-group-item-success"
-								aria-current="true"> 揪團首頁 </a> <a href="#"
-								class="list-group-item list-group-item-action">揪團</a> <a
-								href="#" class="list-group-item list-group-item-action">我的揪團</a>
-						</div>
-					</div>
+					<jsp:include page="articleside.jsp" flush="true" />
 				</div>
 				<!-- close左邊side -->
 
@@ -84,14 +64,24 @@
 							<div
 								class="row justify-content-between align-items-end articletitle">
 								<div class="col-auto">
-									<h1>揪團首頁</h1>
-
+									<p class="fs-1 fw-bold text-success">揪團首頁</p>
 								</div>
 								<!-- 發起揪團按鈕開始 -->
 								<div class="container">
 									<div
 										class="row align-items-star justify-content-between articletitle">
-										<div class="col-auto"></div>
+										<%-- 錯誤表列 --%>
+										<div class="col-auto h6">
+											<c:if test="${not empty errorMsgs}">
+												<font style="color: red">請修正以下錯誤:</font>
+												<ul>
+													<c:forEach var="message" items="${errorMsgs}">
+														<li style="color: red">${message}</li>
+													</c:forEach>
+												</ul>
+											</c:if>
+										</div>
+										<%-- 錯誤表列 --%>
 										<div class="col-auto justify-content-md-end">
 											<!-- 整個談窗+按鈕測試 -->
 											<!-- Button trigger modal -->
@@ -101,53 +91,81 @@
 											<!-- Modal -->
 											<div class="modal fade" id="exampleModal" tabindex="-1"
 												aria-labelledby="exampleModalLabel" aria-hidden="true">
+												<!-- 彈出來的MODAL畫面開始 -->
 												<div class="modal-dialog">
-													<!-- 彈出來的畫面開始 -->
 													<div class="modal-content">
 														<!-- 彈出內容開始 -->
-														<div class="modal-body">
-															<!-- 彈出內容 -->
-															<form>
-																<div class="form-group">
-																	<label for="userid">揪團人</label> <input type="text"
-																		class="form-control-sm" id="userid"
-																		placeholder="放登入者參數姓名" readonly>
+														<form METHOD="post" ACTION="sportsGroup.do" name="form1">
+															<div class="modal-body">
+																<div class="container-fluid">
+																	<!-- 彈出內容 form表單開始-->
+																	<div class="form-group">
+<!-- 																		<label for="userid">揪團人</label>  -->
+																		<input type="hidden"
+																			class="form-control" name="userId"
+																			value="<%=userId%>" readonly>
+											
+																	</div>
+																	<div class="form-group">
+																		<div class="row">
+																			<div class="col">
+																				<label for="sportsType"><h6>活動類型</h6></label> <input
+																					type="TEXT" class="form-control" name="sportsType"
+																					placeholder="輸入想發起的活動">
+																			</div>
+																			<div class="col">
+																				<label for="sportsLocation"><h6>活動地點</h6></label> <input
+																					type="TEXT" class="form-control"
+																					name="sportsLocation" placeholder="輸入地點">
+																			</div>
+																		</div>
+																	</div>
+																	<div class="form-group">
+																		<label for="exerciseTime">活動時間</label> <input
+																			type="text" name="exerciseTime" value="exerciseTime"
+																			class="form-control" id="exerciseTime">
+																	</div>
+
+																	<div class="form-group container">
+																		<div class="row">
+																			<div class="col">
+																				<label for="numberLowLimit">開團人數</label> <input
+																					type="text" class="form-control col"
+																					name="numberLowLimit" placeholder="最少">
+																			</div>
+																			<div class="col">
+																				<label for="numberUpLimit">最多</label> <input
+																					type="text" class="form-control col"
+																					name="numberUpLimit" placeholder="最多">
+																			</div>
+																		</div>
+																	</div>
+																	<div class="form-group">
+																		<label for="remarks">備註</label> <input type="text"
+																			class="form-control" name="remarks">
+																	</div>
+																	<div class="form-group">
+																		<label for="registTimeAndEnd">報名期限</label><input
+																			type="text" name="registTimeAndEnd"
+																			value="registTimeAndEnd" class="form-control">
+																	</div>
 																</div>
-																<div class="form-group">
-																	<label for="sportsType">活動類型</label> <input type="text"
-																		class="form-control-sm" id="sportsType"
-																		placeholder="輸入想揪團的活動">
-																</div>
-																<div class="form-group">
-																	<label for="exerciseTime">活動時間</label> <input
-																		type="text" name="dates2" value="exerciseTime"
-																		class="form-control-sm" id="exerciseTime">
-																</div>
-																<div class="form-group">
-																	<label for="numberLowLimit">開團人數</label> <input
-																		type="text" class="form-control-sm"
-																		id="numberLowLimit" placeholder="最低開團人數">
-																</div>
-																<div class="form-group">
-																	<label for="remarks">揪團人</label> <input type="textarea"
-																		class="form-control" id="remarks" placeholder="備註">
-																</div>
-																<div class="form-group">
-																	<label for="registTime">報名期限</label> <input type="text"
-																		name="dates1" value="registTime" class="form-control"
-																		id="registTime">
-																</div>
-															</form>
-														</div>
-														<!-- 彈出內容結束 -->
-														<div class="modal-footer">
-															<button type="button" class="btn btn-success"
-																data-bs-dismiss="modal">關閉</button>
-															<button type="button" class="btn btn-primary">發起</button>
-														</div>
+															</div>
+															<!-- 彈出內容結束 -->
+															<div class="modal-footer">
+
+																<button type="button" class="btn btn-success"
+																	data-bs-dismiss="modal">關閉</button>
+																<input type="hidden" name="participantNumber" size="45"
+																	value="0" /> <input type="hidden" name="action"
+																	value="insert">
+
+																<button type="submit" class="btn btn-success">發起</button>
+															</div>
+														</form>
 													</div>
-													<!-- 彈出來的畫面結束 -->
 												</div>
+												<!-- 彈出來的MODAL畫面結束 -->
 											</div>
 											<!-- 整個談窗+按鈕測試結束 -->
 										</div>
@@ -162,13 +180,13 @@
 						<div class="accordion accordion-flush" id="accordionFlushExample">
 							<%@ include file="articlepage1.file"%>
 							<!-- 標頭開始 -->
-							<div style="padding: 20px 0px 5px 0px">
+							<div style="padding: 16px 20px 16px 20px">
 								<div class="container">
 									<div class="row text-center">
-										<div class="col-2 h6">運動類型</div>
-										<div class="col-5 h6">時間</div>
-										<div class="col-2 h6">人數</div>
-
+										<div class="col h6">運動類型</div>
+										<div class="col h6" style="padding-right: 0px">時間</div>
+										<div class="col h6" style="padding-left: 0px">人數</div>
+										<div class="col h6">發起時間</div>
 									</div>
 								</div>
 							</div>
@@ -178,6 +196,7 @@
 								<c:set var="tdate" value="${sportsGroupVO.issueDATE}"></c:set>
 								<c:set var="tdate1" value="${sportsGroupVO.registTime}"></c:set>
 								<c:set var="tdate2" value="${sportsGroupVO.registTimeEnd}"></c:set>
+								<c:set var="tdate3" value="${sportsGroupVO.exerciseTime}"></c:set>
 								<!-- 開始 -->
 								<div class="accordion-item">
 									<h2 class="accordion-header"
@@ -188,16 +207,19 @@
 											aria-expanded="false"
 											aria-controls="flush-collapseOne${sportsGroupVO.sportsGroupSN}">
 											<div class="container">
-												<div class="row">
+												<div class="row text-center">
 													<div class="col">
 														<p class="h6">${sportsGroupVO.sportsType}</p>
 													</div>
 													<div class="col">
-														<p class="h6"><%=tformat.format(pageContext.getAttribute("tdate"))%></p>
+														<p class="h6"><%=tformat.format(pageContext.getAttribute("tdate3"))%></p>
 													</div>
 													<div class="col">
 														<p class="h6">${sportsGroupVO.participantNumber}/
 															${sportsGroupVO.numberUpLimit}</p>
+													</div>
+													<div class="col">
+														<p class="h6"><%=tformat.format(pageContext.getAttribute("tdate"))%></p>
 													</div>
 												</div>
 											</div>
@@ -208,7 +230,8 @@
 										aria-labelledby="flush-headingOne${sportsGroupVO.sportsGroupSN}"
 										data-bs-parent="#accordionFlushExample">
 										<div class="accordion-body">
-											<p class="mb-0 text-success h6">揪團人：${sportsGroupVO.sportsGroupSN}</p>
+											<p class="mb-0 text-success h6">揪團人：${sportsGroupVO.userId}
+											${generalUserSvc.getOneGeneralUser(sportsGroupVO.userId).userName}</p>
 											<p class="mb-0 text-success h6">
 												報名時間：<%=tformat.format(pageContext.getAttribute("tdate1"))%>至<%=tformat.format(pageContext.getAttribute("tdate2"))%></p>
 											<P class="mb-0 text-success h6">地點:${sportsGroupVO.sportsLocation}</P>
@@ -236,6 +259,13 @@
 		</div>
 		</div>
 	</section>
+	
+<!-- 	<td> -->
+                    
+<%-- 	                ${generalUserSvc.getOneGeneralUser(sportsGroupVO.sportsGroupSN).userName}     --%>
+                    
+                  
+<!-- 			</td> -->
 	<!--CLOSE 揪團body-->
 	<!-- Start Script -->
 	<script

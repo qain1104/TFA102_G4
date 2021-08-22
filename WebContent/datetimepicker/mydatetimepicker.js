@@ -1,4 +1,5 @@
-$('input[name="dates1"]').daterangepicker({
+
+$('input[name="registTimeAndEnd"]').daterangepicker({
     "showDropdowns": true,
     "minYear": 2020,
     "maxYear": 2025,
@@ -44,10 +45,12 @@ $('input[name="dates1"]').daterangepicker({
     "startDate": "2021/08/14",
     "endDate": "2021/08/20"
 }, function(start, end) {
-  console.log("從"+start.format('YYYY-MM-DD hh:mm') + '到' + end.format('YYYY-MM-DD hh:mm'));
+//  console.log("從"+start.format('YYYY-MM-DD hh:mm') + '到' + end.format('YYYY-MM-DD hh:mm'));
+  console.log(start.format('YYYY-MM-DD HH:mm:ss'))
+  console.log(end.format('YYYY-MM-DD HH:mm:ss'))
 })
 
-$('input[name="dates2"]').daterangepicker({
+$('input[name="exerciseTime"]').daterangepicker({
     "singleDatePicker": true,
     "minYear": 2021,
     "timePicker": true,

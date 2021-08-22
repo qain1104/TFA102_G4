@@ -32,12 +32,13 @@
 	<c:otherwise>
 		<%
 			list = articleSvc.getClassArticle(Integer.parseInt(request.getParameter("whichClass")) - 1);
-					
 		%>
 	</c:otherwise>
 </c:choose>
-<% Collections.reverse(list);
-pageContext.setAttribute("list", list);%>
+<%
+	Collections.reverse(list);
+	pageContext.setAttribute("list", list);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -129,7 +130,7 @@ pageContext.setAttribute("list", list);%>
 											<p class="fs-1 fw-bold text-success">文章搜尋</p>
 										</c:when>
 										<c:otherwise>
-											<p class="fs-1 fw-bold text-success">論壇首頁
+											<p class="fs-1 fw-bold text-success">論壇首頁</p>
 										</c:otherwise>
 									</c:choose>
 
@@ -155,8 +156,8 @@ pageContext.setAttribute("list", list);%>
 							<div class="d-md-flex justify-content-md-end">
 								<form METHOD="post"
 									ACTION="<%=request.getContextPath()%>/article/article.do">
-									<input type="hidden" name="action" value="topost"> <input
-										type="submit" class="btn btn-success" value="發文">
+									<input type="hidden" name="action" value="topost"> 
+									<input type="submit" class="btn btn-success" value="發文">
 								</form>
 
 							</div>
@@ -206,7 +207,7 @@ pageContext.setAttribute("list", list);%>
 													${article.articleTitle}
 												</div>
 												<div class="col-2">${article.articlePop}</div>
-												<div class="col-2" style="font-size: 8px;"><%=tformat.format(pageContext.getAttribute("tdate")) %></div>
+												<div class="col-2" style="font-size: 8px;"><%=tformat.format(pageContext.getAttribute("tdate"))%></div>
 											</div>
 										</a>
 									</form>

@@ -25,7 +25,7 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 	private static final String UPDATE = "UPDATE SPORTS_GROUP set userId=?, sportsType=?, sportsLocation=?, exerciseTime=?, numberUpLimit=?, numberLowLimit=?, registTime=?, registTimeEnd=?, issueDATE=?, participantNumber=?, success=?, remarks=? where sportsGroupSN = ?";
 
 	@Override
-	public void insert(SportsGroupVO sportsGroupSNVO) {
+	public void insert(SportsGroupVO sportsGroupVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -33,18 +33,18 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
-			pstmt.setInt(1, sportsGroupSNVO.getUserId());
-			pstmt.setString(2, sportsGroupSNVO.getSportsType());
-			pstmt.setString(3, sportsGroupSNVO.getSportsLocation());
-			pstmt.setTimestamp(4, sportsGroupSNVO.getExerciseTime());
-			pstmt.setInt(5, sportsGroupSNVO.getNumberUpLimit());
-			pstmt.setInt(6, sportsGroupSNVO.getNumberLowLimit());
-			pstmt.setTimestamp(7, sportsGroupSNVO.getRegistTime());
-			pstmt.setTimestamp(8, sportsGroupSNVO.getRegistTimeEnd());
-			pstmt.setTimestamp(9, sportsGroupSNVO.getIssueDATE());
-			pstmt.setInt(10, sportsGroupSNVO.getParticipantNumber());
-			pstmt.setInt(11, sportsGroupSNVO.getSuccess());
-			pstmt.setString(12, sportsGroupSNVO.getRemarks());
+			pstmt.setInt(1, sportsGroupVO.getUserId());
+			pstmt.setString(2, sportsGroupVO.getSportsType());
+			pstmt.setString(3, sportsGroupVO.getSportsLocation());
+			pstmt.setTimestamp(4, sportsGroupVO.getExerciseTime());
+			pstmt.setInt(5, sportsGroupVO.getNumberUpLimit());
+			pstmt.setInt(6, sportsGroupVO.getNumberLowLimit());
+			pstmt.setTimestamp(7, sportsGroupVO.getRegistTime());
+			pstmt.setTimestamp(8, sportsGroupVO.getRegistTimeEnd());
+			pstmt.setTimestamp(9, sportsGroupVO.getIssueDATE());
+			pstmt.setInt(10, sportsGroupVO.getParticipantNumber());
+			pstmt.setInt(11, sportsGroupVO.getSuccess());
+			pstmt.setString(12, sportsGroupVO.getRemarks());
 
 			pstmt.executeUpdate();
 		} catch (ClassNotFoundException e) {
@@ -72,7 +72,7 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 	}
 
 	@Override
-	public void update(SportsGroupVO sportsGroupSNVO) {
+	public void update(SportsGroupVO sportsGroupVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -80,19 +80,19 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
 
-			pstmt.setInt(1, sportsGroupSNVO.getUserId());
-			pstmt.setString(2, sportsGroupSNVO.getSportsType());
-			pstmt.setString(3, sportsGroupSNVO.getSportsLocation());
-			pstmt.setTimestamp(4, sportsGroupSNVO.getExerciseTime());
-			pstmt.setInt(5, sportsGroupSNVO.getNumberUpLimit());
-			pstmt.setInt(6, sportsGroupSNVO.getNumberLowLimit());
-			pstmt.setTimestamp(7, sportsGroupSNVO.getRegistTime());
-			pstmt.setTimestamp(8, sportsGroupSNVO.getRegistTimeEnd());
-			pstmt.setTimestamp(9, sportsGroupSNVO.getIssueDATE());
-			pstmt.setInt(10, sportsGroupSNVO.getParticipantNumber());
-			pstmt.setInt(11, sportsGroupSNVO.getSuccess());
-			pstmt.setString(12, sportsGroupSNVO.getRemarks());
-			pstmt.setInt(13, sportsGroupSNVO.getSportsGroupSN());
+			pstmt.setInt(1, sportsGroupVO.getUserId());
+			pstmt.setString(2, sportsGroupVO.getSportsType());
+			pstmt.setString(3, sportsGroupVO.getSportsLocation());
+			pstmt.setTimestamp(4, sportsGroupVO.getExerciseTime());
+			pstmt.setInt(5, sportsGroupVO.getNumberUpLimit());
+			pstmt.setInt(6, sportsGroupVO.getNumberLowLimit());
+			pstmt.setTimestamp(7, sportsGroupVO.getRegistTime());
+			pstmt.setTimestamp(8, sportsGroupVO.getRegistTimeEnd());
+			pstmt.setTimestamp(9, sportsGroupVO.getIssueDATE());
+			pstmt.setInt(10, sportsGroupVO.getParticipantNumber());
+			pstmt.setInt(11, sportsGroupVO.getSuccess());
+			pstmt.setString(12, sportsGroupVO.getRemarks());
+			pstmt.setInt(13, sportsGroupVO.getSportsGroupSN());
 			pstmt.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -158,7 +158,7 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 
 	@Override
 	public SportsGroupVO findByPrimaryKey(Integer sportsGroupSN) {
-		SportsGroupVO sportsGroupSNVO = null;
+		SportsGroupVO sportsGroupVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -173,20 +173,20 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 
 			while (rs.next()) {
 				// empVo 也稱為 Domain objects
-				sportsGroupSNVO = new SportsGroupVO();
-				sportsGroupSNVO.setSportsGroupSN(rs.getInt("sportsGroupSN"));
-				sportsGroupSNVO.setUserId(rs.getInt("userId"));
-				sportsGroupSNVO.setSportsType(rs.getString("sportsType"));
-				sportsGroupSNVO.setSportsLocation(rs.getString("sportsLocation"));
-				sportsGroupSNVO.setExerciseTime(rs.getTimestamp("exerciseTime"));
-				sportsGroupSNVO.setNumberUpLimit(rs.getInt("numberUpLimit"));
-				sportsGroupSNVO.setNumberLowLimit(rs.getInt("numberLowLimit"));
-				sportsGroupSNVO.setRegistTime(rs.getTimestamp("registTime"));
-				sportsGroupSNVO.setRegistTimeEnd(rs.getTimestamp("registTimeEnd"));
-				sportsGroupSNVO.setIssueDATE(rs.getTimestamp("issueDATE"));
-				sportsGroupSNVO.setParticipantNumber(rs.getInt("participantNumber"));
-				sportsGroupSNVO.setSuccess(rs.getInt("success"));
-				sportsGroupSNVO.setRemarks(rs.getString("remarks"));
+				sportsGroupVO = new SportsGroupVO();
+				sportsGroupVO.setSportsGroupSN(rs.getInt("sportsGroupSN"));
+				sportsGroupVO.setUserId(rs.getInt("userId"));
+				sportsGroupVO.setSportsType(rs.getString("sportsType"));
+				sportsGroupVO.setSportsLocation(rs.getString("sportsLocation"));
+				sportsGroupVO.setExerciseTime(rs.getTimestamp("exerciseTime"));
+				sportsGroupVO.setNumberUpLimit(rs.getInt("numberUpLimit"));
+				sportsGroupVO.setNumberLowLimit(rs.getInt("numberLowLimit"));
+				sportsGroupVO.setRegistTime(rs.getTimestamp("registTime"));
+				sportsGroupVO.setRegistTimeEnd(rs.getTimestamp("registTimeEnd"));
+				sportsGroupVO.setIssueDATE(rs.getTimestamp("issueDATE"));
+				sportsGroupVO.setParticipantNumber(rs.getInt("participantNumber"));
+				sportsGroupVO.setSuccess(rs.getInt("success"));
+				sportsGroupVO.setRemarks(rs.getString("remarks"));
 			}
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -217,13 +217,13 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 				}
 			}
 		}
-		return sportsGroupSNVO;
+		return sportsGroupVO;
 	}
 
 	@Override
 	public List<SportsGroupVO> getAll() {
 		List<SportsGroupVO> list = new ArrayList<SportsGroupVO>();
-		SportsGroupVO sportsGroupSNVO = null;
+		SportsGroupVO sportsGroupVO = null;
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -236,21 +236,21 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 
 			while (rs.next()) {
 
-				sportsGroupSNVO = new SportsGroupVO();
-				sportsGroupSNVO.setSportsGroupSN(rs.getInt("sportsGroupSN"));
-				sportsGroupSNVO.setUserId(rs.getInt("userId"));
-				sportsGroupSNVO.setSportsType(rs.getString("sportsType"));
-				sportsGroupSNVO.setSportsLocation(rs.getString("sportsLocation"));
-				sportsGroupSNVO.setExerciseTime(rs.getTimestamp("exerciseTime"));
-				sportsGroupSNVO.setNumberUpLimit(rs.getInt("numberUpLimit"));
-				sportsGroupSNVO.setNumberLowLimit(rs.getInt("numberLowLimit"));
-				sportsGroupSNVO.setRegistTime(rs.getTimestamp("registTime"));
-				sportsGroupSNVO.setRegistTimeEnd(rs.getTimestamp("registTimeEnd"));
-				sportsGroupSNVO.setIssueDATE(rs.getTimestamp("issueDATE"));
-				sportsGroupSNVO.setParticipantNumber(rs.getInt("participantNumber"));
-				sportsGroupSNVO.setSuccess(rs.getInt("success"));
-				sportsGroupSNVO.setRemarks(rs.getString("remarks"));
-				list.add(sportsGroupSNVO); // Store the row in the list
+				sportsGroupVO = new SportsGroupVO();
+				sportsGroupVO.setSportsGroupSN(rs.getInt("sportsGroupSN"));
+				sportsGroupVO.setUserId(rs.getInt("userId"));
+				sportsGroupVO.setSportsType(rs.getString("sportsType"));
+				sportsGroupVO.setSportsLocation(rs.getString("sportsLocation"));
+				sportsGroupVO.setExerciseTime(rs.getTimestamp("exerciseTime"));
+				sportsGroupVO.setNumberUpLimit(rs.getInt("numberUpLimit"));
+				sportsGroupVO.setNumberLowLimit(rs.getInt("numberLowLimit"));
+				sportsGroupVO.setRegistTime(rs.getTimestamp("registTime"));
+				sportsGroupVO.setRegistTimeEnd(rs.getTimestamp("registTimeEnd"));
+				sportsGroupVO.setIssueDATE(rs.getTimestamp("issueDATE"));
+				sportsGroupVO.setParticipantNumber(rs.getInt("participantNumber"));
+				sportsGroupVO.setSuccess(rs.getInt("success"));
+				sportsGroupVO.setRemarks(rs.getString("remarks"));
+				list.add(sportsGroupVO); // Store the row in the list
 			}
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -285,8 +285,22 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 	}
 	public static void main(String[] args) {
 		SportsGroupJDBCDAO dao = new SportsGroupJDBCDAO();
-		SportsGroupVO sportsGroupSNVO = dao.findByPrimaryKey(9004);
-		System.out.print(sportsGroupSNVO);
+		SportsGroupVO sportsGroupVO = new SportsGroupVO();
+		sportsGroupVO.setUserId(1003);
+		sportsGroupVO.setSportsType("aaaa");
+		sportsGroupVO.setSportsLocation("urhome");
+		sportsGroupVO.setExerciseTime(java.sql.Timestamp.valueOf("2021-08-09 01:51:00"));
+		sportsGroupVO.setNumberUpLimit(5);
+		sportsGroupVO.setNumberLowLimit(2);
+		sportsGroupVO.setRegistTime(java.sql.Timestamp.valueOf("2021-08-08 01:51:00"));
+		sportsGroupVO.setRegistTimeEnd(java.sql.Timestamp.valueOf("2021-08-09 01:51:00"));
+		sportsGroupVO.setIssueDATE(java.sql.Timestamp.valueOf("2021-08-16 01:51:00"));
+		sportsGroupVO.setParticipantNumber(1);
+		sportsGroupVO.setSuccess(0);
+		sportsGroupVO.setRemarks("java好難喔喔喔");
+		dao.insert(sportsGroupVO);
+		
+		System.out.print("輸入成功");
 	}
 
 }
