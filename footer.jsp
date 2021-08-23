@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=BIG5"
-    pageEncoding="BIG5"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="BIG5">
-<title>Insert title here</title>
-</head>
-<body>
+pageEncoding="BIG5"%>
+
 	    <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
@@ -75,16 +69,17 @@
     </footer>
     <!-- End Footer -->
     
+    
     <!-- Start Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
     <script src="<%=request.getContextPath() %>/assets/js/jquery-3.6.0.min.js"></script>
     <script src="<%=request.getContextPath() %>/assets/js/jquery-migrate-1.2.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/assets/js/bootstrap.bundle.min.js"></script>
     <script src="<%=request.getContextPath() %>/assets/js/templatemo.js"></script>
-    <script src="<%=request.getContextPath() %>/assets/js/custom.js"></script>
-    <script src="<%=request.getContextPath() %>/assets/js/shoppingcart.js" charset="UTF-8"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="<%=request.getContextPath() %>/assets/js/custom.js"></script>
     <!-- End Script -->
-    
+
     <!-- Start Slider Script -->
     <script src="<%= request.getContextPath() %>/assets/js/slick.min.js"></script>
     <script>
@@ -118,6 +113,3 @@
             ]
         });
     </script>
-    <!-- End Slider Script -->
-</body>
-</html>

@@ -1,25 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=BIG5"
     pageEncoding="BIG5"%>
-<!DOCTYPE html>
-<html>
+
 <head>
     <title>Sportify</title>
     <meta charset="BIG5">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-    
-	<link rel="shortcut icon" href="<%= request.getContextPath() %>/assets/img/logo1.png" type="image/x-icon" />
 	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/fontawesome.min.css">
+	<link rel="shortcut icon" href="<%= request.getContextPath() %>/assets/img/logo1.png" type="image/x-icon" />
     <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/templatemo.css">
-    <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/custom.css">
-    <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/shoppingcart.css">
-
+	<link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/custom.css">
+	<link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/fontawesome.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Load fonts style after rendering the layout styles -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/fontawesome.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    
+
     <!-- Slick -->
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/assets/css/slick.min.css">
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/assets/css/slick-theme.css">
@@ -101,12 +97,12 @@ https://templatemo.com/tm-559-zay-shop
                     <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                         <i class="fa fa-fw fa-search text-dark mr-2"></i>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <a class="nav-icon position-relative text-decoration-none" href="${userId != null ? 'shoppingcart.jsp' : '/login.jsp'} ">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                        <div id="abc"><i class="fa fa-fw fa-user text-dark mr-3"></i></div>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                         <div class="choose_list -none">
                             <span class="member_list" id="list_1"><a href="#">登入</a></span>
@@ -138,5 +134,4 @@ https://templatemo.com/tm-559-zay-shop
             </form>
         </div>
     </div>
-</body>
-</html>
+
