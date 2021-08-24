@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=BIG5"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="BIG5"%>
 
 	    <!-- Start Footer -->
@@ -68,48 +68,3 @@ pageEncoding="BIG5"%>
         </div>
     </footer>
     <!-- End Footer -->
-    
-    
-    <!-- Start Script -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
-    <script src="<%=request.getContextPath() %>/assets/js/jquery-3.6.0.min.js"></script>
-    <script src="<%=request.getContextPath() %>/assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="<%=request.getContextPath() %>/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="<%=request.getContextPath() %>/assets/js/templatemo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="<%=request.getContextPath() %>/assets/js/custom.js"></script>
-    <!-- End Script -->
-
-    <!-- Start Slider Script -->
-    <script src="<%= request.getContextPath() %>/assets/js/slick.min.js"></script>
-    <script>
-        $('#carousel-related-product').slick({
-            infinite: true,
-            arrows: false,
-            slidesToShow: 4,
-            slidesToScroll: 3,
-            dots: true,
-            responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 3
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 3
-                    }
-                }
-            ]
-        });
-    </script>
