@@ -105,7 +105,7 @@ public class REPORTJDBCDAO implements REPORTDAO_interface {
 
 			pstmt.setInt(10, reportVO.getReportSN());
 			pstmt.setInt(1, reportVO.getArticleSN());
-			if(reportVO.getReplySN()==null) {
+			if(reportVO.getReplySN()==null || reportVO.getReplySN()==0) {
 				pstmt.setNull(2, java.sql.Types.INTEGER);
 			}else {
 				pstmt.setInt(2, reportVO.getReplySN());
