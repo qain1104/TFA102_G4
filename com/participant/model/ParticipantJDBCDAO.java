@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sportsgroup.model.SportsGroupJDBCDAO;
+import com.sportsgroup.model.SportsGroupVO;
+
 
 
 
@@ -35,7 +38,7 @@ public class ParticipantJDBCDAO implements ParticipantDAO_interface {
 			
 			pstmt.setInt(1, participantVO.getSportsGroupSN());
 			pstmt.setInt(2, participantVO.getUserId());
-			
+			System.out.println("隨便隨便");
 			pstmt.executeUpdate();
 			
 		}catch (ClassNotFoundException e) {
@@ -270,6 +273,13 @@ public class ParticipantJDBCDAO implements ParticipantDAO_interface {
 			System.out.print(XX.getUserId() + ",");
 			System.out.println();
 		}
+		
+//		SportsGroupJDBCDAO getall = new SportsGroupJDBCDAO();
+//		 List<SportsGroupVO> all = getall.getAll();
+//		 
+//		 for(SportsGroupVO each : all) {
+//			 System.out.println(each);
+//		 }
 //		DeptVO deptVO1 = new DeptVO();
 //		deptVO1.setDname("製造部");
 //		deptVO1.setLoc("中國江西");
@@ -279,4 +289,5 @@ public class ParticipantJDBCDAO implements ParticipantDAO_interface {
 //		participantVO1.setUserId(1002);
 //		dao.insert(participantVO1);
 	}
+
 }

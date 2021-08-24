@@ -3,15 +3,14 @@ package com.participant.model;
 import java.io.Serializable;
 
 public class ParticipantVO implements Serializable {
-	private Integer  ParticipantID;
+	private Integer  participantID;
 	private Integer sportsGroupSN;
 	private Integer userId;
-	
 	public Integer getParticipantID() {
-		return ParticipantID;
+		return participantID;
 	}
 	public void setParticipantID(Integer participantID) {
-		ParticipantID = participantID;
+		this.participantID = participantID;
 	}
 	public Integer getSportsGroupSN() {
 		return sportsGroupSN;
@@ -27,9 +26,10 @@ public class ParticipantVO implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "ParticipantVO [ParticipantID=" + ParticipantID + ", sportsGroupSN=" + sportsGroupSN + ", userId="
+		return "ParticipantVO [participantID=" + participantID + ", sportsGroupSN=" + sportsGroupSN + ", userId="
 				+ userId + "]";
 	}
+	
 	
 
 }

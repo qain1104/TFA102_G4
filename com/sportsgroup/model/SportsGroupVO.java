@@ -97,7 +97,7 @@ public class SportsGroupVO implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "SportsGroupSNVO [sportsGroupSN=" + sportsGroupSN + ", userId=" + userId + ", sportsType=" + sportsType
+		return "SportsGroupVO [sportsGroupSN=" + sportsGroupSN + ", userId=" + userId + ", sportsType=" + sportsType
 				+ ", sportsLocation=" + sportsLocation + ", exerciseTime=" + exerciseTime + ", numberUpLimit="
 				+ numberUpLimit + ", numberLowLimit=" + numberLowLimit + ", registTime=" + registTime
 				+ ", registTimeEnd=" + registTimeEnd + ", issueDATE=" + issueDATE + ", participantNumber="

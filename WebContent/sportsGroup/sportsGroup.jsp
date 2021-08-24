@@ -10,12 +10,16 @@
 	SportsGroupVO sportsGroupVO = (SportsGroupVO) request.getAttribute("sportsGroupVO");
 	pageContext.setAttribute("list", list);
 	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-	Integer userId = 1005;
+	Integer userId = 1004;
 %>
-<jsp:useBean id="generalUserSvc" scope="page" class="com.GeneralUser.model.GeneralUserService" />
+<jsp:useBean id="generalUserSvc" scope="page"
+	class="com.GeneralUser.model.GeneralUserService" />
+<jsp:useBean id="participantSVC" scope="page"
+	class="com.participant.model.ParticipantService" />
 <html>
+
 <head>
-<title>揪團首頁</title>
+<title>揪團首頁 哈囉<%=userId%></title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -80,6 +84,13 @@
 													</c:forEach>
 												</ul>
 											</c:if>
+											<c:if test="${not empty successMsgs}">
+												<ul>
+													<c:forEach var="message" items="${successMsgs}">
+														<li style="color: #009100">${successMsgs}</li>
+													</c:forEach>
+												</ul>
+											</c:if>
 										</div>
 										<%-- 錯誤表列 --%>
 										<div class="col-auto justify-content-md-end">
@@ -100,11 +111,10 @@
 																<div class="container-fluid">
 																	<!-- 彈出內容 form表單開始-->
 																	<div class="form-group">
-<!-- 																		<label for="userid">揪團人</label>  -->
-																		<input type="hidden"
-																			class="form-control" name="userId"
-																			value="<%=userId%>" readonly>
-											
+																		<!-- 																		<label for="userid">揪團人</label>  -->
+																		<input type="hidden" class="form-control"
+																			name="userId" value="<%=userId%>" readonly>
+
 																	</div>
 																	<div class="form-group">
 																		<div class="row">
@@ -215,7 +225,7 @@
 														<p class="h6"><%=tformat.format(pageContext.getAttribute("tdate3"))%></p>
 													</div>
 													<div class="col">
-														<p class="h6">${sportsGroupVO.participantNumber}/
+														<p class="h6">${participantSVC.getParticipant(sportsGroupVO.sportsGroupSN).size()}/
 															${sportsGroupVO.numberUpLimit}</p>
 													</div>
 													<div class="col">
@@ -231,17 +241,26 @@
 										data-bs-parent="#accordionFlushExample">
 										<div class="accordion-body">
 											<p class="mb-0 text-success h6">揪團人：${sportsGroupVO.userId}
-											${generalUserSvc.getOneGeneralUser(sportsGroupVO.userId).userName}</p>
+												${generalUserSvc.getOneGeneralUser(sportsGroupVO.userId).userName}</p>
 											<p class="mb-0 text-success h6">
 												報名時間：<%=tformat.format(pageContext.getAttribute("tdate1"))%>至<%=tformat.format(pageContext.getAttribute("tdate2"))%></p>
 											<P class="mb-0 text-success h6">地點:${sportsGroupVO.sportsLocation}</P>
 											<p class="mb-0 text-success h6">活動人數:${sportsGroupVO.numberUpLimit}</P>
-											<p class="mb-0 text-success h6">已報名人數:${sportsGroupVO.participantNumber}</P>
+											<p class="mb-0 text-success h6">已報名人數:${participantSVC.getParticipant(sportsGroupVO.sportsGroupSN).size()}</P>
 											<p class="mb-0 text-success h6">備註:${sportsGroupVO.remarks}</P>
 											<div class="row">
 												<div class="d-md-flex justify-content-md-end">
-													<button class="btn btn-success" type="button">參加</button>
+													<form METHOD="post"
+														ACTION="<%=request.getContextPath()%>/sportsGroup/sportsGroup.do">
+
+														<input type="hidden" name="action" value="join"> 
+														<input type="hidden" name="userId" value="<%=userId%>">
+														<input type="hidden" name="sportsGroupSN" value="${sportsGroupVO.sportsGroupSN}">
+
+														<button class="btn btn-success" type="submit">參加</button>
+													</form>
 												</div>
+
 											</div>
 										</div>
 									</div>
@@ -259,13 +278,13 @@
 		</div>
 		</div>
 	</section>
-	
-<!-- 	<td> -->
-                    
-<%-- 	                ${generalUserSvc.getOneGeneralUser(sportsGroupVO.sportsGroupSN).userName}     --%>
-                    
-                  
-<!-- 			</td> -->
+
+	<!-- 	<td> -->
+
+	<%-- 	                ${generalUserSvc.getOneGeneralUser(sportsGroupVO.sportsGroupSN).userName}     --%>
+
+
+	<!-- 			</td> -->
 	<!--CLOSE 揪團body-->
 	<!-- Start Script -->
 	<script

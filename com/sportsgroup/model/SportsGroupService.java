@@ -6,8 +6,8 @@ import java.util.List;
 
 public class SportsGroupService {
 
-	private SportsGroupDAO_interface dao;
-
+//	private SportsGroupDAO_interface dao;
+	private SportsGroupJDBCDAO dao;
 	public SportsGroupService() {
 		dao = new SportsGroupJDBCDAO();
 	}
@@ -44,7 +44,12 @@ public class SportsGroupService {
 		sportsGroupVO.setRemarks(remarks);
 		System.out.println(remarks);
 		System.out.println(((Object)registTimeEnd).getClass().getSimpleName());
+		
+		
 		dao.insert(sportsGroupVO);
+		sportsGroupVO.setSportsGroupSN(dao.key);
+		System.out.println(dao.key);
+		
 		System.out.println("n");
 		
 		

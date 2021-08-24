@@ -11,7 +11,6 @@ import java.util.List;
 import com.participant.model.ParticipantJDBCDAO;
 import com.participant.model.ParticipantVO;
 
-
 public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 	String driver = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
@@ -23,15 +22,18 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 	private static final String GET_ONE_STMT = "SELECT sportsGroupSN,userId,sportsType,sportsLocation,exerciseTime,numberUpLimit,numberLowLimit,registTime,registTimeEnd,issueDATE,participantNumber,success,remarks FROM SPORTS_GROUP where sportsGroupSN = ?";
 	private static final String DELETE = "DELETE FROM SPORTS_GROUP where sportsGroupSN = ?";
 	private static final String UPDATE = "UPDATE SPORTS_GROUP set userId=?, sportsType=?, sportsLocation=?, exerciseTime=?, numberUpLimit=?, numberLowLimit=?, registTime=?, registTimeEnd=?, issueDATE=?, participantNumber=?, success=?, remarks=? where sportsGroupSN = ?";
-
+	Integer key = null;
 	@Override
+	
 	public void insert(SportsGroupVO sportsGroupVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			
+			String[] cols = { "sportsGroupSN" };
+			pstmt = con.prepareStatement(INSERT_STMT,cols);
 
 			pstmt.setInt(1, sportsGroupVO.getUserId());
 			pstmt.setString(2, sportsGroupVO.getSportsType());
@@ -45,8 +47,21 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 			pstmt.setInt(10, sportsGroupVO.getParticipantNumber());
 			pstmt.setInt(11, sportsGroupVO.getSuccess());
 			pstmt.setString(12, sportsGroupVO.getRemarks());
-
+			System.out.println("AAAAAAQQQQQ");
 			pstmt.executeUpdate();
+			
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+				 key = rs.getInt(1); // 只支援欄位索引值取得自增主鍵值
+				System.out.println("自增主鍵值 = " + key + "(剛新增成功的揪團編號)");
+				
+				
+			} else {
+				System.out.println("NO KEYS WERE GENERATED.");
+			}
+
+			rs.close();
+			
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
@@ -254,10 +269,10 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 			}
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			
+
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
-			
+
 		} finally {
 			if (rs != null) {
 				try {
@@ -283,23 +298,29 @@ public class SportsGroupJDBCDAO implements SportsGroupDAO_interface {
 		}
 		return list;
 	}
+
 	public static void main(String[] args) {
 		SportsGroupJDBCDAO dao = new SportsGroupJDBCDAO();
 		SportsGroupVO sportsGroupVO = new SportsGroupVO();
-		sportsGroupVO.setUserId(1003);
-		sportsGroupVO.setSportsType("aaaa");
-		sportsGroupVO.setSportsLocation("urhome");
-		sportsGroupVO.setExerciseTime(java.sql.Timestamp.valueOf("2021-08-09 01:51:00"));
-		sportsGroupVO.setNumberUpLimit(5);
-		sportsGroupVO.setNumberLowLimit(2);
-		sportsGroupVO.setRegistTime(java.sql.Timestamp.valueOf("2021-08-08 01:51:00"));
-		sportsGroupVO.setRegistTimeEnd(java.sql.Timestamp.valueOf("2021-08-09 01:51:00"));
-		sportsGroupVO.setIssueDATE(java.sql.Timestamp.valueOf("2021-08-16 01:51:00"));
-		sportsGroupVO.setParticipantNumber(1);
-		sportsGroupVO.setSuccess(0);
-		sportsGroupVO.setRemarks("java好難喔喔喔");
-		dao.insert(sportsGroupVO);
-		
+//		sportsGroupVO.setUserId(1003);
+//		sportsGroupVO.setSportsType("aaaa");
+//		sportsGroupVO.setSportsLocation("urhome");
+//		sportsGroupVO.setExerciseTime(java.sql.Timestamp.valueOf("2021-08-09 01:51:00"));
+//		sportsGroupVO.setNumberUpLimit(5);
+//		sportsGroupVO.setNumberLowLimit(2);
+//		sportsGroupVO.setRegistTime(java.sql.Timestamp.valueOf("2021-08-08 01:51:00"));
+//		sportsGroupVO.setRegistTimeEnd(java.sql.Timestamp.valueOf("2021-08-09 01:51:00"));
+//		sportsGroupVO.setIssueDATE(java.sql.Timestamp.valueOf("2021-08-16 01:51:00"));
+//		sportsGroupVO.setParticipantNumber(1);
+//		sportsGroupVO.setSuccess(0);
+//		sportsGroupVO.setRemarks("java好難喔喔喔");
+//		dao.insert(sportsGroupVO);
+		SportsGroupJDBCDAO getall = new SportsGroupJDBCDAO();
+		 List<SportsGroupVO> all = getall.getAll();
+		 
+		 for(SportsGroupVO each : all) {
+			 System.out.println(each);
+		 }
 		System.out.print("輸入成功");
 	}
 
