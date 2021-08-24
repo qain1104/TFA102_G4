@@ -176,10 +176,10 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 				// webManagerVO ¤]ºÙ¬° Domain objects
 				webManagerVO = new WebManagerVO();
 				webManagerVO.setManagerId(managerId);
-				webManagerVO.setManagerName(rs.getString("ManagerName"));
-				webManagerVO.setManagerEmail(rs.getString("ManagerEmail"));
-				webManagerVO.setManagerAccount(rs.getString("ManagerAccount"));
-				webManagerVO.setManagerPassword(rs.getString("ManagerPassword"));
+				webManagerVO.setManagerName(rs.getString("managerName"));
+				webManagerVO.setManagerEmail(rs.getString("managerEmail"));
+				webManagerVO.setManagerAccount(rs.getString("managerAccount"));
+				webManagerVO.setManagerPassword(rs.getString("managerPassword"));
 				webManagerVO.setManagerPic(rs.getBytes("managerPic"));
 				webManagerVO.setManagerStatus(rs.getInt("managerStatus"));
 			}

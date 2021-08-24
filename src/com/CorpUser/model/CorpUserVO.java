@@ -7,20 +7,22 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class CorpUserVO implements java.io.Serializable {
-	private Integer	corpUserId;
+	private Integer corpUserId;
 	private Integer registerStatus;
-	private String  corpAccount;
-	private String  corpPassword;
-	private String	companyName;
-	private String 	ltdNo;
-	private String	email;
-	private String	phone;
-	private String	address;
-	private byte[]	profilePic;
+	private String corpAccount;
+	private String corpPassword;
+	private String companyName;
+	private String ltdNo;
+	private String email;
+	private String phone;
+	private String address;
+	private byte[] profilePic;
 	private Timestamp createdTime;
-	
+
 	public CorpUserVO() {
 		super();
 	}
@@ -114,16 +116,15 @@ public class CorpUserVO implements java.io.Serializable {
 	}
 
 	@Override
-	public String toString() {//方便測試用
+	public String toString() {// 方便測試用
 		return "CorpUserVO [corpUserId=" + corpUserId + ", registerStatus=" + registerStatus + ", corpAccount="
 				+ corpAccount + ", corpPassword=" + corpPassword + ", companyName=" + companyName + ", ltdNo=" + ltdNo
 				+ ", email=" + email + ", phone=" + phone + ", address=" + address + ", profilePic=" + profilePic
 				+ ", createdTime=" + createdTime + "]";
 	}
-	
-	
-	public static byte[] getPictureByteArray(String path)  {
-		FileInputStream fis =null;
+
+	public static byte[] getPictureByteArray(String path) {
+		FileInputStream fis = null;
 		byte[] buffer = null;
 		try {
 			fis = new FileInputStream(path);
@@ -143,6 +144,18 @@ public class CorpUserVO implements java.io.Serializable {
 		}
 		return buffer;
 	}
+
+//	public String showcreatedTime(Timestamp createdTime) {
+//		String tsStr = "";
+//		DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//		try {
+//			tsStr = sdf.format(createdTime);
+//			System.out.println(tsStr);
+//			return tsStr;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
+
 }
-
-

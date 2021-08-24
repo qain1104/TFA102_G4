@@ -17,6 +17,9 @@ public class CorpUserJDBCDAO implements CorpUserDAO_interface {
 	String url = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
 	String userid = "root";
 	String passwd = "password";
+	
+
+
 
 	private static final String INSERT_STMT = "INSERT INTO CORP_USER(registerStatus,corpAccount,corpPassword,companyName,ltdNo,email,phone,address,profilePic,createdTime) VALUES (?,?,?,?,?,?,?,?,?,?)";
 	private static final String GET_ALL_STMT = "SELECT corpUserId,registerStatus,corpAccount,corpPassword,companyName,ltdNo,email,phone,address,profilePic,createdTime FROM CORP_USER order by corpUserId";
