@@ -3,14 +3,40 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.sportsgroup.model.*"%>
+<%@ page import="com.participant.model.*"%>
 
 <%
 	SportsGroupService sportsGroupSvc = new SportsGroupService();
-	List<SportsGroupVO> list = sportsGroupSvc.getAll();
+	ParticipantService participantSvc = new ParticipantService();
+	List<SportsGroupVO> list = null;
+	List<ParticipantVO> list1 = null;
 	SportsGroupVO sportsGroupVO = (SportsGroupVO) request.getAttribute("sportsGroupVO");
-	pageContext.setAttribute("list", list);
+	ParticipantVO participantVO = (ParticipantVO) request.getAttribute("participantVO");
 	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 	Integer userId = 1004;
+%>
+
+<c:choose>
+	<c:when test="${param.whichClass==0 || empty param.whichClass}">
+		<%
+			list = sportsGroupSvc.getAll();
+		%>
+	</c:when>
+
+	<c:when test="${param.whichClass==1}">
+		<%
+			list = participantSvc.getSportsGroup(1004);
+		%>
+	</c:when>
+
+
+
+
+</c:choose>
+
+<%
+	Collections.reverse(list);
+	pageContext.setAttribute("list", list);
 %>
 <jsp:useBean id="generalUserSvc" scope="page"
 	class="com.GeneralUser.model.GeneralUserService" />
@@ -33,7 +59,8 @@
 <!-- 不知道的東西 -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/templatemo.css">
-<!-- <link rel="stylesheet" href="assets/css/custom.css"> -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/css/custom.css">
 <!-- Load fonts style after rendering the layout styles -->
 <!-- 設定字型 -->
 <link rel="stylesheet"
@@ -68,7 +95,8 @@
 							<div
 								class="row justify-content-between align-items-end articletitle">
 								<div class="col-auto">
-									<p class="fs-1 fw-bold text-success">揪團首頁</p>
+									<p class="fs-1 fw-bold text-success">${param.whichClass==1 ? "我的揪團" : "揪團首頁"}</p>
+
 								</div>
 								<!-- 發起揪團按鈕開始 -->
 								<div class="container">
@@ -250,15 +278,33 @@
 											<p class="mb-0 text-success h6">備註:${sportsGroupVO.remarks}</P>
 											<div class="row">
 												<div class="d-md-flex justify-content-md-end">
-													<form METHOD="post"
-														ACTION="<%=request.getContextPath()%>/sportsGroup/sportsGroup.do">
+												<%SportsGroupVO vo = (SportsGroupVO)pageContext.getAttribute("sportsGroupVO");%>
+													<c:choose>
+														<c:when test="<%=participantSvc.getaa(userId, vo.getSportsGroupSN()) %>">
+															<form METHOD="post"
+																ACTION="<%=request.getContextPath()%>/sportsGroup/sportsGroup.do">
 
-														<input type="hidden" name="action" value="join"> 
-														<input type="hidden" name="userId" value="<%=userId%>">
-														<input type="hidden" name="sportsGroupSN" value="${sportsGroupVO.sportsGroupSN}">
+																<input type="hidden" name="action" value="join">
+																<input type="hidden" name="userId" value="<%=userId%>">
+																<input type="hidden" name="sportsGroupSN"
+																	value="${sportsGroupVO.sportsGroupSN}">
 
-														<button class="btn btn-success" type="submit">參加</button>
-													</form>
+																<button class="btn btn-success" type="submit">參加${participantVO.participantID}</button>
+															</form>
+														</c:when>
+														<c:when test ="<%=!participantSvc.getaa(userId, vo.getSportsGroupSN()) %>">
+															<form METHOD="post"
+																ACTION="<%=request.getContextPath()%>/sportsGroup/sportsGroup.do">
+
+																<input type="hidden" name="action" value="leave">
+																<input type="hidden" name="userId" value="<%=userId%>">
+																<input type="hidden" name="sportsGroupSN"
+																	value="${sportsGroupVO.sportsGroupSN}">
+
+																<button class="btn btn-success" type="submit">退出</button>
+															</form>
+														</c:when>
+													</c:choose>
 												</div>
 
 											</div>

@@ -229,10 +229,18 @@ public class SportsGroupServlet extends HttpServlet {
 			}
 		}
 
+		
+		
+		
+		
 		if ("join".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			System.out.println("AAA");
+			List<String> successMsgs = new LinkedList<String>();
+			req.setAttribute("successMsgs", successMsgs);
+			
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
 				Integer userId = new Integer(req.getParameter("userId").trim());
@@ -256,10 +264,10 @@ public class SportsGroupServlet extends HttpServlet {
 				if (list.stream().noneMatch(e -> userId.equals(e.getUserId()))) {
 					participantSVC.addParticipant(sportsGroupSN, userId);
 				} else {
-					errorMsgs.add("沒加入成功");
-					System.out.println("沒加入成功");
+					errorMsgs.add("沒加入成功你已在揪團裡");
 				}
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
+				successMsgs.add("參加揪團成功");
 				String url = "/sportsGroup/sportsGroup.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
@@ -271,5 +279,54 @@ public class SportsGroupServlet extends HttpServlet {
 			}
 
 		}
+		
+		
+		
+		if ("leave".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			List<String> successMsgs = new LinkedList<String>();
+			req.setAttribute("successMsgs", successMsgs);
+			
+			 
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				Integer userId = new Integer(req.getParameter("userId").trim());
+				Integer participantID = new Integer(req.getParameter("participantID"));
+				Integer sportsGroupSN = new Integer(req.getParameter("sportsGroupSN"));
+				
+				System.out.println("userId"+userId);
+				System.out.println("participantID"+participantID);
+				System.out.println("sportsGroupSN"+sportsGroupSN);
+				/***************************2.開始刪除資料***************************************/		
+//		ParticipantService participantSvc = new ParticipantService();
+//		participantSvc
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+					failureView.forward(req, res);
+					return; // 程式中斷
+				}
+				/*************************** 2.開始修改資料 *****************************************/
+//				if (list.stream().noneMatch(e -> userId.equals(e.getUserId()))) {
+//					participantSVC.addParticipant(sportsGroupSN, userId);
+//				} else {
+//					errorMsgs.add("沒加入成功你已在揪團裡");
+//				}
+				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
+				successMsgs.add("參加揪團成功");
+				String url = "/sportsGroup/sportsGroup.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				successView.forward(req, res);
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+				failureView.forward(req, res);
+			}
+			
+		}
+		
 	}
 }
