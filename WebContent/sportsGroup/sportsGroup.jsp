@@ -13,7 +13,7 @@
 	SportsGroupVO sportsGroupVO = (SportsGroupVO) request.getAttribute("sportsGroupVO");
 	ParticipantVO participantVO = (ParticipantVO) request.getAttribute("participantVO");
 	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-	Integer userId = 1004;
+	Integer userId = 1010;
 %>
 
 <c:choose>
@@ -25,7 +25,7 @@
 
 	<c:when test="${param.whichClass==1}">
 		<%
-			list = participantSvc.getSportsGroup(1004);
+			list = participantSvc.getSportsGroup(userId);
 		%>
 	</c:when>
 
@@ -139,7 +139,7 @@
 																<div class="container-fluid">
 																	<!-- 彈出內容 form表單開始-->
 																	<div class="form-group">
-																		<!-- 																		<label for="userid">揪團人</label>  -->
+																		<!--<label for="userid">揪團人</label>  -->
 																		<input type="hidden" class="form-control"
 																			name="userId" value="<%=userId%>" readonly>
 
@@ -278,26 +278,40 @@
 											<p class="mb-0 text-success h6">備註:${sportsGroupVO.remarks}</P>
 											<div class="row">
 												<div class="d-md-flex justify-content-md-end">
-												<%SportsGroupVO vo = (SportsGroupVO)pageContext.getAttribute("sportsGroupVO");%>
+													<%
+														SportsGroupVO vo = (SportsGroupVO) pageContext.getAttribute("sportsGroupVO");
+													%>
 													<c:choose>
-														<c:when test="<%=participantSvc.getaa(userId, vo.getSportsGroupSN()) %>">
+														<c:when
+															test="<%=participantSvc.getaa(userId, vo.getSportsGroupSN())%>">
 															<form METHOD="post"
 																ACTION="<%=request.getContextPath()%>/sportsGroup/sportsGroup.do">
-
-																<input type="hidden" name="action" value="join">
-																<input type="hidden" name="userId" value="<%=userId%>">
+																<input type="hidden" name="whichClass"
+																	value="${param.whichClass}"> <input
+																	type="hidden" name="action" value="join"> <input
+																	type="hidden" name="userId" value="<%=userId%>">
 																<input type="hidden" name="sportsGroupSN"
 																	value="${sportsGroupVO.sportsGroupSN}">
+																<input type="hidden" name="numberUpLimit"
+																	value="${sportsGroupVO.numberUpLimit}">
+																<input type="hidden" name="participantNumber"
+																	value="${participantSVC.getParticipant(sportsGroupVO.sportsGroupSN).size()}">
+																	
 
 																<button class="btn btn-success" type="submit">參加${participantVO.participantID}</button>
 															</form>
 														</c:when>
-														<c:when test ="<%=!participantSvc.getaa(userId, vo.getSportsGroupSN()) %>">
+														<c:when
+															test="<%=!participantSvc.getaa(userId, vo.getSportsGroupSN())%>">
 															<form METHOD="post"
 																ACTION="<%=request.getContextPath()%>/sportsGroup/sportsGroup.do">
 
-																<input type="hidden" name="action" value="leave">
-																<input type="hidden" name="userId" value="<%=userId%>">
+																<input type="hidden" name="whichClass"
+																	value="${param.whichClass == 1 ? "1" : "0"}"> <input
+																	type="hidden" name="action" value="leave"> <input
+																	type="hidden" name="userId" value="<%=userId%>">
+																	<input
+																	type="hidden" name="suserId" value="${sportsGroupVO.userId}">
 																<input type="hidden" name="sportsGroupSN"
 																	value="${sportsGroupVO.sportsGroupSN}">
 

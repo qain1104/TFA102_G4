@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.jdt.internal.compiler.batch.Main;
 
@@ -41,13 +42,14 @@ public class ParticipantService {
 		dao.delete(participantID);
 	}
 	
-//	public void deleteParticipant1(Integer sportsGroupSN , Integer userId) {
-//		List<ParticipantVO> participant = dao.getAll().stream().filter(e -> e.getSportsGroupSN().equals(sportsGroupSN))
-//				.collect(Collectors.toList());
-//		
-//		Integer participantID = participant.stream().filter(e -> e.getUserId().equals(userId));
-//		
-//	}
+	public Integer getParticipantID(Integer sportsGroupSN , Integer userId) {
+		Integer participantID = dao.getAll().stream()
+				.filter(e -> e.getSportsGroupSN().equals(sportsGroupSN) && e.getUserId().equals(userId))
+				.findFirst()
+				.get().getParticipantID();
+		
+		return participantID;
+	}
 
 	public ParticipantVO getOneParticipant(Integer participantID) {
 		return dao.findByPrimaryKey(participantID);
@@ -81,9 +83,6 @@ public class ParticipantService {
 
 		Boolean aa = participant.stream().noneMatch(e -> sportsGroupSN.equals(e.getSportsGroupSN()));
 
-		
-		
-		
 		return aa;
 	}
 	
@@ -94,11 +93,13 @@ public class ParticipantService {
 
 		List<ParticipantVO> list = participantSVC.getParticipant(9001);
 		List<SportsGroupVO> list1 = participantSVC.getSportsGroup(1004);
-//		System.out.println(list1);
-		
-		
-		System.out.println(participantSVC.getaa(1008,9001));
 
+//	System.out.println(participantSVC.getaa(1008,9001));
+//		List<ParticipantVO> list = participantSVC.deleteParticipant1(9001, 1007);
+//		
+	
+	System.out.println(participantSVC.getParticipantID(9002,1008));
+		
 	}
 
 }
