@@ -2,7 +2,6 @@ package com.morder.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.sql.Types;
 
 import com.sun.org.apache.bcel.internal.generic.Type;
 
@@ -263,6 +262,5 @@ public class MorderVO implements Serializable{
 				+ ", shippingDate=" + shippingDate + ", deliveryDate=" + deliveryDate + ", deliveryStatus="
 				+ deliveryStatus + "]" + "\n";
 	}
-
 	
 }

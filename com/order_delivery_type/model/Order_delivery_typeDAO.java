@@ -10,8 +10,8 @@ import java.util.List;
 
 public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	public static final String THEURL = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
-	public static final String USER = "David";
+	public static final String THEURL = "jdbc:mysql://mysql5257.chickenkiller.com:3306/TFA102_G4?serverTimezone=Asia/Taipei";
+	public static final String USER = "root";
 	public static final String PASSWORD = "123456";
 	public static final String ADD_TYPE = "INSERT INTO ORDER_DELIVERY_TYPE (deliveryType, deliveryFee) VALUES (?, ?)";
 	public static final String DELETE_TYPE = "DELETE FROM ORDER_DELIVERY_TYPE WHERE orderDeliveryTypeId = ?";
@@ -38,7 +38,7 @@ public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -67,7 +67,7 @@ public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -98,7 +98,7 @@ public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -133,7 +133,7 @@ public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 				odtVO = new Order_delivery_typeVO(orderDeliveryTypeId, deliveryType, deliveryFee);
 			}		
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if (rs != null) {
 				try {
@@ -177,7 +177,7 @@ public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 				list.add(odtVO);
 			}		
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if (rs != null) {
 				try {

@@ -7,6 +7,6 @@ public interface Product_watch_listDAO_interface {
 	void deleteWatchList(Integer pwlSN);
 	void updateWatchList(Product_watch_listVO watchList);
 	Product_watch_listVO getWatchList(Integer pwlSN);
-	Product_watch_listVO getWatchListByUser(Integer userId);
+	List<Product_watch_listVO> getWatchListByUser(Integer userId);
 	List<Product_watch_listVO> getAll();
 }

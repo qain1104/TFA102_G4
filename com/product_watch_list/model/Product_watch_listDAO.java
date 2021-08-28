@@ -10,8 +10,8 @@ import java.util.List;
 
 public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	public static final String THEURL = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
-	public static final String USER = "David";
+	public static final String THEURL = "jdbc:mysql://mysql5257.chickenkiller.com:3306/TFA102_G4?serverTimezone=Asia/Taipei";
+	public static final String USER = "root";
 	public static final String PASSWORD = "123456";
 	public static final String ADD_LIST = "INSERT INTO PRODUCT_WATCH_LIST (productSN, userId) VALUES (?, ?)";
 	public static final String DELETE_LIST = "DELETE FROM PRODUCT_WATCH_LIST WHERE pwlSN = ?";
@@ -40,7 +40,7 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 			pstmt.setInt(2, watchList.getUserId());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if(pstmt != null) {
 				try {
@@ -71,7 +71,7 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 			pstmt.setInt(1, pwlSN);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if(pstmt != null) {
 				try {
@@ -103,7 +103,7 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 			pstmt.setInt(3, watchList.getPwlSN());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if(pstmt != null) {
 				try {
@@ -140,7 +140,7 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 				watchList = new Product_watch_listVO(pwlSN, productSN, userId);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if(rs != null) {
 				try {
@@ -186,7 +186,7 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 				list.add(watchList);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if(rs != null) {
 				try {
@@ -214,11 +214,11 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 	}
 
 	@Override
-	public Product_watch_listVO getWatchListByUser(Integer userId) {
+	public List<Product_watch_listVO> getWatchListByUser(Integer userId) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		Product_watch_listVO watchList = null;
+		List<Product_watch_listVO> trackingList = new ArrayList<Product_watch_listVO>();
 		
 		try {
 			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
@@ -228,10 +228,11 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 			while(rs.next()) {
 				Integer pwlSN = rs.getInt("pwlSN");
 				Integer productSN = rs.getInt("productSN");
-				watchList = new Product_watch_listVO(pwlSN, productSN, userId);
+				Product_watch_listVO watchList = new Product_watch_listVO(pwlSN, productSN, userId);
+				trackingList.add(watchList);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if(rs != null) {
 				try {
@@ -255,7 +256,7 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 				}
 			}
 		}
-		return watchList;
+		return trackingList;
 	}
 
 }

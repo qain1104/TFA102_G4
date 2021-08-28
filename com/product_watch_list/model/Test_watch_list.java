@@ -48,9 +48,10 @@ public class Test_watch_list {
 		
 		//getAll()
 		Product_watch_listDAO dao = new Product_watch_listDAO();
-		List<Product_watch_listVO> list = dao.getAll();
-		for(Product_watch_listVO watchList : list) {
-			System.out.println(watchList);
-		}
+		System.out.println(dao.getWatchListByUser(1002));
+//		List<Product_watch_listVO> list = dao.getAll();
+//		for(Product_watch_listVO watchList : list) {
+//			System.out.println(watchList);
+//		}
 	}
 }

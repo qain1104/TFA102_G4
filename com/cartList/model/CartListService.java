@@ -1,6 +1,10 @@
 package com.cartList.model;
 
 import java.util.List;
+import java.util.Map;
+
+import com.product.model.ProductVO;
+import com.productspec.model.ProductSpecVO;
 
 public class CartListService {
 	private CartListDAO_interface dao;
@@ -15,7 +19,7 @@ public class CartListService {
 		cartList.setUserId(userId);
 		cartList.setProductSpecId(productSpecId);
 		cartList.setItemQuantity(itemQuantity);
-		dao.addCartList(cartList);
+		dao.updateCartList(cartList);
 		
 		return cartList;
 	}
@@ -65,6 +69,14 @@ public class CartListService {
 		cartList.setProductSpecId(productSpecId);
 		cartList.setItemQuantity(itemQuantity);
 		dao.deleteOnePiece(cartList);
+	}
+	
+	public Map<String, Integer> getTotalAmount(Integer userId){
+		return dao.getTotalAmount(userId);
+	}
+	
+	public Map<CartListVO, ProductVO> getProductFromSpec(Integer userId){
+		return dao.getProductFromSpec(userId);
 	}
 
 }

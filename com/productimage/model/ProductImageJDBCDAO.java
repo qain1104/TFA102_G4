@@ -5,22 +5,22 @@ import java.sql.*;
 
 public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
-	String userid = "David";
-	String passwd = "123456";;
-
+	String url = "jdbc:mysql://mysql5257.chickenkiller.com:3306/TFA102_G4?serverTimezone=Asia/Taipei";
+	String userid = "root";
+	String passwd = "123456";
+	
 	private static final String INSERT_STMT = 
-		"INSERT INTO productimage (productSN,productImage) VALUES (?, ?)";
+		"INSERT INTO PRODUCTIMAGE (productSN,productImage) VALUES (?, ?)";
 	private static final String GET_ALL_STMT = 
-		"SELECT productImageSN,productSN,productImage FROM productimage order by productImageSN";
+		"SELECT productImageSN,productSN,productImage FROM PRODUCTIMAGE order by productImageSN";
 	private static final String GET_ONE_STMT = 
-		"SELECT productImageSN,productSN,productImage FROM productimage where productImageSN = ?";
+		"SELECT productImageSN,productSN,productImage FROM PRODUCTIMAGE where productImageSN = ?";
 	private static final String GET_ONE_STMT_BY_PRODUCT = 
-			"SELECT * FROM productimage where productSN = ?";
+			"SELECT * FROM PRODUCTIMAGE where productSN = ?";
 	private static final String DELETE = 
-		"DELETE FROM productimage where productImageSN = ?";
+		"DELETE FROM PRODUCTIMAGE where productImageSN = ?";
 	private static final String UPDATE = 
-		"UPDATE productimage set productImageSN=? ,productSN=? ,productImage=? where productImageSN = ?";
+		"UPDATE PRODUCTIMAGE set productImageSN=? ,productSN=? ,productImage=? where productImageSN = ?";
 
 	@Override
 	public void insert(ProductImageVO productImageVO) {
@@ -376,7 +376,8 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 //		}
 		
 		// List<ProductImageVO> findByProduct(Integer productSN)
-		List<ProductImageVO> list = dao.findByProduct(new Integer(11001));
+		ProductImageService service = new ProductImageService();
+		List<ProductImageVO> list = service.findByProduct(new Integer(11001));
 		System.out.println(list.size());
 	}
 }

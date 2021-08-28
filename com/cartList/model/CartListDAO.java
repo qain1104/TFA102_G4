@@ -1,11 +1,20 @@
 package com.cartList.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Vector;
 import java.util.List;
+import java.util.Map;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import com.product.model.ProductService;
+import com.product.model.ProductVO;
+import com.productspec.model.ProductSpecService;
+import com.productspec.model.ProductSpecVO;
 
 import redis.clients.jedis.Jedis;
 
@@ -62,7 +71,7 @@ public class CartListDAO implements CartListDAO_interface{
 			jsonCartlist = new JSONObject(cartlistAdd).toString();
 			jedis.rpush("CartList:" + userId + ":product", jsonCartlist);
 		} catch (JSONException e) {
-			e.printStackTrace();
+			throw new RuntimeException("JSON parse error : " + e.getMessage());
 		} 
 		finally {
 			if(jedis != null) {
@@ -106,9 +115,9 @@ public class CartListDAO implements CartListDAO_interface{
 			}
 			
 		} catch(NumberFormatException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Number parse error : " + e.getMessage());
 		} catch (JSONException e) {
-			e.printStackTrace();
+			throw new RuntimeException("JSON parse error : " + e.getMessage());
 		}
 		finally {
 			if(jedis != null) {
@@ -131,7 +140,10 @@ public class CartListDAO implements CartListDAO_interface{
 			cartlistDelete = new CartListVO(cartList.getProductSpecId(), cartList.getItemQuantity());
 			jsonCartlist = new JSONObject(cartlistDelete).toString();
 			jedis.lrem("CartList:" + userId + ":product", 0, jsonCartlist);
-		} finally {
+		} catch(Exception e){
+			e.printStackTrace();
+		} 
+		finally {
 			if(jedis != null) {
 				jedis.close();
 			}
@@ -159,7 +171,7 @@ public class CartListDAO implements CartListDAO_interface{
 				}
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			throw new RuntimeException("JSON parse error : " + e.getMessage());
 		} 
 		finally {
 			if(jedis != null) {
@@ -186,8 +198,8 @@ public class CartListDAO implements CartListDAO_interface{
 					
 					if(cartListJson.getInt("itemQuantity") >= 1) {
 						Integer itemQuantity = new Integer(cartListJson.getInt("itemQuantity") - 1);
-						CartListVO newCartlist = new CartListVO(cartList.getProductSpecId(), itemQuantity);
-						String jsonCartlist = new JSONObject(newCartlist).toString();
+						CartListVO cartlistDelete = new CartListVO(cartList.getProductSpecId(), itemQuantity);
+						String jsonCartlist = new JSONObject(cartlistDelete).toString();
 						jedis.lset("CartList:" + userId + ":product", i, jsonCartlist);
 						return;			
 					} else {
@@ -196,12 +208,76 @@ public class CartListDAO implements CartListDAO_interface{
 				}	
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			throw new RuntimeException("JSON parse error : " + e.getMessage());
 		} 
 		finally {
 			if(jedis != null) {
 				jedis.close();
 			}
 		}		
+	}
+
+	@Override
+	// 計算產品總數量和總金額
+	public Map<String, Integer> getTotalAmount(Integer userId) {
+		Jedis jedis = null;
+		ProductSpecService service = new ProductSpecService();
+		Integer totalAmount = 0;
+		Integer totalQuantity = 0;
+		// 拿來存放購物車的總數量和總金額
+		Map<String, Integer> totalCartList = new HashMap<String, Integer>();
+
+		try {
+			jedis = new Jedis("localhost", 6379);
+			String id = String.valueOf(userId);
+			List<String> cartListString = jedis.lrange("CartList:" + id + ":product", 0, -1);
+			for(String jsonString : cartListString) {
+				JSONTokener tokener = new JSONTokener(jsonString);
+				JSONObject cartListJson = new JSONObject(tokener);
+				Integer productSpecId = new Integer(cartListJson.getInt("productSpecId"));
+				Integer itemQuantity = new Integer(cartListJson.getInt("itemQuantity"));
+				Integer price = service.getOneProduct(productSpecId).getProductPrice();
+				Integer itemAmount = price * itemQuantity;
+				totalAmount += itemAmount; // 計算總金額
+				totalQuantity += itemQuantity; // 計算商品總數量
+			}
+			
+			totalCartList.put("totalAmount", totalAmount);
+			totalCartList.put("totalQuantity", totalQuantity);
+			
+		} catch(NumberFormatException e) {
+			throw new RuntimeException("Number parse error : " + e.getMessage());
+		} catch (JSONException e) {
+			throw new RuntimeException("JSON parse error : " + e.getMessage());
+		}
+		finally {
+			if(jedis != null) {
+				jedis.close();
+			}
+		}
+		
+		return totalCartList;
+	}
+	
+	@Override
+	// 將購物車的明細以及產品存成一個Map
+	public Map<CartListVO, ProductVO> getProductFromSpec(Integer userId){
+
+		CartListService service = new CartListService();
+		List<CartListVO> cartList =  service.getCartList(userId); 
+		Map<CartListVO, ProductVO> map = new LinkedHashMap<CartListVO, ProductVO>();
+		//要改用service
+		ProductSpecService productSpecService = new ProductSpecService();
+		ProductService productService = new ProductService();
+		
+		for(CartListVO vo : cartList) {
+			Integer productSpecId = vo.getProductSpecId();
+			ProductSpecVO productSpec = productSpecService.getOneProduct(productSpecId);
+			ProductVO product = productService.getOneProduct(productSpec.getProductSN());
+			map.put(vo, product);
+		}
+		
+		
+		return map;
 	}
 }

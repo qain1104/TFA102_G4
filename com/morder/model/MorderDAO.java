@@ -10,18 +10,22 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.order_list.model.Order_listVO;
+
 
 public class MorderDAO implements MorderDAO_interface{
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	public static final String THEURL = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
-	public static final String USER = "David";
+	public static final String THEURL = "jdbc:mysql://mysql5257.chickenkiller.com:3306/TFA102_G4?rewriteBatchedStatements=true&serverTimezone=Asia/Taipei";
+//	public static final String THEURL = "jdbc:mysql://localhost:3306/TFA102_G4?rewriteBatchedStatements=true&serverTimezone=Asia/Taipei";
+	public static final String USER = "root";
 	public static final String PASSWORD = "123456";
-	public static final String ADD_MORDER = "INSERT INTO Morder (userId, couponId, purchaseDate, totalPrice, orderPayment, orderCard, orderCardYear, orderCardMonth, orderCompleteDate, orderDeliveyTypeId, receiver, receiverPhone, receiverAddress, storeId, storeName, storeAddress, shippingDate, deliveryDate, deliveryStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	public static final String DELETE_MORDER = "DELETE FROM Morder WHERE orderSN = ?";
-	public static final String UPDATE_MORDER = "UPDATE Morder SET userId = ?, couponId = ?, purchaseDate = ?, totalPrice = ?, orderPayment = ?, orderCard = ?, orderCardYear = ?, orderCardMonth = ?, orderCompleteDate = ?, orderDeliveyTypeId = ?, receiver = ?, receiverPhone = ?, receiverAddress = ?, storeId = ?, storeName = ?, storeAddress = ?, shippingDate = ?, deliveryDate = ?, deliveryStatus = ? where orderSN = ?";
-	public static final String QUERY_MORDER = "SELECT * FROM Morder WHERE orderSN = ?";
-	public static final String QUERY_MORDER_USER = "SELECT * FROM Morder WHERE userId = ?";
-	public static final String QUERY_ALLMORDER = "SELECT * FROM Morder";
+	public static final String ADD_MORDER = "INSERT INTO MORDER (userId, couponId, purchaseDate, totalPrice, orderPayment, orderCard, orderCardYear, orderCardMonth, orderCompleteDate, orderDeliveyTypeId, receiver, receiverPhone, receiverAddress, storeId, storeName, storeAddress, shippingDate, deliveryDate, deliveryStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public static final String DELETE_MORDER = "DELETE FROM MORDER WHERE orderSN = ?";
+	public static final String UPDATE_MORDER = "UPDATE MORDER SET userId = ?, couponId = ?, purchaseDate = ?, totalPrice = ?, orderPayment = ?, orderCard = ?, orderCardYear = ?, orderCardMonth = ?, orderCompleteDate = ?, orderDeliveyTypeId = ?, receiver = ?, receiverPhone = ?, receiverAddress = ?, storeId = ?, storeName = ?, storeAddress = ?, shippingDate = ?, deliveryDate = ?, deliveryStatus = ? where orderSN = ?";
+	public static final String QUERY_MORDER = "SELECT * FROM MORDER WHERE orderSN = ?";
+	public static final String QUERY_MORDER_USER = "SELECT * FROM MORDER WHERE userId = ? order by purchaseDate DESC";
+	public static final String QUERY_ALLMORDER = "SELECT * FROM MORDER";
+	public static final String ADD_ORDERLIST = "INSERT INTO ORDER_LIST (productSpecId, orderSN, orderCost, purchaseQuantity, productRate, productFeedback) VALUES (?, ?, ?, ?, ?, ?)";
 	
 	static {
 		try {
@@ -58,7 +62,7 @@ public class MorderDAO implements MorderDAO_interface{
 			pstmt.setString(12, morder.getReceiverPhone());
 			pstmt.setString(13, morder.getReceiverAddress());
 			
-			if(null == morder.getStoreId()) {
+			if(morder.getStoreId() == null) {
 				pstmt.setNull(14, Types.NULL);
 			} else {
 				pstmt.setInt(14, morder.getStoreId());					
@@ -72,7 +76,7 @@ public class MorderDAO implements MorderDAO_interface{
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -102,7 +106,7 @@ public class MorderDAO implements MorderDAO_interface{
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -151,7 +155,7 @@ public class MorderDAO implements MorderDAO_interface{
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -211,7 +215,7 @@ public class MorderDAO implements MorderDAO_interface{
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if (rs != null) {
 				try {
@@ -279,7 +283,7 @@ public class MorderDAO implements MorderDAO_interface{
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if (rs != null) {
 				try {
@@ -307,11 +311,11 @@ public class MorderDAO implements MorderDAO_interface{
 	}
 
 	@Override
-	public MorderVO getMorderByUser(Integer userId) {
+	public List<MorderVO> getMorderByUser(Integer userId) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		MorderVO morder = null;
+		List<MorderVO> morderList = new ArrayList<MorderVO>();
 		
 		try {
 			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
@@ -338,15 +342,16 @@ public class MorderDAO implements MorderDAO_interface{
 				Timestamp shippingDate = rs.getTimestamp("shippingDate");
 				Timestamp deliveryDate = rs.getTimestamp("deliveryDate");
 				Integer deliveryStatus = rs.getInt("deliveryStatus");
-				morder = new MorderVO(orderSN, userId, couponId, purchaseDate, totalPrice,
+				MorderVO morder = new MorderVO(orderSN, userId, couponId, purchaseDate, totalPrice,
 						orderPayment, orderCard, orderCardYear, orderCardMonth,
 						orderCompleteDate, orderDeliveyTypeId, receiver, receiverPhone,
 						receiverAddress, storeId, storeName, storeAddress, shippingDate,
 						deliveryDate, deliveryStatus);
+				morderList.add(morder);
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Database error occured." + e.getMessage());
 		} finally {
 			if (rs != null) {
 				try {
@@ -370,7 +375,123 @@ public class MorderDAO implements MorderDAO_interface{
 				}
 			}
 		}
-		return morder;
+		return morderList;
 	}
-
+	
+	// 新增訂單連同訂單明細一起新增，回傳訂單PK鍵
+	@Override
+	public Integer addMorderWithList(MorderVO morder, List<Order_listVO> list) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String cols[] = { "orderSN" };
+		Integer newOrderSN = null;
+		try {
+			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(ADD_MORDER, cols);
+			// 新增訂單
+			pstmt.setInt(1, morder.getUserId());
+			
+			if(null == morder.getCouponId()) {
+				pstmt.setNull(2, Types.NULL);
+			} else {
+				pstmt.setInt(2, morder.getCouponId());					
+			}
+			
+			pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+			pstmt.setInt(4, morder.getTotalPrice());
+			pstmt.setInt(5, morder.getOrderPayment());
+			pstmt.setString(6, morder.getOrderCard());					
+			pstmt.setString(7, morder.getOrderCardYear());					
+			pstmt.setString(8, morder.getOrderCardMonth());					
+			pstmt.setTimestamp(9, morder.getOrderCompleteDate());					
+			pstmt.setInt(10, morder.getOrderDeliveyTypeId());	
+			pstmt.setString(11, morder.getReceiver());
+			pstmt.setString(12, morder.getReceiverPhone());
+			pstmt.setString(13, morder.getReceiverAddress());
+			
+			if(morder.getStoreId() == null) {
+				pstmt.setNull(14, Types.NULL);
+			} else {
+				pstmt.setInt(14, morder.getStoreId());					
+			}
+			
+			pstmt.setString(15, morder.getStoreName());					
+			pstmt.setString(16, morder.getStoreAddress());					
+			pstmt.setTimestamp(17, morder.getShippingDate());					
+			pstmt.setTimestamp(18, morder.getDeliveryDate());					
+			pstmt.setInt(19, 0);
+			pstmt.executeUpdate();
+			// 拿到PK鍵的值
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+				newOrderSN = rs.getInt(1);
+				System.out.println("自增主鍵值 = " + newOrderSN + "(剛新增成功的訂單編號)");
+			} else {
+				System.out.println("未取得自增主鍵值");
+			}
+			rs.close();
+			
+			// 新增訂單明細
+			addWithOrder(con, newOrderSN, list);
+			con.commit();
+			con.setAutoCommit(true);
+			
+		} catch (SQLException e) {
+			try {
+				
+				con.rollback();				
+			
+			} catch(SQLException se) {
+			
+				throw new RuntimeException("Fail to add order." + se.getMessage());
+				
+			}
+			throw new RuntimeException("Database error occured." + e.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} return newOrderSN;
+	}
+	
+	private static void addWithOrder(Connection con, Integer newOrderSN, List<Order_listVO> list) {
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(ADD_ORDERLIST);
+			for(Order_listVO orderList: list) {
+				
+				pstmt.setInt(1, orderList.getProductSpecId());
+				pstmt.setInt(2, newOrderSN);
+				pstmt.setInt(3, orderList.getOrderCost());
+				pstmt.setInt(4, orderList.getPurchaseQuantity());
+				if(orderList.getProductRate() == null) {
+					pstmt.setNull(5, Types.NULL);
+				} else {
+					pstmt.setInt(5, orderList.getProductRate());					
+				}
+				pstmt.setString(6, orderList.getProductFeedback());
+				pstmt.addBatch(); 
+			}
+			
+			pstmt.executeBatch();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
 }

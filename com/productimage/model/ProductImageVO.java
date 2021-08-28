@@ -1,6 +1,4 @@
 package com.productimage.model;
-import java.sql.Blob;
-import java.sql.Date;
 
 public class ProductImageVO implements java.io.Serializable{
 	private Integer productImageSN;
@@ -36,4 +34,9 @@ public class ProductImageVO implements java.io.Serializable{
 		this.productImage = productImage;
 	}
 	
+	@Override
+	public String toString() {
+		return "ProductImageVO [productImageSN=" + productImageSN + ", productSN=" + productSN + ", productImage="
+				+ productImage + "]";
+	}
 }

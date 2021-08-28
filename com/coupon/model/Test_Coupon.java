@@ -3,16 +3,20 @@ package com.coupon.model;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Test_Coupon {
 	
 	public static void main (String[] args) {
 		Scanner sc = new Scanner(System.in);
 		
-//		//addCoupon(CouponVO coupon)
+		//addCoupon(CouponVO coupon)
 //		System.out.println("Please input couponInfo");
 //		String couponInfo = sc.next();
 //		System.out.println("Please input couponName");
@@ -78,15 +82,21 @@ public class Test_Coupon {
 //		System.out.println(coupon.getCouponBySn(couponSN));
 		
 		//getAll()
-		CouponDAO coupon = new CouponDAO();
-		List<CouponVO> list = coupon.getAll();
-		for(CouponVO c : list) {
-			System.out.println(c);
-		}
-	
+//		CouponService coupon = new CouponService();
+//		List<CouponVO> allCoupon = coupon.getAll();
+//		Timestamp now = new Timestamp(System.currentTimeMillis());
+//		
+//		List<CouponVO> currentCoupon 
+//			=allCoupon.stream()
+//		              .filter(c -> c.getCouponStarting().before(now))
+//		              .filter(c -> c.getCouponEnding().after(now))
+//		              .collect(Collectors.toList());
+//		System.out.println(currentCoupon.size());
+//	}	
 		
+		//checkCoupon(String couponValue)
+		System.out.println(14001 == new Integer(14001));
 	}	
-	
 	public static Timestamp translatedToTimestamp(String time) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmss");
 		Date date = null;
@@ -99,5 +109,35 @@ public class Test_Coupon {
 		// use java.util.Date.getTime to translate to Timestamp
 		Timestamp timestamp = new Timestamp(date.getTime());
 		return timestamp;
+	}
+	
+	// 比對優惠券序號是否符合並回傳折扣
+	public static Integer checkCoupon(String couponValue) {
+		Integer discount = new Integer(0);
+		Map<String, String> errorMsgs = new HashMap<String, String>(); // 錯誤訊息
+		// 優惠券不為空值
+		if(couponValue != null || couponValue.trim().length() != 0) {
+			CouponService couponService = new CouponService();
+			List<CouponVO> allCoupon = couponService.getAll();
+			// 找出符合現在時間的優惠券，放進list中
+			Timestamp now = new Timestamp(System.currentTimeMillis());
+			List<CouponVO> currentCoupon 
+				=allCoupon.stream()
+		                  .filter(c -> c.getCouponStarting().before(now))
+		                  .filter(c -> c.getCouponEnding().after(now))
+		                  .collect(Collectors.toList());
+			// 對於優惠券序號進行比對，若有符合折扣碼則取出折扣，若無符合則將折扣設為0
+			for(CouponVO couponVO : currentCoupon) {
+				if(couponVO.getCouponSN().equals(couponValue)) {
+					discount = couponVO.getCouponDiscount();
+				} else {
+					discount = new Integer(0);
+					errorMsgs.put("coupon", "優惠券序號輸入錯誤");
+				}
+			}
+		} else {
+			discount = new Integer(0);
+		}
+		return discount;
 	}
 }

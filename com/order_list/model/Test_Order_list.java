@@ -1,7 +1,11 @@
 package com.order_list.model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
+import com.product.model.ProductVO;
+import com.productspec.model.ProductSpecVO;
 
 public class Test_Order_list {	
 	public static void main (String[] args) {
@@ -13,8 +17,6 @@ public class Test_Order_list {
 //		orderList.setOrderSN(new Integer(16002));
 //		orderList.setOrderCost(new Integer(390));
 //		orderList.setPurchaseQuantity(new Integer(1));
-//		orderList.setProductRate(new Integer(3));
-//		orderList.setProductFeedback("快速排汗");
 //		Order_listDAO dao = new Order_listDAO();
 //		dao.addOrderList(orderList);
 //		System.out.println("Successfully");
@@ -38,7 +40,7 @@ public class Test_Order_list {
 //		
 		//updateOrderList(Order_ListVO orderList)
 //		Order_listVO orderList = new Order_listVO();
-//		orderList.setOrderListSN(new Integer(18006));
+//		orderList.setOrderListSN(new Integer(18010));
 //		orderList.setProductSpecId(new Integer(12011));
 //		orderList.setOrderSN(new Integer(16002));
 //		orderList.setOrderCost(new Integer(390));
@@ -46,6 +48,8 @@ public class Test_Order_list {
 //		orderList.setProductRate(new Integer(3));
 //		orderList.setProductFeedback("快速排汗");
 //		Order_listDAO dao = new Order_listDAO();
+//		List<Order_listVO> list = dao.specGetOrderlist(12001);
+//		System.out.println(list);
 //		dao.updateOrderList(orderList);
 //		System.out.println("Successfully");
 		
@@ -55,16 +59,29 @@ public class Test_Order_list {
 //		Order_listDAO dao = new Order_listDAO();
 //		System.out.println(dao.getOneOrderList(orderListSN));
 		
-		//getOneOrderListByOrder(Integer orderSN)
-//		Order_listDAO dao = new Order_listDAO();
-//		System.out.println(dao.getOneOrderListByOrder(new Integer(16001)));
+		//getOrderListByOrder(Integer orderSN)
+//		Order_listService service = new Order_listService();
+//		List<Order_listVO> list = service.getOrderListByOrder(16001);
+//		Map<ProductSpecVO, ProductVO> map = service.orderListGetInfo(list);
+//		for(ProductSpecVO vo : map.keySet()) {
+//			System.out.println(vo.getProductSpecId());
+//		}
+//		for(ProductVO vo : map.values()) {
+//			System.out.println(vo.getProductName());
+//		}
+
 		
 		//getAllOrderList()
-		Order_listDAO dao = new Order_listDAO();
-		List<Order_listVO> list = dao.getAllOrderList();
-		for(Order_listVO orderList : list) {
-			System.out.println(orderList);
-		}
+//		Order_listDAO dao = new Order_listDAO();
+//		List<Order_listVO> list = dao.getAllOrderList();
+//		for(Order_listVO orderList : list) {
+//			System.out.println(orderList);
+//		}
+		
+		//getProductRate(Integer productSN)
+		Order_listService se = new Order_listService();
+
+//		System.out.println(se.getProductRate(11001));
 	}
 
 }

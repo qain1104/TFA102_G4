@@ -38,7 +38,7 @@ public class Product_watch_listService {
 		return dao.getWatchList(pwlSN);
 	}
 	
-	public Product_watch_listVO getWatchListByUser(Integer userId) {
+	public List<Product_watch_listVO> getWatchListByUser(Integer userId) {
 		
 		return dao.getWatchListByUser(userId);
 	}
