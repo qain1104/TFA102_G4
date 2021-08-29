@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="Big5"%>
+<%@ page language="java" contentType="text/html; charset=BIG5"
+	pageEncoding="BIG5"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="BIG5">
 <title>Insert title here</title>
 </head>
 <body>
@@ -11,7 +11,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>認證信箱</title>
+<title>Bootstrap Simple Success Confirmation Popup</title>
 <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"
 	rel="stylesheet">
 <link rel="stylesheet"
@@ -142,7 +142,7 @@ body {
 				<div class="modal-footer">
 
 									<!-- 送出backToLogic請求到corpUserServlet   -->
-					<form action="<%=request.getContextPath()%>/webManager/WebManagerServlet.do" method="post">
+					<form action="<%=request.getContextPath()%>/corpUser/CorpUserServlet.do"method="post">
 						<input type="hidden" name="action" value="backToLogin">
 						<button class="btn btn-success btn-block" type="submit">OK</button>
 					</form>

@@ -7,15 +7,23 @@
 %>
 <html>
 <head>
+<jsp:include page="/cssLink.jsp"></jsp:include>
 <meta charset="UTF-8">
 <title>更改管理員資料</title>
+<style>
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+</style>
 </head>
 <body>
-<jsp:include page="/header.jsp" flush="true"/>
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5" ><img class="rounded-circle mt-5" src="<%=request.getContextPath()%>/Readerpic?managerId=${webManagerVO.managerId}" ></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5" style="max-width:500px max-heigh:500px" ><img class="rounded-circle mt-5" src="<%=request.getContextPath()%>/Readerpic?managerId=${webManagerVO.managerId}" ></div>
         	  	<FORM action="<%=request.getContextPath()%>/managerUpload.do" method=post enctype="multipart/form-data">
         			<input type="file" name="managerPic">
         			<input type="hidden" name="managerId" value="${webManagerVO.managerId}">
@@ -58,6 +66,5 @@
       
     </div>
 </div>
-<jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>

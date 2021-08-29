@@ -6,20 +6,38 @@
 
 
 <%
-	CorpUserVO corpUserVO = (CorpUserVO) request.getAttribute("corpUserVO");
-	pageContext.setAttribute("corpUserVO", corpUserVO);
+	CorpUserVO currentC = (CorpUserVO) session.getAttribute("currentC");
+	if(currentC == null){
+		session.setAttribute("location", request.getRequestURI());
+		response.sendRedirect(request.getContextPath()+"/login.jsp");
+		return;
+	}
+	pageContext.setAttribute("currentC", currentC);
+	
+	Date date = new Date();
+	SimpleDateFormat myFmt1 = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+	
 %>
 <html>
 <head>
+<jsp:include page="/cssLink.jsp"></jsp:include>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+</style>
 </head>
 <body>
 <jsp:include page="/header.jsp" flush="true"/>
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="<%=request.getContextPath()%>/Readerpic?corpUserId=${corpUserVO.corpUserId}"></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5" style="max-width:500px max-heigh:500px"><img class="rounded-circle mt-5" src="<%=request.getContextPath()%>/Readerpic?corpUserId=${currentC.corpUserId}"></div>
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
@@ -27,22 +45,20 @@
                     <h4 class="text-right">個人資料</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">企業會員編號:</label><input type="text"  readonly="readonly" class="form-control" value="${corpUserVO.corpUserId}"></div>
-                    <div class="col-md-6"><label class="labels">註冊狀態:</label><input type="text"  readonly="readonly" class="form-control" value="${corpUserVO.registerStatus}"></div>
+                    <div class="col-md-6"><label class="labels">企業會員編號:</label><input type="text"  readonly="readonly" class="form-control" value="${currentC.corpUserId}"></div>
+                    <div class="col-md-6"><label class="labels">註冊狀態:</label><input type="text"  readonly="readonly" class="form-control" value="${currentC.registerStatus==0?'未認證':'已認證'}"></div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">企業會員帳號:</label><input type="text" readonly="readonly" class="form-control"  value="${corpUserVO.corpAccount}"></div>
-                    <div class="col-md-6"><label class="labels">企業會員密碼:</label><input type="text" readonly="readonly" class="form-control"  value="${corpUserVO.corpPassword }"></div>
-                    <div class="col-md-6"><label class="labels">公司名稱:</label><input type="text" readonly="readonly" class="form-control"  value="${corpUserVO.companyName}"></div>
-                     <div class="col-md-6"><label class="labels">電話:</label><input type="text" readonly="readonly" class="form-control" value="${corpUserVO.phone}"></div>
-                    <div class="col-md-12"><label class="labels">公司行號:</label><input type="text" readonly="readonly" class="form-control"  value="${corpUserVO.ltdNo}"></div>
-                   
+                    <div class="col-md-6"><label class="labels">企業會員帳號:</label><input type="text" readonly="readonly" class="form-control"  value="${currentC.corpAccount}"></div>
+                    <div class="col-md-6"><label class="labels">企業會員密碼:</label><input type="password" readonly="readonly" class="form-control"  value="${currentC.corpPassword }"></div>
+                    <div class="col-md-6"><label class="labels">公司名稱:</label><input type="text" readonly="readonly" class="form-control"  value="${currentC.companyName}"></div>
+                     <div class="col-md-6"><label class="labels">電話:</label><input type="text" readonly="readonly" class="form-control" value="${currentC.phone}"></div>
+                    <div class="col-md-12"><label class="labels">公司行號:</label><input type="text" readonly="readonly" class="form-control"  value="${currentC.ltdNo}"></div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">信箱:</label><input type="text" readonly="readonly" class="form-control" value="${corpUserVO.email}"></div>
-                    <div class="col-md-6"><label class="labels">創建時間:</label><input type="text" readonly="readonly" class="form-control" value="${corpUserVO.createdTime}"></div>
-                    <div class="col-md-12"><label class="labels">地址:</label><input type="text" readonly="readonly" class="form-control" value="${corpUserVO.address}"></div>
-                    
+                    <div class="col-md-6"><label class="labels">信箱:</label><input type="text" readonly="readonly" class="form-control" value="${currentC.email}"></div>
+                    <div class="col-md-6"><label class="labels">創建時間:</label><input type="text" readonly="readonly" class="form-control" value="<%=myFmt1.format(currentC.getCreatedTime())%>"></div>
+                    <div class="col-md-12"><label class="labels">地址:</label><input type="text" readonly="readonly" class="form-control" value="${currentC.address}"></div>
                 </div>
            		<form style="display: inline;" method="post" action="<%=request.getContextPath()%>/corpUser/CorpUserServlet.do" >  
                     <input type="hidden" name="action" value="edit">  

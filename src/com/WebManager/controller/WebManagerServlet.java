@@ -19,6 +19,8 @@ import com.GeneralUser.model.GeneralUserService;
 import com.GeneralUser.model.GeneralUserVO;
 import com.WebManager.model.WebManagerService;
 import com.WebManager.model.WebManagerVO;
+import com.cartList.model.CartListService;
+import com.cartList.model.CartListVO;
 
 import Mail.MailService;
 import sun.font.CreatedFontTracker;
@@ -88,24 +90,49 @@ public class WebManagerServlet extends HttpServlet {
 							System.out.println("登入成功");
 							temp = each;
 							/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-							session.setAttribute("tempAccount", inputAccount);
-							session.setAttribute("tempPassword", inputPassword);
-							session.setAttribute("generalUserVO", temp);
+							session.setAttribute("currentG", temp);
+							session.setAttribute("userId", temp.getUserId());
+							// 登入後將session的購物車物件放進自己的購物車，並移除session的購物車
+							List<CartListVO> cartList = (List<CartListVO>)session.getAttribute("cartList");
+							CartListService cartListService = new CartListService();
+							if(cartList != null) {
+								for(CartListVO cartListVO : cartList) {
+									cartListService.updateCartList(temp.getUserId(), cartListVO.getProductSpecId(), cartListVO.getItemQuantity());
+								}
+								session.removeAttribute("cartList");
+							}
+							
+							String location = (String) session.getAttribute("location");
+							if(location != null && location != req.getContextPath()+"/webManager/WebManagerServlet.do") {
+								session.removeAttribute("location");
+								res.sendRedirect(location);
+								return;
+							}
 
-							String url = "/generalUser/generalUserMainPage.jsp";
-							RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
-							successView.forward(req, res);
+							String url = req.getContextPath() + "/Sportify.jsp";
+							res.sendRedirect(url);
+							return;
 
 						} else {
 							errorMsgs.add("帳號或密碼錯誤");
-							String url = "/login.jsp";
-							RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
-							successView.forward(req, res);
+							System.out.println("重新導向登入頁面");
+							session.setAttribute("location", req.getRequestURI());
+							session.setAttribute("errorMsgs", errorMsgs);
+							String url = req.getContextPath() + "/login.jsp";
+							res.sendRedirect(url);
 							return;
 						}
 					}
-					/*************************** 其他可能的錯誤處理 *************************************/
+					
 				}
+				errorMsgs.add("查無此會員");
+				System.out.println("查無此會員,重新導向登入頁面");
+				session.setAttribute("location", req.getRequestURI());
+				session.setAttribute("errorMsgs", errorMsgs);
+				String url = req.getContextPath() + "/login.jsp";
+				res.sendRedirect(url);
+				return;
+				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
@@ -114,7 +141,7 @@ public class WebManagerServlet extends HttpServlet {
 		}
 		/*************************************************************************************************************/
 		if ("login".equals(action) && "corp".equals(check)) { // 登入
-
+		
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -167,22 +194,37 @@ public class WebManagerServlet extends HttpServlet {
 							System.out.println("登入成功");
 							temp = each;
 							/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-							session.setAttribute("tempAccount", inputAccount);
-							session.setAttribute("tempPassword", inputPassword);
-							session.setAttribute("corpUserVO", temp);
-
-							String url = "/corpUser/corpUserMainPage.jsp";
-							RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
-							successView.forward(req, res);
+							session.setAttribute("corpUserId", temp.getCorpUserId());
+							session.setAttribute("currentC", temp);
+							session.removeAttribute("cartList");
+							String location = (String) session.getAttribute("location");
+							if(location != null && location == req.getContextPath()+"/webManager/WebManagerServlet.do") {
+								session.removeAttribute("location");
+								res.sendRedirect(location);
+								return;
+							}
+							
+							String url = req.getContextPath() + "/Sportify.jsp";
+							res.sendRedirect(url);
+							return;
 						} else {
 							errorMsgs.add("帳號或密碼錯誤");
-							String url = "/login.jsp";
-							RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
-							successView.forward(req, res);
+							System.out.println("重新導向登入頁面");
+							session.setAttribute("location", req.getRequestURI());
+							session.setAttribute("errorMsgs", errorMsgs);
+							String url = req.getContextPath() + "/login.jsp";
+							res.sendRedirect(url);
 							return;
 						}
 					}
 				}
+				errorMsgs.add("查無此會員");
+				System.out.println("查無此會員,重新導向登入頁面");
+				session.setAttribute("location", req.getRequestURI());
+//				session.setAttribute("errorMsgs", errorMsgs);
+				String url = req.getContextPath() + "/login.jsp";
+				res.sendRedirect(url);
+				return;
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
@@ -227,7 +269,6 @@ public class WebManagerServlet extends HttpServlet {
 				}
 
 				/*************************** 2.開始查詢資料 *****************************************/
-				// 再找企業會員
 				WebManagerService webManagerSvc = new WebManagerService();
 				List<WebManagerVO> list = webManagerSvc.getAll();
 				WebManagerVO temp = null;
@@ -247,13 +288,13 @@ public class WebManagerServlet extends HttpServlet {
 							System.out.println("登入成功");
 							temp = each;
 							/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-							session.setAttribute("tempAccount", inputAccount);
-							session.setAttribute("tempPassword", inputPassword);
 							session.setAttribute("webManagerVO", temp);
-
+							session.setAttribute("currentW", temp.getManagerId());
+							session.removeAttribute("cartList");
 							String url = "/webManager/webManagerMainPage.jsp";
 							RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 							successView.forward(req, res);
+							return;
 						} else {
 							errorMsgs.add("帳號或密碼錯誤");
 							String url = "/managerLogin.jsp";
@@ -491,7 +532,7 @@ public class WebManagerServlet extends HttpServlet {
 				/*************************** 1.接收請求參數 ***************************************/
 				/* 不能被更新的參數(起) */
 
-				Integer managerStatus = new Integer(0);// 註冊一定預設是0
+				Integer managerStatus = new Integer(1);// 管理員 在職:1 離職:0
 
 				String managerAccount = req.getParameter("managerAccount").trim();
 				String managerAccountReg = "^[(a-zA-Z0-9)]{8,30}$";
@@ -544,12 +585,9 @@ public class WebManagerServlet extends HttpServlet {
 				webManagerVO = webManagersvc.addWebManager(managerName, managerEmail, managerAccount, managerPassword,
 						managerPic, managerStatus);
 				System.out.println(webManagerVO);
-				/*************************** 3.創建完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("webManagerVO", webManagerVO); // 資料庫update成功後,正確的的corpUserVO物件,存入req
-				String url = "/webManager/managers_page.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
-				successView.forward(req, res);
-
+				/*************************** 3.創建完成,alert創建者(Send the Success view) *************/
+				String url = req.getContextPath() + "/webManager/managers_page.jsp";
+				res.sendRedirect(url);
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("新增資料失敗:" + e.getMessage());
@@ -725,12 +763,26 @@ public class WebManagerServlet extends HttpServlet {
 			String messageText = "Hello!點此重新設定密碼 " + link;
 			MailService mailService = new MailService();
 			mailService.sendMail(test, subject, messageText);
+
+			String url = "/login.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
 		}
-		
+
 		if ("backToLogin".equals(action)) { // 來自login.jsp的請求
 			String url = "/login.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
+		}
+
+		if ("logout".equals(action)) {
+			session.removeAttribute("currentG");
+			session.removeAttribute("currentC");
+			session.removeAttribute("currentW");
+			session.invalidate();
+
+			String url = req.getContextPath() + "/Sportify.jsp";
+			res.sendRedirect(url);
 		}
 	}
 }

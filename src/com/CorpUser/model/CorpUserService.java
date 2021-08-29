@@ -2,6 +2,7 @@ package com.CorpUser.model;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.GeneralUser.model.GeneralUserVO;
 
@@ -91,5 +92,19 @@ public class CorpUserService {
 		corpUserVO.setCorpPassword(corpUserPassword);
 		dao.update(corpUserVO);
 		return corpUserVO;
+	}
+	
+	public List<CorpUserVO> getSameEmail(String email) {
+		List<CorpUserVO> list = dao.getAll().stream().
+				filter(cuVO -> cuVO.getEmail().equals(email))
+				.collect(Collectors.toList());
+		return list;
+	}
+	
+	public void updateStatus(Integer corpUserId) {
+
+		CorpUserVO corpUserVO = dao.findByPrimaryKey(corpUserId);
+		corpUserVO.setRegisterStatus(1);
+		dao.update(corpUserVO);
 	}
 }

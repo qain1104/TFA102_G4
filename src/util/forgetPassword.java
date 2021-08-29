@@ -21,45 +21,32 @@ public class forgetPassword extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		res.setContentType("text/html; charset=UTF-8");
+		
 		String resetEmail = req.getParameter("resetEmail");
-
-		System.out.println(resetEmail);
-
 		PrintWriter out = res.getWriter();
 
 		GeneralUserService guSvc = new GeneralUserService();
+		List<GeneralUserVO> guList = guSvc.getSameEmail(resetEmail);
+
 		CorpUserService cuSvc = new CorpUserService();
-		List<GeneralUserVO> guList = guSvc.getAll();
 		List<CorpUserVO> cuList = cuSvc.getAll();
 
-		for (GeneralUserVO each : guList) {
-			try {
-				if (each.getEmail().equals(resetEmail)) {
-					req.setAttribute("generalUserVO", each);
-					String url = "/generalUser/generalResetPassword.jsp";
-					RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
-					successView.forward(req, res);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		if (guList.isEmpty() && cuList.isEmpty()) {
+			out.print("<script> alert(\"查無該帳號,請先註冊!\"); </script>");
+			out.println("<a href=\"" + req.getContextPath() + "/login.jsp" + "\">前往註冊</a>");
 
-		for (CorpUserVO each : cuList) {
-			try {
-				if (each.getEmail().equals(resetEmail)) {
-					req.setAttribute("corpUserVO", each);
-					String url = "/corpUser/corpResetPassword.jsp";
-					RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
-					successView.forward(req, res);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		} else if (!guList.isEmpty()) {
+			req.setAttribute("generalUserVO", guList.get(0));
+			String url = "/generalUser/generalResetPassword.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); 
+			successView.forward(req, res);
 
-		out.print("<script> alert(\"查無該帳號,請先註冊!\"); </script>");
-		out.println("<a href=\"" + req.getContextPath() + "/login.jsp" + "\">前往註冊</a>");
+		} else {
+			req.setAttribute("currentC", cuList.get(0));
+			String url = "/corpUser/corpResetPassword.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); 
+			successView.forward(req, res);
+		}
 
 	}
 

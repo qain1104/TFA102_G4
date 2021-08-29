@@ -13,100 +13,62 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <title>管理員資料新增 - addManager.jsp</title>
 
-<style>
-table#table-1 {
-	background-color: #CCCCFF;
-	border: 2px solid black;
-	text-align: center;
-}
-
-table#table-1 h4 {
-	color: red;
-	display: block;
-	margin-bottom: 1px;
-}
-
-h4 {
-	color: blue;
-	display: inline;
-}
-</style>
-
-<style>
-table {
-	width: 450px;
-	background-color: white;
-	margin-top: 1px;
-	margin-bottom: 1px;
-}
-
-table, th, td {
-	border: 0px solid #CCCCFF;
-}
-
-th, td {
-	padding: 1px;
-}
-</style>
+<jsp:include page="/cssLink.jsp"></jsp:include>
 
 </head>
 <body bgcolor='white'>
+	<div class="container rounded bg-white mt-5 mb-5">
+		<div class="p-3 py-5">
+			<h1 class="text-primary fw-bold">新增管理員</h1>
+			<p>當前使用者:${webManagerVO.managerName}</p>
+			<a class="btn btn-primary" href="managers_page.jsp">返回</a>
+		</div>
+		<div>
+			<h3>資料新增:</h3>
 
-	<table id="table-1">
-		<tr>
-			<td>
-				<h3>新增管理員 - addManager.jsp</h3>
-			</td>
-			<td>
-				<h4>
-					<a href="managers_page.jsp"><img src="images/tomcat.png"
-						width="100" height="100" border="0">回首頁</a>
-				</h4>
-			</td>
-		</tr>
-	</table>
+			<%-- 錯誤表列 --%>
+			<c:if test="${not empty errorMsgs}">
+				<font style="color: red">請修正以下錯誤:</font>
+				<ul>
+					<c:forEach var="message" items="${errorMsgs}">
+						<li style="color: red">${message}</li>
+					</c:forEach>
+				</ul>
+			</c:if>
+			<FORM METHOD="post"
+				ACTION="<%=request.getContextPath()%>/webManager/WebManagerServlet.do"
+				id="form1">
 
-	<h3>資料新增:</h3>
-
-	<%-- 錯誤表列 --%>
-	<c:if test="${not empty errorMsgs}">
-		<font style="color: red">請修正以下錯誤:</font>
-		<ul>
-			<c:forEach var="message" items="${errorMsgs}">
-				<li style="color: red">${message}</li>
-			</c:forEach>
-		</ul>
-	</c:if>
-	<FORM METHOD="post"
-		ACTION="<%=request.getContextPath()%>/webManager/WebManagerServlet.do"
-		name="form1">
-		<table>
-			<tr>
-				<td>管理員名稱:</td>
-				<td><input type="TEXT" name="managerName" size="45" required="required"
-					value="" /></td>
-			</tr>
-			<tr>
-				<td>管理員信箱:</td>
-				<td><input type="Email" name="managerEmail" size="45" required="required"
-					value="" /></td>
-			</tr>
-			<tr>
-				<td>管理員帳號:</td>
-				<td><input type="TEXT" name="managerAccount" size="45" required="required"
-					value="" /></td>
-			</tr>
-			<tr>
-				<td>管理員密碼:</td>
-				<td><input type="TEXT" name="managerPassword" size="45" required="required"
-					value="" /></td>
-			</tr>
-
-
-		</table>
-		<br> <input type="hidden" name="action" value="insert"> <input
-			type="submit" value="送出新增">
-	</FORM>
+				<div class="mb-3">
+					<label for="formGroupExampleInput" class="form-label">管理員名稱:</label>
+					<input class="form-control" type="TEXT" name="managerName"
+						size="45" required="required" value="" placeholder="可填入中文、英文、數字">
+				</div>
+				<div class="mb-3">
+					<label for="formGroupExampleInput2" class="form-label">管理員信箱:</label><input
+						class="form-control" type="Email" name="managerEmail" size="45"
+						required="required" value="" placeholder="請符合正常信箱格式">
+				</div>
+				<div class="mb-3">
+					<label for="formGroupExampleInput" class="form-label">管理員帳號:</label><input
+						class="form-control" type="text" name="managerAccount" size="45"
+						required="required" value="" placeholder="可填入英文、數字">
+				</div>
+				<div class="mb-3">
+					<label for="formGroupExampleInput" class="form-label">管理員密碼:</label><input
+						class="form-control" type="password" name="managerPassword"
+						size="45" required="required" value="" placeholder="可填入英文、數字">
+				</div>
+				<br> <input type="hidden" name="action" value="insert">
+				<input class="btn btn-primary" type="submit" value="送出新增">
+			</FORM>
+		</div>
+	</div>
+	<script>
+		$("#form1").submit(function() {
+			alert("新增成功！");
+		});
+	</script>
 </body>
 
 

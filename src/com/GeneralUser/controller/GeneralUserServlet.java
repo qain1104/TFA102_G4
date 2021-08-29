@@ -43,9 +43,11 @@ public class GeneralUserServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
-				String str = req.getParameter("userId");
-				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.add("請輸入一般會員編號");
+				Integer userId = (Integer) session.getAttribute("userId");
+				System.out.println("拿到"+userId);
+				if (userId == null) {
+					System.out.println("沒拿到");
+					errorMsgs.add("沒抓到session的userId");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -54,18 +56,6 @@ public class GeneralUserServlet extends HttpServlet {
 					return;// 程式中斷
 				}
 
-				Integer userId = null;
-				try {
-					userId = new Integer(str);
-				} catch (Exception e) {
-					errorMsgs.add("編號格式不正確");
-				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/generalUser/generalProfile.jsp");
-					failureView.forward(req, res);
-					return;// 程式中斷
-				}
 
 				/*************************** 2.開始查詢資料 *****************************************/
 				GeneralUserService generalUserSvc = new GeneralUserService();
@@ -75,22 +65,26 @@ public class GeneralUserServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/selectGeneralUser.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/generalUser/generalProfile.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("generalUserVO", generalUserVO); // 資料庫取出的generalUserVO物件,存入req
+				session.setAttribute("currentG", generalUserVO); 
+				System.out.println("資料庫取出的generalUserVO物件,存入session");
 				String url = "/generalUser/generalProfile.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 				successView.forward(req, res);
-
+				return;
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
+				System.out.println("死在這");
+				e.printStackTrace();
 				RequestDispatcher failureView = req.getRequestDispatcher("/selectGeneralUser.jsp");
 				failureView.forward(req, res);
+				return;
 			}
 		}
 
@@ -113,17 +107,19 @@ public class GeneralUserServlet extends HttpServlet {
 				String url = "/generalUser/update_generalUser_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 				successView.forward(req, res);
+				return;
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/selectGeneralUser.jsp");
 				failureView.forward(req, res);
+				return;
 			}
 		}
 
 		if ("update".equals(action)) { // 來自update_generalUser_input.jsp的請求
-
+			System.out.println("有吃到action為update");
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -133,12 +129,15 @@ public class GeneralUserServlet extends HttpServlet {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				/* 不能被更新的參數(起) */
 				Integer userId = new Integer(req.getParameter("userId").trim());
+				System.out.println(userId);
 				Integer registerStatus = new Integer(req.getParameter("registerStatus").trim());
+				System.out.println(registerStatus);
 				String userAccount = req.getParameter("userAccount").trim();
-
+				System.out.println(userAccount);
 				String userPassword = req.getParameter("userPassword").trim(); /* 感覺要先接收原本的,如要更改再轉交給專門改密碼的 */
-
+				System.out.println(userPassword);
 				String userName = req.getParameter("userName").trim();
+				System.out.println(userName);
 				String id = req.getParameter("id").trim();
 				String email = req.getParameter("email").trim();
 				Timestamp createdTime = java.sql.Timestamp
@@ -170,7 +169,9 @@ public class GeneralUserServlet extends HttpServlet {
 				/* 可以被更新的參數(終) */
 
 				/* 用上面新的參數創建一個VO */
+				System.out.println("170有被執行");
 				GeneralUserVO generalUserVO = new GeneralUserVO();
+				System.out.println("有new出一個VO");
 				generalUserVO.setUserId(userId);
 				generalUserVO.setRegisterStatus(registerStatus);
 				generalUserVO.setUserAccount(userAccount);
@@ -182,10 +183,11 @@ public class GeneralUserServlet extends HttpServlet {
 				generalUserVO.setPhone(phone);
 				generalUserVO.setAddress(address);
 				generalUserVO.setProfilePic(profilePic);
-				generalUserVO.setCreatedTime(createdTime);
-
+				generalUserVO.setCreatedTime(createdTime); 
+				System.out.println(generalUserVO); 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
+					System.out.println("有錯");
 					req.setAttribute("generalUserVO", generalUserVO); // 含有輸入格式錯誤的corpUserVO物件,也存入req
 					RequestDispatcher failureView = req.getRequestDispatcher("/generalUser/generalUserEdit.jsp");
 					failureView.forward(req, res);
@@ -197,16 +199,20 @@ public class GeneralUserServlet extends HttpServlet {
 				generalUserVO = generalUserSvc.updateProfile(userId, userPassword, phone, address);
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("generalUserVO", generalUserVO); // 資料庫update成功後,正確的的corpUserVO物件,存入req
+				session.setAttribute("currentG", generalUserVO); // 資料庫update成功後,正確的的corpUserVO物件,存入req
 				String url = "/generalUser/generalProfile.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
+				System.out.println("有改到,準備送");
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉回generalProfile
 				successView.forward(req, res);
-
+				return;
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
+				
+				System.out.println(e.getMessage()); 
 				RequestDispatcher failureView = req.getRequestDispatcher("/generalUser/generalUserEdit.jsp");
 				failureView.forward(req, res);
+				return; 
 			}
 		}
 
@@ -303,7 +309,7 @@ public class GeneralUserServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("generalUserVO", generalUserVO); // 含有輸入格式錯誤的corpUserVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/generalUser/update_generalUser_input.jsp");
+							.getRequestDispatcher("/generalUser/generalProfile.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -314,15 +320,28 @@ public class GeneralUserServlet extends HttpServlet {
 						email, address, phone, profilePic, createdTime, gender);
 				/*************************** 3.創建完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("generalUserVO", generalUserVO); // 資料庫update成功後,正確的的corpUserVO物件,存入req
+				String test = "qain1104@gmail.com"; // 上線前用這個測試
+
+				String to = email;
+				String link = "http://localhost:8081/Sportify/certification?email=" + to;
+
+				System.out.println(to);
+				String subject = "啟用Sportify會員";
+				String messageText = "您好，點按連結已完成認證! " + link;
+				MailService mailService = new MailService();
+				mailService.sendMail(test, subject, messageText);
+
 				String url = "/SignUpSuccess.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
+				return;
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.put("reason", "註冊失敗:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/generalUser/select_page.jsp");
 				failureView.forward(req, res);
+				return;
 			}
 		}
 		/***************************
@@ -332,17 +351,19 @@ public class GeneralUserServlet extends HttpServlet {
 			String url = "/login.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
+			return;
 		}
 		/*************************** 忘記密碼,發信給註冊信箱 *************************************/
 
-		if ("edit".equals(action)) { // 來自login.jsp的請求
-			GeneralUserVO member = (GeneralUserVO) req.getSession().getAttribute("generalUserVO");
+		if ("edit".equals(action)) { 
+			GeneralUserVO member = (GeneralUserVO) session.getAttribute("currentG");
 			GeneralUserService userSvc = new GeneralUserService();
 			GeneralUserVO mem = userSvc.getOneGeneralUser(member.getUserId());
-			req.setAttribute("generalUserVO", mem);
+			req.setAttribute("currentG", mem);
 			String url = "/generalUser/generalUserEdit.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
+			return;
 
 		}
 
@@ -351,18 +372,20 @@ public class GeneralUserServlet extends HttpServlet {
 			String url = "/generalUser/generalUserMainPage.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
+			return;
 
 		}
-		
+
 		if ("resetPassword".equals(action)) { // 來自login.jsp的請求
 			Integer userId = new Integer(req.getParameter("userId").trim());
-			String  newPassword = req.getParameter("userPassword");
-			
+			String newPassword = req.getParameter("userPassword");
+
 			GeneralUserService userSvc = new GeneralUserService();
 			userSvc.resetPassword(userId, newPassword);
 			String url = "/resetPwSuccess.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
+			return;
 
 		}
 

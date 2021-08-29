@@ -145,17 +145,8 @@ public class CorpUserVO implements java.io.Serializable {
 		return buffer;
 	}
 
-//	public String showcreatedTime(Timestamp createdTime) {
-//		String tsStr = "";
-//		DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//		try {
-//			tsStr = sdf.format(createdTime);
-//			System.out.println(tsStr);
-//			return tsStr;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-
+	public String showcreatedTime() {
+		SimpleDateFormat myFmt1 = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		return myFmt1.format(createdTime);
+	}
 }

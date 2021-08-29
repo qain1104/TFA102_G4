@@ -11,13 +11,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+</style>
+<jsp:include page="/cssLink.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="/header.jsp" flush="true"/>
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="<%=request.getContextPath()%>/Readerpic?managerId=${webManagerVO.managerId}"></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5" style="max-width:500px max-heigh:500px"><img class="rounded-circle mt-5" src="<%=request.getContextPath()%>/Readerpic?managerId=${webManagerVO.managerId}"></div>
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
@@ -47,6 +55,5 @@
         </div>
     </div>
 </div>
-<jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>

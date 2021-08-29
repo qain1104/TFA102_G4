@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	version="4.0">
+	<display-name>Sportify</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	<!-- 註冊corpUserController -->
+	<servlet>
+		<servlet-name>CorpUserServlet</servlet-name>
+		<servlet-class>com.CorpUser.controller.CorpUserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CorpUserServlet</servlet-name>
+		<url-pattern>/corpUser/CorpUserServlet.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- 註冊generalUserController -->
+	<servlet>
+		<servlet-name>GeneralUserServlet</servlet-name>
+		<servlet-class>com.GeneralUser.controller.GeneralUserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GeneralUserServlet</servlet-name>
+		<url-pattern>/generalUser/GeneralUserServlet.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- 註冊webManagerController -->
+	<servlet>
+		<servlet-name>WebManagerServlet</servlet-name>
+		<servlet-class>com.WebManager.controller.WebManagerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WebManagerServlet</servlet-name>
+		<url-pattern>/webManager/WebManagerServlet.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ShopController</servlet-name>
+		<servlet-class>com.shop.controller.ShopController</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ShopController</servlet-name>
+		<url-pattern>/shopping/SportifyShop.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>shoppingcart</servlet-name>
+		<servlet-class>com.cartList.controller.ShoppingCart</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>shoppingcart</servlet-name>
+		<url-pattern>/shopping/shoppingcart.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Morder</servlet-name>
+		<servlet-class>com.morder.controller.Morder</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Morder</servlet-name>
+		<url-pattern>/order/Morder.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MorderManagement</servlet-name>
+		<servlet-class>com.morder.controller.MorderManagement</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>MorderManagement</servlet-name>
+		<url-pattern>/order/MorderManagement.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ProductTrackingServlet</servlet-name>
+		<servlet-class>com.product_watch_list.controller.ProductTrackingList</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ProductTrackingServlet</servlet-name>
+		<url-pattern>/tracking/ProductTracking.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ARTICLEServlet</servlet-name>
+		<servlet-class>com.article.controller.ARTICLEServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ARTICLEServlet</servlet-name>
+		<url-pattern>/article/article.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>REPLYServlet</servlet-name>
+		<servlet-class>com.reply.controller.REPLYServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>REPLYServlet</servlet-name>
+		<url-pattern>/article/reply.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>REPORTServlet</servlet-name>
+		<servlet-class>com.report.controller.REPORTServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>REPORTServlet</servlet-name>
+		<url-pattern>/article/report.do</url-pattern>
+	</servlet-mapping>
+</web-app>

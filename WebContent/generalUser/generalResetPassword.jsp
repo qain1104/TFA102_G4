@@ -3,10 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
-	GeneralUserVO generalUserVO = (GeneralUserVO) request.getAttribute("generalUserVO");
+	GeneralUserVO currentG = (GeneralUserVO) request.getAttribute("currentG");
 %>
 <html>
 <head>
+<jsp:include page="/cssLink.jsp"></jsp:include>
 <meta charset="UTF-8">
 <title>­×§ï±K½X</title>
 </head>

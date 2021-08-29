@@ -2,6 +2,7 @@ package com.GeneralUser.model;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GeneralUserService {
 
@@ -76,8 +77,8 @@ public class GeneralUserService {
 		return generalUserVO;
 
 	}
-	
-	public GeneralUserVO updateProfile(Integer userId,String userPassword,String phone,String address) {
+
+	public GeneralUserVO updateProfile(Integer userId, String userPassword, String phone, String address) {
 
 		GeneralUserVO generalUserVO = dao.findByPrimaryKey(userId);
 		generalUserVO.setUserPassword(userPassword);
@@ -87,14 +88,27 @@ public class GeneralUserService {
 		return generalUserVO;
 
 	}
-	
-	public GeneralUserVO resetPassword(Integer userId,String userPassword) {
+
+	public GeneralUserVO resetPassword(Integer userId, String userPassword) {
 
 		GeneralUserVO generalUserVO = dao.findByPrimaryKey(userId);
 		generalUserVO.setUserPassword(userPassword);
 		dao.update(generalUserVO);
 		return generalUserVO;
 
+	}
+
+	public List<GeneralUserVO> getSameEmail(String email) {
+		List<GeneralUserVO> list = dao.getAll().stream().filter(guVO -> guVO.getEmail().equals(email))
+				.collect(Collectors.toList());
+		return list;
+	}
+
+	public void updateStatus(Integer userId) {
+
+		GeneralUserVO generalUserVO = dao.findByPrimaryKey(userId);
+		generalUserVO.setRegisterStatus(1);
+		dao.update(generalUserVO);
 	}
 
 }

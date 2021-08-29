@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 //貼上Serializalbe標籤才能讓物件被傳輸出去
 public class GeneralUserVO implements java.io.Serializable {
@@ -156,16 +157,8 @@ public class GeneralUserVO implements java.io.Serializable {
 		return buffer;
 	}
 
-//	public String showcreatedTime(Timestamp createdTime) {
-//		String tsStr = "";
-//		DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//		try {
-//			tsStr = sdf.format(createdTime);
-//			System.out.println(tsStr);
-//			return tsStr;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
+	public String showcreatedTime() {
+		SimpleDateFormat myFmt1 = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		return myFmt1.format(createdTime);
+	}
 }

@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="com.cartList.model.CartListService"%>
+<%@page import="com.cartList.model.CartListVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="BIG5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,6 +10,25 @@ TemplateMo 559 Zay Shop
 https://templatemo.com/tm-559-zay-shop
 -->
 <!-- Start Top Nav -->
+<%
+	Integer userId = (Integer) session.getAttribute("userId");
+	if (userId != null) {
+		CartListService cartListService = new CartListService();
+		List<CartListVO> cartList = cartListService.getCartList(userId);
+		if (cartList == null) {
+			session.setAttribute("headerCartList", 0);
+		} else {
+			session.setAttribute("headerCartList", cartList.size());
+		}
+	} else {
+		List<CartListVO> cartList = (List<CartListVO>) session.getAttribute("cartList");
+		if (cartList == null) {
+			session.setAttribute("headerCartList", 0);
+		} else {
+			session.setAttribute("headerCartList", cartList.size());
+		}
+	}
+%>
 <nav
 	class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block"
 	id="templatemo_nav_top">
@@ -62,11 +84,12 @@ https://templatemo.com/tm-559-zay-shop
 					<li class="nav-item"><a class="nav-link"
 						href="<%=request.getContextPath()%>/shopping/SportifyShop.do?action=shop">商城</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="shop.html">場地租借</a>
+					<li class="nav-item"><a class="nav-link" href="">場地租借</a>
+
 					</li>
-					<li class="nav-item"><a class="nav-link" href="shop.html">論壇/揪團</a>
+					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/article/article.jsp">論壇</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="shop.html">最新消息</a>
+					<li class="nav-item"><a class="nav-link" href="shop.html">揪團</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="about.html">關於我們</a>
 					</li>
@@ -88,7 +111,7 @@ https://templatemo.com/tm-559-zay-shop
 				</a> <a class="nav-icon position-relative text-decoration-none"
 					href="<%= request.getContextPath() %>${userId != null ? '/shopping/shoppingcart.jsp' : '/login.jsp'} ">
 					<i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i> <span
-					class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+					class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">${headerCartList}</span>
 				</a> <a class="nav-icon position-relative text-decoration-none" href="#">
 					<div id="abc">
 						<i class="fa fa-fw fa-user text-dark mr-3"></i>
@@ -108,7 +131,7 @@ https://templatemo.com/tm-559-zay-shop
 							</c:when>
 							<c:otherwise>
 								<span class="member_list" id="list_2"><a
-									href="<%=request.getContextPath()%>/corpUser/corpUserMainPage.jsp"">會員中心</a></span>
+									href="<%=request.getContextPath()%>/corpUser/corpUserMainPage.jsp">會員中心</a></span>
 								<span class="member_list" id="list_1"><a
 									href="<%=request.getContextPath()%>/webManager/WebManagerServlet.do?action=logout">登出</a></span>
 							</c:otherwise>
@@ -131,12 +154,13 @@ https://templatemo.com/tm-559-zay-shop
 			<button type="button" class="btn-close" data-bs-dismiss="modal"
 				aria-label="Close"></button>
 		</div>
-		<form action="" method="get"
-			class="modal-content modal-body border-0 p-0">
+		<form action="<%=request.getContextPath()%>/shopping/SportifyShop.do"
+			method="POST" class="modal-content modal-body border-0 p-0">
 			<div class="input-group mb-2">
 				<input type="text" class="form-control" id="inputModalSearch"
-					name="q" placeholder="Search ...">
-				<button type="submit" class="input-group-text bg-success text-light">
+					name="query" placeholder="想買什麼商品嗎?">
+				<button type="submit" class="input-group-text bg-success text-light"
+					name="action" value="search">
 					<i class="fa fa-fw fa-search text-white"></i>
 				</button>
 			</div>

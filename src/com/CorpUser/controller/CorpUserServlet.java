@@ -41,9 +41,11 @@ public class CorpUserServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
-				String str = req.getParameter("corpUserId");
-				if (str == null || (str.trim()).length() == 0) {
-					errorMsgs.add("請輸入企業會員編號");
+				Integer corpUserId = (Integer) session.getAttribute("corpUserId");
+				System.out.println("拿到"+corpUserId);
+				if (corpUserId == null) {
+					System.out.println("沒拿到");
+					errorMsgs.add("沒抓到session的corpUserId");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -52,18 +54,6 @@ public class CorpUserServlet extends HttpServlet {
 					return;// 程式中斷
 				}
 
-				Integer corpUserId = null;
-				try {
-					corpUserId = new Integer(str);
-				} catch (Exception e) {
-					errorMsgs.add("編號格式不正確");
-				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/corpUser/corpProfile.jsp");
-					failureView.forward(req, res);
-					return;// 程式中斷
-				}
 
 				/*************************** 2.開始查詢資料 *****************************************/
 				CorpUserService corpUserSvc = new CorpUserService();
@@ -79,11 +69,12 @@ public class CorpUserServlet extends HttpServlet {
 				}
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("corpUserVO", corpUserVO); // 資料庫取出的corpUserVO物件,存入req
+				session.setAttribute("currentC", corpUserVO); 
+				System.out.println("資料庫取出的corpUserVO物件,存入session");
 				String url = "/corpUser/corpProfile.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 				successView.forward(req, res);
-
+				return;
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
@@ -138,8 +129,6 @@ public class CorpUserServlet extends HttpServlet {
 				String companyName = req.getParameter("companyName").trim();
 				String ltdNo = req.getParameter("ltdNo").trim();
 				String email = req.getParameter("email").trim();
-				Timestamp createdTime = java.sql.Timestamp
-						.valueOf(req.getParameter("createdTime"));/* 把String轉Timestamp */
 				/* 不能被更新的參數(終) */
 
 				/* 可以被更新的參數(起) */
@@ -176,7 +165,7 @@ public class CorpUserServlet extends HttpServlet {
 				corpUserVO.setAddress(address);
 				byte[] is = corpUserVO.getProfilePic();
 				corpUserVO.setProfilePic(is);
-				corpUserVO.setCreatedTime(createdTime);
+//				corpUserVO.setCreatedTime(createdTime);
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -190,7 +179,7 @@ public class CorpUserServlet extends HttpServlet {
 				CorpUserService corpUserSvc = new CorpUserService();
 				corpUserVO = corpUserSvc.updateProfile(corpUserId,corpPassword,phone,address);
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("corpUserVO", corpUserVO); // 資料庫update成功後,正確的的corpUserVO物件,存入req
+				session.setAttribute("currentC", corpUserVO); // 資料庫update成功後,正確的的corpUserVO物件,存入req
 				String url = "/corpUser/corpProfile.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
@@ -301,7 +290,19 @@ public class CorpUserServlet extends HttpServlet {
 						email, phone, address, profilePic, createdTime);
 
 				/*************************** 3.創建完成,準備轉交(Send the Success view) *************/
-				req.setAttribute("corpUserVO", corpUserVO); // 資料庫update成功後,正確的的corpUserVO物件,存入req
+				req.setAttribute("currentC", corpUserVO); // 資料庫update成功後,正確的的corpUserVO物件,存入req
+				
+				String test = "qain1104@gmail.com"; // 上線前用這個測試
+
+				String to = email;
+				String link = "http://localhost:8081/Sportify/certification?email=" + to;
+
+				System.out.println(to);
+				String subject = "啟用Sportify會員";
+				String messageText = "您好，點按連結已完成認證! " + link;
+				MailService mailService = new MailService();
+				mailService.sendMail(test, subject, messageText);
+				
 				String url = "/SignUpSuccess.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
@@ -325,10 +326,10 @@ public class CorpUserServlet extends HttpServlet {
 		/**********************************************************************************/
 
 		if ("edit".equals(action)) { // 來自login.jsp的請求
-			CorpUserVO member = (CorpUserVO) req.getSession().getAttribute("corpUserVO");
+			CorpUserVO member = (CorpUserVO) req.getSession().getAttribute("currentC");
 			CorpUserService corpUserSvc = new CorpUserService();
 			CorpUserVO mem = corpUserSvc.getOneCorpUser(member.getCorpUserId());
-			req.setAttribute("corpUserVO", mem);
+			req.setAttribute("currentC", mem);
 			String url = "/corpUser/corpUserEdit.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);

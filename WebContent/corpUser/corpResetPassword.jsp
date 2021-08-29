@@ -3,10 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
-	CorpUserVO corpUserVO = (CorpUserVO) request.getAttribute("corpUserVO");
+	CorpUserVO currentC = (CorpUserVO) request.getAttribute("currentC");
 %>
 <html>
 <head>
+<jsp:include page="/cssLink.jsp"></jsp:include>
 <meta charset="UTF-8">
 <title>­×§ï±K½X</title>
 </head>
@@ -22,9 +23,9 @@
 							<div class="col-md-6">
 								<label class="labels">Hi:</label><input type="text"
 									readonly="readonly" class="form-control" name="corpAccount"
-									value="${corpUserVO.corpAccount}">
+									value="${currentC.corpAccount}">
 							</div>
-							<input type="hidden" name="corpUserId" value="${corpUserVO.corpUserId}">
+							<input type="hidden" name="corpUserId" value="${currentC.corpUserId}">
 							<div class="col-md-12">
 								<label class="labels">¿é¤J·s±K½X:</label><input type="password"
 									class="form-control" name="corpPassword" id="password" autofocus required="required"
