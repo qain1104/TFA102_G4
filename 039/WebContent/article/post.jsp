@@ -5,8 +5,11 @@
 
 <%
 	ARTICLEVO articleVO = (ARTICLEVO) request.getAttribute("articleVO");
-	Integer userId = 1001;
+	Integer userId = null;
 %>
+<c:if test="${empty not userId}">
+<%userId=(Integer)session.getAttribute("userId"); %>
+</c:if>
 <html>
 <head>
 <title>Sportify-article</title>
@@ -32,6 +35,9 @@
 <!-- ¶×¤J¹Ï¤ù -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/fontawesome.min.css">
+<!-- footerheader css -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/css/custom.css">
 </head>
 <body>
 <jsp:include page="/header.jsp" flush="true" />

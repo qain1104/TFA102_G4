@@ -58,4 +58,13 @@ public class ARTICLE_LIKEService {
 		return alike;
 	}
 	
+	public Boolean doesaliked(Integer loguser,Integer articleSN) {
+		List<ARTICLE_LIKEVO> alike=dao.getAll().stream()
+				.filter(e ->e.getArticleSN().equals(articleSN))
+				.collect(Collectors.toList());
+		
+		Boolean doesalike =alike.stream().noneMatch(e -> loguser.equals(e.getUserId()));
+		return doesalike;
+	}
+	
 }

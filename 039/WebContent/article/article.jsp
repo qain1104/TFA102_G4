@@ -7,11 +7,14 @@
 
 <%
 
-Integer loguser=0;	
+Integer userId=null;
 List<ARTICLEVO> list = null;
 	ARTICLEService articleSvc = new ARTICLEService();
-	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+	SimpleDateFormat tformat = new SimpleDateFormat("yy/MM/dd HH:mm");
 %>
+<c:if test="${empty not userId}">
+<%userId=(Integer)session.getAttribute("userId"); %>
+</c:if>
 <c:choose>
 	<c:when test="${param.whichClass==0 || empty param.whichClass}">
 		<%
@@ -20,7 +23,7 @@ List<ARTICLEVO> list = null;
 	</c:when>
 	<c:when test="${param.whichClass==4}">
 		<%
-			list = articleSvc.getMyArticle(loguser);
+			list = articleSvc.getMyArticle(userId);
 		%>
 	</c:when>
 	<c:when test="${param.whichClass==5}">
@@ -64,6 +67,9 @@ pageContext.setAttribute("list", list);%>
 <!-- 匯入圖片 -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/fontawesome.min.css">
+<!-- footerheader css -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/css/custom.css">
 </head>
 <body>
 	<jsp:include page="/header.jsp" flush="true" />
@@ -130,7 +136,7 @@ pageContext.setAttribute("list", list);%>
 							<div class="d-md-flex justify-content-md-end">
 								<form METHOD="post"
 									ACTION="<%=request.getContextPath()%>/article/article.do">
-									<input type="hidden" name="action" value="topost"> <input ${empty loguser? "disabled":""}
+									<input type="hidden" name="action" value="topost"> <input ${empty userId? "disabled":""}
 										type="submit" class="btn btn-success" value="發文">
 								</form>
 
@@ -181,7 +187,7 @@ pageContext.setAttribute("list", list);%>
 													${article.articleTitle}
 												</div>
 												<div class="col-2">${article.articlePop}</div>
-												<div class="col-2" style="font-size: 8px;"><%=tformat.format(pageContext.getAttribute("tdate")) %></div>
+												<div class="col-2 fs-6"><%=tformat.format(pageContext.getAttribute("tdate")) %></div>
 											</div>
 										</a>
 									</form>
@@ -199,6 +205,7 @@ pageContext.setAttribute("list", list);%>
 		</div>
 	</section>
 	<!-- CLOSE 論壇本體 -->
+	<jsp:include page="/footer.jsp" flush="true" />
 	<!-- Start Script -->
 	<script
 		src="<%=request.getContextPath()%>/assets/js/jquery-3.6.0.min.js"></script>
@@ -208,10 +215,6 @@ pageContext.setAttribute("list", list);%>
 		src="<%=request.getContextPath()%>/assets/js/bootstrap.bundle.min.js"></script>
 	<script src="<%=request.getContextPath()%>/assets/js/templatemo.js"></script>
 	<script src="<%=request.getContextPath()%>/assets/js/custom.js"></script>
-	<script>
-		
-	</script>
 	<!-- End Script -->
-	<jsp:include page="/footer.jsp" flush="true" />
 </body>
 </html>

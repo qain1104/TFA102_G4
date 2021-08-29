@@ -124,7 +124,7 @@ public class REPORTServlet extends HttpServlet {
 				Integer reportStatus = 0;
 				Integer managerId = null;
 				java.sql.Timestamp reportAuditDate = null;
-
+				
 				ARTICLEService aSvc = new ARTICLEService();
 				ARTICLEVO articleVO = aSvc.getOneArticle(articleSN);
 				if (floor != 1) {
@@ -205,8 +205,20 @@ public class REPORTServlet extends HttpServlet {
 				} catch (NumberFormatException e) {
 					errorMsgs.add("沒有reportStatus.");
 				}
+				Integer whichClass = null;
+				try {
+					whichClass = new Integer(req.getParameter("whichClass").trim());
+				} catch (NumberFormatException e) {
+					errorMsgs.add("沒有whichClass.");
+				}
 
 				/*************************** 2.開始查詢資料 ****************************************/
+				if(reportStatus==1) {
+					String url = req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass;
+					res.sendRedirect(url);
+				}
+				
+				
 				REPORTService reportSvc = new REPORTService();
 				List<REPORTVO> list = null;
 				if (floor == 0) {
@@ -236,9 +248,8 @@ public class REPORTServlet extends HttpServlet {
 					rSvc.updateastatus(replyVO, 1);
 				}
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-				String url = "/article/audit.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
-				successView.forward(req, res);
+				String url = req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass;
+				res.sendRedirect(url);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {

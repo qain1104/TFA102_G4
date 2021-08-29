@@ -5,10 +5,13 @@
 <%@ page import="com.article.model.*"%>
 <%@ page import="util.*"%>
 <%
-	Integer userId = 1001;
+	Integer userId = null;
 	ARTICLEVO articleVO = (ARTICLEVO) request.getAttribute("articleVO");
 	Datahandle dh = new Datahandle();
 %>
+<c:if test="${empty not userId}">
+<%userId=(Integer)session.getAttribute("userId"); %>
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,6 +38,9 @@
 <!-- ¶×¤J¹Ï¤ù -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/fontawesome.min.css">
+<!-- footerheader css -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/css/custom.css">
 </head>
 <body>
 <jsp:include page="/header.jsp" flush="true" />

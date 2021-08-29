@@ -55,4 +55,13 @@ public class REPLY_LIKEService {
 		return alike;
 	}
 
+	public Boolean doesrliked(Integer loguser,Integer replySN) {
+		List<REPLY_LIKEVO> rlike=dao.getAll().stream()
+				.filter(e ->e.getReplySN().equals(replySN))
+				.collect(Collectors.toList());
+		
+		Boolean doesrlike =rlike.stream().noneMatch(e -> loguser.equals(e.getUserId()));
+		return doesrlike;
+	}
+	
 }

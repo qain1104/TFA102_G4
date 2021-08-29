@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.alike.model.ARTICLE_LIKEVO;
+
 public class ARTICLEService {
 
 	private ARTICLEDAO_interface dao;
@@ -128,12 +130,12 @@ public class ARTICLEService {
 		return myarticle;
 	}
 	
-public List<ARTICLEVO> getSearchArticle(String search){
+	public List<ARTICLEVO> getSearchArticle(String search){
 		
 		List<ARTICLEVO> mysearch=dao.getAll().stream()
 				.filter(e ->e.getArticleTitle().contains(search))
 				.collect(Collectors.toList());
 		return mysearch;
 	}
-
+	
 }

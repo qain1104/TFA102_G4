@@ -9,8 +9,8 @@
 <%@ page import="com.venue.model.*"%>
 <%@ page import="util.*"%>
 <%
-	Integer managerId = 3001;
-	request.setAttribute("managerId", managerId);
+response.setIntHeader("Refresh", 5);
+	Integer managerId = null;
 	Datahandle dh = new Datahandle();
 	REPORTService reportSvc = new REPORTService();
 	ProductService pdtSvc = new ProductService();
@@ -19,6 +19,9 @@
 	List<ProductVO> productList = pdtSvc.getProductStatus(0);
 	List<VenueVO> venueList = veSvc.getVenueStatus(0);
 %>
+<c:if test="${not empty managerId}">
+<%managerId= (Integer)session.getAttribute("managerId");%>
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,15 +39,16 @@
 <!-- 不知道的東西 -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/templatemo.css">
-<!-- <link rel="stylesheet" href="assets/css/custom.css"> -->
 
-<!-- Load fonts style after rendering the layout styles -->
 <!-- 設定字型 -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
 <!-- 匯入圖片 -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/fontawesome.min.css">
+<!-- footerheader css -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/css/custom.css">
 </head>
 <body>
 	<jsp:include page="/header.jsp" flush="true" />
@@ -274,6 +278,8 @@
 																			<input type="hidden" name="floor" value="1">
 																		</c:otherwise>
 																	</c:choose>
+																	<input type="hidden"
+																		name="whichClass" value="${param.whichClass}">
 																	<button class="btn btn-success" type="submit"
 																		name="reportStatus" value="1">通過</button>
 																	<button class="btn btn-success" type="submit"
@@ -304,13 +310,16 @@
 		</div>
 	</div>
 	<!-- CLOSE 審核本體 -->
-	<!-- Start Script -->
-	<script src="assets/js/jquery-3.6.0.min.js"></script>
-	<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-	<script src="assets/js/bootstrap.bundle.min.js"></script>
-	<script src="assets/js/templatemo.js"></script>
-	<script src="assets/js/custom.js"></script>
-	<!-- End Script -->
 	<jsp:include page="/footer.jsp" flush="true" />
+	<!-- Start Script -->
+	<script
+		src="<%=request.getContextPath()%>/assets/js/jquery-3.6.0.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/assets/js/jquery-migrate-1.2.1.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/assets/js/bootstrap.bundle.min.js"></script>
+	<script src="<%=request.getContextPath()%>/assets/js/templatemo.js"></script>
+	<script src="<%=request.getContextPath()%>/assets/js/custom.js"></script>
+	<!-- End Script -->
 </body>
 </html>

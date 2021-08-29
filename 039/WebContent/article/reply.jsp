@@ -5,6 +5,8 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.article.model.*"%>
 <%@ page import="com.reply.model.*"%>
+<%@ page import="com.alike.model.*"%>
+<%@ page import="com.rlike.model.*"%>
 <%@ page import="com.GeneralUser.model.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page import="util.*"%>
@@ -13,6 +15,8 @@
 	GeneralUserService guSvc = new GeneralUserService();
 	ARTICLEService aSvc = new ARTICLEService();
 	REPLYService rSvc = new REPLYService();
+	ARTICLE_LIKEService alikeSvc = new ARTICLE_LIKEService();
+	REPLY_LIKEService rlikeSvc =new REPLY_LIKEService();
 	ARTICLEVO articleVO = aSvc.getOneArticle(articleSN);
 	request.setAttribute("articleVO", articleVO);
 	List<REPLYVO> list = rSvc.getReplybyArticle(articleSN);
@@ -20,6 +24,10 @@
 	Datahandle dh = new Datahandle();
 	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 %>
+<%Integer userId=null; %>
+<c:if test="${empty not userId}">
+<%userId=(Integer)session.getAttribute("userId"); %>
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,6 +54,12 @@
 <!-- 匯入圖片 -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/fontawesome.min.css">
+<!-- footerheader css -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/css/custom.css">
+<!-- footerheader css -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/css/custom.css">
 <style>
 img {
 	max-width: 100%;
@@ -125,7 +139,7 @@ img {
 															value="${articleVO.articleSN}"> <input
 															type="hidden" name="floor" value="1">
 														<button class="btn btn-success"
-															${loguser!=articleVO.userId? 'style="visibility:hidden"':''}
+															${userId!=articleVO.userId? 'style="visibility:hidden"':''}
 															type="submit">編輯</button>
 													</form>
 
@@ -157,8 +171,15 @@ img {
 																<input type="hidden" name="action" value="alike">
 																<input type="hidden" name="articleSN"
 																	value="${articleVO.articleSN}"> <input
-																	type="hidden" name="loguserId" value="${loguser}">
-																<button class="btn btn-success" type="submit" ${empty loguser? "disabled":""}>推推</button>
+																	type="hidden" name="loguserId" value="${userId}">
+																	<c:if test="${!empty userId}">
+																	<c:set var="aliked" value="<%=alikeSvc.doesaliked(userId,articleVO.getArticleSN())%>"></c:set>
+																	</c:if>
+																	<c:choose>
+																	<c:when test="${empty userId || !aliked}"><button class="btn btn-success" type="submit">收回推</button></c:when>
+																	<c:otherwise><button class="btn btn-success" type="submit" ${empty userId? "disabled":""}>推推</button></c:otherwise>
+																	</c:choose>
+																		
 															</form>
 														</div>
 														<div class="card col-auto">
@@ -174,7 +195,7 @@ img {
 															value="${articleVO.articleSN}"> <input
 															type="hidden" name="articleVO" value="<%=articleVO%>">
 														<input type="hidden" name="floor" value="1">
-														<button ${empty loguser? 'style="visibility:hidden"':''}
+														<button ${empty userId? 'style="visibility:hidden"':''}
 															class="btn btn-success" type="submit">檢舉</button>
 													</form>
 												</div>
@@ -243,7 +264,7 @@ img {
 															</p>
 														</div>
 														<div class="col-auto"
-															${loguser!=replyVO.userId? 'style="visibility:hidden"':''}>
+															${userId!=replyVO.userId? 'style="visibility:hidden"':''}>
 															<form METHOD="post"
 																ACTION="<%=request.getContextPath()%>/article/reply.do">
 																<input type="hidden" name="action" value="toeditr">
@@ -273,8 +294,14 @@ img {
 																			value="${articleVO.articleSN}"><input
 																			type="hidden" name="replySN"
 																			value="${replyVO.replySN}"> <input
-																			type="hidden" name="loguserId" value="${loguser}">
-																		<button class="btn btn-success" type="submit" ${empty loguser? "disabled":""}>推推</button>
+																			type="hidden" name="loguserId" value="${userId}">
+																		<c:if test="${!empty userId}">
+																	<c:set var="rliked" value="<%=rlikeSvc.doesrliked(userId,replyVO.getReplySN())%>"></c:set>
+																	</c:if>
+																	<c:choose>
+																	<c:when test="${empty userId || !rliked}"><button class="btn btn-success" type="submit">收回推</button></c:when>
+																	<c:otherwise><button class="btn btn-success" type="submit" ${empty userId? "disabled":""}>推推</button></c:otherwise>
+																	</c:choose>
 																	</form>
 																</div>
 																<div class="card col-auto">
@@ -291,7 +318,7 @@ img {
 																	type="hidden" name="replySN" value="${replyVO.replySN}">
 																<input type="hidden" name="floor"
 																	value="${floor.count + 1 }">
-																<button ${empty loguser? 'style="visibility:hidden"':''}
+																<button ${empty userId? 'style="visibility:hidden"':''}
 																	class="btn btn-success" type="submit">檢舉</button>
 															</form>
 														</div>
@@ -325,7 +352,7 @@ img {
 
 
 						<!-- 回覆框框 -->
-						<c:if test="${!empty loguser}">
+						<c:if test="${!empty userId}">
 							<div class="row mt-3">
 								<div class="col-auto">
 									<div class="sticky-top" style="width: 102px"></div>
@@ -337,7 +364,7 @@ img {
 										<form METHOD="post"
 											ACTION="<%=request.getContextPath()%>/article/reply.do">
 											<!--隱藏input -->
-											<input type="hidden" name="userId" value="${loguser}">
+											<input type="hidden" name="userId" value="${userId}">
 											<input type="hidden" name="articleSN" value="<%=articleSN%>">
 											<!--!隱藏input -->
 											<script

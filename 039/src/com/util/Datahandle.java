@@ -17,7 +17,7 @@ public String getArticleContent(byte[] bytes) {
 }
 
 public String getTime(Object time) {
-	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+	SimpleDateFormat tformat = new SimpleDateFormat("yy/MM/dd HH:mm");
 	return tformat.format(time);
 }
 
@@ -60,4 +60,5 @@ public String getArticleClass(Integer articleClass) {
  }
 	 return Classname;
 }
+
 }

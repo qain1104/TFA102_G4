@@ -6,13 +6,16 @@
 <%@ page import="util.*"%>
 
 <%
-	Integer userId = 1001;
+	Integer userId = null;
 	REPLYVO replyVO = (REPLYVO) request.getAttribute("replyVO");
 	ARTICLEService aSvc = new ARTICLEService();
 	ARTICLEVO articleVO = aSvc.getOneArticle(replyVO.getArticleSN());
 	request.setAttribute("articleVO", articleVO);
 	Datahandle dh = new Datahandle();
 %>
+<c:if test="${empty not userId}">
+<%userId=(Integer)session.getAttribute("userId"); %>
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,9 +42,12 @@
 <!-- 匯入圖片 -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/fontawesome.min.css">
+<!-- footerheader css -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/css/custom.css">
 </head>
 <body>
-<jsp:include page="/header.jsp" flush="true" />
+	<jsp:include page="/header.jsp" flush="true" />
 	<!-- 論壇本體 -->
 	<div class="bg-light">
 		<div class="container pb-5 pt-5">
@@ -49,7 +55,7 @@
 
 				<!-- 左邊side -->
 				<div class="col-md-2 side">
-					<jsp:include page="articleside.jsp" flush="true"/>
+					<jsp:include page="articleside.jsp" flush="true" />
 				</div>
 				<!-- close左邊side -->
 
@@ -112,8 +118,8 @@
 											disabled>
 									</div>
 									<div class="mb-3">
-										<label for="exampleFormControlTextarea1" class="form-label fs-5 text-success">
-												${floor}樓:內容</label>
+										<label for="exampleFormControlTextarea1"
+											class="form-label fs-5 text-success"> ${floor}樓:內容</label>
 										<script
 											src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
 										<textarea name="replyContent">
@@ -127,10 +133,32 @@
 										</script>
 									</div>
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-										<button class="btn btn-success" name="action" value="upstatus"
-											type="submit">刪除文章</button>
+										<button class="btn btn-success" type="button"
+											data-bs-toggle="modal" data-bs-target="#deletemodal">刪除文章</button>
+																				
 										<button class="btn btn-success" name="action" value="upeditr"
 											type="submit">編輯文章</button>
+										<div class="modal fade" id="deletemodal" tabindex="-1"
+											aria-labelledby="deletemodalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title fs-2 text-danger fw-bold">確定要刪除嗎?</h5>
+														<button type="button" class="btn-close"
+															data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">
+														<p class="fs-4">刪除之後將無法復原!</p>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-bs-dismiss="modal">再想想</button>
+														<button class="btn btn-success" name="action" value="upstatus"
+																					type="submit">刪除文章</button>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 								</form>
 								<%-- !表單 --%>
@@ -141,9 +169,20 @@
 					<!-- close外框 -->
 				</div>
 			</div>
-			</div>
+		</div>
 	</div>
 	<!-- CLOSE 論壇本體 -->
+	<!-- Vertically centered modal -->
 	<jsp:include page="/footer.jsp" flush="true" />
+	<!-- Start Script -->
+	<script
+		src="<%=request.getContextPath()%>/assets/js/jquery-3.6.0.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/assets/js/jquery-migrate-1.2.1.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/assets/js/bootstrap.bundle.min.js"></script>
+	<script src="<%=request.getContextPath()%>/assets/js/templatemo.js"></script>
+	<script src="<%=request.getContextPath()%>/assets/js/custom.js"></script>
+	<!-- End Script -->
 </body>
 </html>

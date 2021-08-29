@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.alike.model.ARTICLE_LIKEVO;
+
 public class REPLYService {
 
 	private REPLYDAO_interface dao;
