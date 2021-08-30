@@ -8,7 +8,6 @@
 <%
  	List<ProductVO> shopAllproductList = (List<ProductVO>)session.getAttribute("shopAllproductList");
 	pageContext.setAttribute("shopAllproductList", shopAllproductList);
-	session.setAttribute("currentPage", request.getRequestURI());
 %>
 <!DOCTYPE html>
 <html>
@@ -84,7 +83,7 @@
 						</div>
 					</div>
 					<div class="card-body">
-						<a href="<%=request.getContextPath()%>/shopping/SportifyShop.do?action=shopsingle&productSN=${product.productSN}" class="h3 text-decoration-none">
+						<a href="shop-single.html" class="h3 text-decoration-none">
 						${product.productName}
 						</a>
 						<ul class="w-100 list-unstyled d-flex justify-content-between mb-0">

@@ -4,13 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="java.util.*, com.cartList.model.CartListVO, com.cartList.model.CartListService" %>
 <!DOCTYPE html>
-<% 
-
-	response.setHeader("Cache-Control","no-cache");
-	response.setHeader("Pragma","no-cache"); 
-	response.setDateHeader ("Expires", 0);
-		
-%>
 <html lang="en">
 <head>
     <title>Sportify</title>

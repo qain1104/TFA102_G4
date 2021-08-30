@@ -9,18 +9,7 @@
     pageEncoding="BIG5"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% 
-	response.setHeader("Cache-Control","no-cache");
-	response.setHeader("Pragma","no-cache"); 
-	response.setDateHeader ("Expires", 0);
-	
  	Integer userId = (Integer)session.getAttribute("userId"); // 會員編號
- 	
- 	if(userId == null){
- 		session.setAttribute("location", request.getRequestURI());
- 		response.sendRedirect(request.getContextPath()+"/login.jsp");
- 		return;
- 	}
- 	
  	CartListService cartListService = new CartListService();  
 	Map<CartListVO, ProductVO> shoppingCartMap =  cartListService.getProductFromSpec(userId);
 	session.setAttribute("shoppingCartMap", shoppingCartMap); // 購物車所需的資料

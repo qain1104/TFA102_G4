@@ -27,10 +27,7 @@
 </head>
 <body>
 <% 
-	response.setHeader("Cache-Control","no-cache");
-	response.setHeader("Pragma","no-cache"); 
-	response.setDateHeader ("Expires", 0); 
-	session.setAttribute("currentPage", request.getRequestURI());
+	session.setAttribute("currentPage", request.getRequestURI()); 
 	
 	ProductVO shopSingleProduct = (ProductVO)session.getAttribute("shopSingleProduct");
 	List<ProductSpecVO> specList = (List<ProductSpecVO>)session.getAttribute("specList");

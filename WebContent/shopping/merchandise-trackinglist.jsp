@@ -15,13 +15,6 @@
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/assets/css/general_order.css">
 </head>
 <body>
-<% 
-
-	response.setHeader("Cache-Control","no-cache");
-	response.setHeader("Pragma","no-cache"); 
-	response.setDateHeader ("Expires", 0);
-		
-%>
 <jsp:include page="/header.jsp" flush="true" />
    <!-- Start Member Center -->
     <div class="member_center">
