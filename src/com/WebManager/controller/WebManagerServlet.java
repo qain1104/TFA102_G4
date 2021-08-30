@@ -103,14 +103,13 @@ public class WebManagerServlet extends HttpServlet {
 							}
 							
 							String location = (String) session.getAttribute("location");
-							if(location != null && location != req.getContextPath()+"/webManager/WebManagerServlet.do") {
+							if(location != null && !location.equals(req.getContextPath()+"/webManager/WebManagerServlet.do") ) {
 								session.removeAttribute("location");
 								res.sendRedirect(location);
 								return;
 							}
 
 							String url = req.getContextPath() + "/Sportify.jsp";
-							System.out.println("return");
 							res.sendRedirect(url);
 							return;
 
@@ -118,6 +117,7 @@ public class WebManagerServlet extends HttpServlet {
 							errorMsgs.add("帳號或密碼錯誤");
 							System.out.println("重新導向登入頁面");
 							session.setAttribute("location", req.getRequestURI());
+							System.out.println(req.getRequestURI());
 							session.setAttribute("errorMsgs", errorMsgs);
 							String url = req.getContextPath() + "/login.jsp";
 							res.sendRedirect(url);
@@ -199,7 +199,7 @@ public class WebManagerServlet extends HttpServlet {
 							session.setAttribute("currentC", temp);
 							session.removeAttribute("cartList");
 							String location = (String) session.getAttribute("location");
-							if(location != null && location != req.getContextPath()+"/webManager/WebManagerServlet.do") {
+							if(location != null && ! location.equals(req.getContextPath()+"/webManager/WebManagerServlet.do")) {
 								session.removeAttribute("location");
 								res.sendRedirect(location);
 								return;
