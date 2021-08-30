@@ -9,9 +9,10 @@ import com.GeneralUser.model.GeneralUserVO;
 public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 
 	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
+//	String url = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
+	String url = "jdbc:mysql://mysql5257.chickenkiller.com:3306/TFA102_G4?rewriteBatchedStatements=true&serverTimezone=Asia/Taipei";
 	String userid = "root";
-	String passwd = "password";
+	String passwd = "123456";
 
 	private static final String INSERT_STMT = "INSERT INTO GENERAL_USER(registerStatus, userAccount, userPassword, userName, id, email, address, phone, profilePic , createdTime ,gender) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String GET_ALL_STMT = "SELECT userId,registerStatus,userAccount,userPassword,userName,id,email,address,phone,profilePic,createdTime,gender FROM GENERAL_USER order by userId";

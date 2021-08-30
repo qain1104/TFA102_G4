@@ -159,7 +159,7 @@
 	<div class="button_before_footer">
 		<div class="shopping">
 			<button class="btn btn-success btn-lg">
-				<a href="<%=request.getContextPath() %>/shopping/shop.jsp">繼續購物</a>
+				<a href="<%=request.getContextPath()%>/shopping/SportifyShop.do?action=shop">繼續購物</a>
 			</button>
 		</div>
 	</div>

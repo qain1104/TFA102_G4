@@ -13,10 +13,5 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/SL314_Servlet-JSP課程分享/SL314_Servlet5課程分享/SL314_Servlet5課程分享/SL314_課程中分享/【補充】MailService/lib/javax.activation-1.2.0.jar"/>
-	<classpathentry kind="lib" path="C:/SL314_Servlet-JSP課程分享/SL314_Servlet5課程分享/SL314_Servlet5課程分享/SL314_課程中分享/【補充】MailService/lib/javax.mail.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tibame_T14/Downloads/TFA102_G4-Roy/gson-2.8.7.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tibame_T14/Downloads/TFA102_G4-Roy/jedis-2.9.0.jar"/>
-	<classpathentry kind="lib" path="C:/TFA102_WebApp/eclipse_WTP_workspace1/Sportify/WebContent/WEB-INF/lib/json.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -74,7 +74,6 @@ public class ShopController extends HttpServlet {
 			if(query == null || query.trim().length() == 0) {
 				List<ProductVO> shopAllproductList = productService.getAll();
 				request.getSession().setAttribute("shopAllproductList", shopAllproductList);
-				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
 				dispatcher.forward(request, response);
 			} else {
@@ -93,7 +92,6 @@ public class ShopController extends HttpServlet {
 		if("shop".equals(action)) {
 			List<ProductVO> shopAllproductList = productService.getAll();
 			request.getSession().setAttribute("shopAllproductList", shopAllproductList);
-			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
 			dispatcher.forward(request, response);
 			
@@ -156,29 +154,29 @@ public class ShopController extends HttpServlet {
 		if(category != null) {
 			
 			if(1 == new Integer(category)) {
-				List<ProductVO> productList = productService.getProductCategory(1);
-				request.getSession().setAttribute("productList", productList);
+				List<ProductVO> shopAllproductList = productService.getProductCategory(1);
+				request.getSession().setAttribute("shopAllproductList", shopAllproductList);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
 				dispatcher.forward(request, response);
 			}
 			
 			if(0 == new Integer(category)) {
-				List<ProductVO> productList = productService.getProductCategory(0);
-				request.getSession().setAttribute("productList", productList);
+				List<ProductVO> shopAllproductList = productService.getProductCategory(0);
+				request.getSession().setAttribute("shopAllproductList", shopAllproductList);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
 				dispatcher.forward(request, response);
 			}
 			
 			if(2 == new Integer(category)) {
-				List<ProductVO> productList = productService.getProductCategory(2);
-				request.getSession().setAttribute("productList", productList);
+				List<ProductVO> shopAllproductList = productService.getProductCategory(2);
+				request.getSession().setAttribute("shopAllproductList", shopAllproductList);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
 				dispatcher.forward(request, response);
 			}
 			
 			if(3 == new Integer(category)) {
-				List<ProductVO> productList = productService.getProductCategory(3);
-				request.getSession().setAttribute("productList", productList);
+				List<ProductVO> shopAllproductList = productService.getProductCategory(3);
+				request.getSession().setAttribute("shopAllproductList", shopAllproductList);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
 				dispatcher.forward(request, response);
 			}
