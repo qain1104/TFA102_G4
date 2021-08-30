@@ -12,14 +12,14 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-	
+
 	<resource-ref>
 		<description>DB Connection</description>
 		<res-ref-name>jdbc/Sportify</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 	</resource-ref>
-	
+
 	<!-- 註冊corpUserController -->
 	<servlet>
 		<servlet-name>CorpUserServlet</servlet-name>
@@ -122,5 +122,22 @@
 	<servlet-mapping>
 		<servlet-name>REPORTServlet</servlet-name>
 		<url-pattern>/article/report.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>VenueServlet</servlet-name>
+		<servlet-class>com.venue.controller.VenueServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VenueServlet</servlet-name>
+		<url-pattern>/venue/venue.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Venue_NophoursServlet</servlet-name>
+		<servlet-class>com.venue_nophours.controller.Venue_NophoursServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Venue_NophoursServlet</servlet-name>
+		<url-pattern>/venuenop/venuenop.do</url-pattern>
 	</servlet-mapping>
 </web-app>
