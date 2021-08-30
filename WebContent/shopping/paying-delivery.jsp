@@ -189,8 +189,8 @@
                             <div class="total_quantity col-md-2 offset-md-1">共 <strong><span id="morder_quantity">${totalCartList.get("totalQuantity")}</span></strong> 件</div>
                             <div class="delivery_fee col-md-2 offset-md-8">運費: <strong><span id="order_delivery_type">${Order_delivery_typeDAO.getOneType(14001).deliveryFee}</span></strong></div>
                             <div class="total_amount col-md-2 offset-md-8">總金額: <strong><span id="morder_amount">${totalCartList.get("totalAmount") + Order_delivery_typeDAO.getOneType(14001).deliveryFee}</span></strong></div>
-                        	<div style="color:red"> ${errorMsgs.couponValue} </div>
-                        	<div style="color:red"> ${errorMsgs.addError} </div>
+                        	<div style="color:red; margin-left: 279.5px"> ${errorMsgs.couponValue} </div>
+                        	<div style="color:red; margin-left: 279.5px"> ${errorMsgs.addError} </div>
                         </div>
                     </div>
                     <div class="button_before_footer">

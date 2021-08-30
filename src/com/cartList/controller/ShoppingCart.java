@@ -36,42 +36,42 @@ public class ShoppingCart extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		String action = request.getParameter("action");
-		Integer userId = (Integer)session.getAttribute("userId"); // ·|­ûId
+		Integer userId = (Integer)session.getAttribute("userId"); // æœƒå“¡Id
 		
-		// ªğ¦^Ä~ÄòÁÊ¶R
+		// è¿”å›ç¹¼çºŒè³¼è²·
 		if("backToShop".equals(action)) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/SportifyShop.do?action=shop");
 			dispatcher.forward(request, response);
 			return;
 		}
 		
-		// ÁÊ¶RÁä
+		// è³¼è²·éµ
 		if("buy".equals(action)) {
-			// ÂI¿ïÁÊ¶R·|¶i¤JÁÊª«¨®­¶­±¡A¥ı§ì¦³¨S¦³¸Ó·|­ûªºÁÊª«¨®²M³æ¡A­Y¨S¦³ª½±µ¦C¥X¸Ó¶µ
-			// ­Y¦³¡A¥ı§ìÁÊª«¨®²M³æ¦A§â¸Ó¶µ¥[¤J
-			String productSpecString = request.getParameter("productSpecId"); // ²£«~©ú²Óid
-			Integer itemQuantity = Integer.valueOf(request.getParameter("itemQuantity")); // ¼Æ¶q
-			String productSN = request.getParameter("productSN"); // ²£«~¦WºÙ
-			// §ó§ï¬°service
+			// é»é¸è³¼è²·æœƒé€²å…¥è³¼ç‰©è»Šé é¢ï¼Œå…ˆæŠ“æœ‰æ²’æœ‰è©²æœƒå“¡çš„è³¼ç‰©è»Šæ¸…å–®ï¼Œè‹¥æ²’æœ‰ç›´æ¥åˆ—å‡ºè©²é …
+			// è‹¥æœ‰ï¼Œå…ˆæŠ“è³¼ç‰©è»Šæ¸…å–®å†æŠŠè©²é …åŠ å…¥
+			String productSpecString = request.getParameter("productSpecId"); // ç”¢å“æ˜ç´°id
+			Integer itemQuantity = Integer.valueOf(request.getParameter("itemQuantity")); // æ•¸é‡
+			String productSN = request.getParameter("productSN"); // ç”¢å“åç¨±
+			// æ›´æ”¹ç‚ºservice
 			ProductSpecJDBCDAO productSpecDAO = new ProductSpecJDBCDAO();
 			
-			List<String> errorMsgs = new ArrayList<String>(); // ¿ù»~°T®§
+			List<String> errorMsgs = new ArrayList<String>(); // éŒ¯èª¤è¨Šæ¯
 			request.setAttribute("errorMsgs", errorMsgs);
 			
 			if(productSpecString.trim().length() == 0) {
-				errorMsgs.add("½Ğ¿ï¾Ü¤Ø¤o");
+				errorMsgs.add("è«‹é¸æ“‡å°ºå¯¸");
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/SportifyShop.do?action=shopsingle&productSN="+productSN);
 				dispatcher.forward(request, response);
 				return;
 			}
 			
-			Integer productSpecId = Integer.valueOf(productSpecString); // ²£«~©ú²Óid
-			Integer stock = productSpecDAO.findByPrimaryKey(productSpecId).getProductStock(); // ®w¦s¼Æ¶q
+			Integer productSpecId = Integer.valueOf(productSpecString); // ç”¢å“æ˜ç´°id
+			Integer stock = productSpecDAO.findByPrimaryKey(productSpecId).getProductStock(); // åº«å­˜æ•¸é‡
 			
 			try {
-				// ¼Æ¶q¥²¶·¤p©ó®w¦s¶q
+				// æ•¸é‡å¿…é ˆå°æ–¼åº«å­˜é‡
 				if(stock >= itemQuantity) {
-					// ½T»{¬O§_¬°·|­û
+					// ç¢ºèªæ˜¯å¦ç‚ºæœƒå“¡
 					if(userId != null) {
 						
 						CartListService cartListService = new CartListService();
@@ -82,7 +82,7 @@ public class ShoppingCart extends HttpServlet {
 							cartList = new ArrayList<CartListVO>();
 							cartListService.updateCartList(userId, productSpecId, itemQuantity);
 							cartList.add(new CartListVO(userId, productSpecId, itemQuantity));
-							// ­Yshoppingcart.jsp¬O±qMySQL¼´¸ê®Æ¡A´N¤£»İ­n¦Asession set¸ê®Æ
+							// è‹¥shoppingcart.jspæ˜¯å¾MySQLæ’ˆè³‡æ–™ï¼Œå°±ä¸éœ€è¦å†session setè³‡æ–™
 //						session.setAttribute("cartList", cartList);
 							request.setAttribute("productSN", productSN);
 							request.setAttribute("productSpecId", productSpecId);
@@ -94,7 +94,7 @@ public class ShoppingCart extends HttpServlet {
 							
 							cartListService.updateCartList(userId, productSpecId, itemQuantity);
 							List<CartListVO> cartListNew = cartListService.getCartList(userId);
-							// ­Yshoppingcart.jsp¬O±qMySQL¼´¸ê®Æ¡A´N¤£»İ­n¦Asession set¸ê®Æ
+							// è‹¥shoppingcart.jspæ˜¯å¾MySQLæ’ˆè³‡æ–™ï¼Œå°±ä¸éœ€è¦å†session setè³‡æ–™
 //						session.setAttribute("cartList", cartListNew); 
 							request.setAttribute("productSN", productSN);
 							request.setAttribute("productSpecId", productSpecId);
@@ -104,15 +104,15 @@ public class ShoppingCart extends HttpServlet {
 							
 						}
 					} else {
-						// ­Y¤£¬°·|­û®É¡A¥ı¶i¤Jµn¤J­¶­±
-						// µn¤J¦¨¥\«á¦A±quserId¤¤¬İÁÊª«¨®¤º¦³¨S¦³°Ó«~¡F­Y¦³¡A«h¥[¶iÁÊª«¨®²M³æ¤¤¡A¦b¶i¤JÁÊª«¨®­¶­±
-						// ­Y¨S¦³¡A±N°Ó«~¥[¶iÁÊª«¨®¤¤¡A±µµÛ¶i¤JÁÊª«¨®­¶­±
-						response.sendRedirect("login");
+						// è‹¥ä¸ç‚ºæœƒå“¡æ™‚ï¼Œå…ˆé€²å…¥ç™»å…¥é é¢
+						// ç™»å…¥æˆåŠŸå¾Œå†å¾userIdä¸­çœ‹è³¼ç‰©è»Šå…§æœ‰æ²’æœ‰å•†å“ï¼›è‹¥æœ‰ï¼Œå‰‡åŠ é€²è³¼ç‰©è»Šæ¸…å–®ä¸­ï¼Œåœ¨é€²å…¥è³¼ç‰©è»Šé é¢
+						// è‹¥æ²’æœ‰ï¼Œå°‡å•†å“åŠ é€²è³¼ç‰©è»Šä¸­ï¼Œæ¥è‘—é€²å…¥è³¼ç‰©è»Šé é¢
+						response.sendRedirect(request.getContextPath() + "/login.jsp");
 						
 					}
 				} else {
 
-					errorMsgs.add("®w¦s¼Æ¶q¤£¨¬¡A½Ğ­×§ï¼Æ¶q");
+					errorMsgs.add("åº«å­˜æ•¸é‡ä¸è¶³ï¼Œè«‹ä¿®æ”¹æ•¸é‡");
 					request.setAttribute("itemQuantity", itemQuantity);
 					RequestDispatcher failureView = request.getRequestDispatcher("/shopping/SportifyShop.do?action=shopsingle&productSN="+productSN);
 					failureView.forward(request, response);
@@ -120,7 +120,7 @@ public class ShoppingCart extends HttpServlet {
 				}
 			} catch(Exception e) {
 				
-				errorMsgs.add("µLªkÁÊ¶R¦¹°Ó«~  : " + e.getMessage());
+				errorMsgs.add("ç„¡æ³•è³¼è²·æ­¤å•†å“  : " + e.getMessage());
 				RequestDispatcher failureView = request.getRequestDispatcher("/shopping/SportifyShop.do?action=shopsingle&productSN="+productSN);
 				failureView.forward(request, response);
 				return;
@@ -128,32 +128,32 @@ public class ShoppingCart extends HttpServlet {
 			}
 		}
 		
-		// ¥[¶iÁÊª«¨®
+		// åŠ é€²è³¼ç‰©è»Š
 		if("addtocart".equals(action)) {
-			// ¥ı§PÂ_¨Ï¥ÎªÌ¦³¨S¦³µn¤J¡F­Y¦³¡Aª½±µ±Nª««~¥[¶i¨Ï¥ÎªÌªºÁÊª«¨®
-			// ­Y¨S¦³¡A¦bsession new¤@­Ólist±N°Ó«~¥[¶i¥h
-			String productSpecString = request.getParameter("productSpecId"); // ²£«~©ú²Óid
-			Integer itemQuantity = Integer.valueOf(request.getParameter("itemQuantity")); // ¼Æ¶q
-			String productSN = request.getParameter("productSN"); // ²£«~¦WºÙ
+			// å…ˆåˆ¤æ–·ä½¿ç”¨è€…æœ‰æ²’æœ‰ç™»å…¥ï¼›è‹¥æœ‰ï¼Œç›´æ¥å°‡ç‰©å“åŠ é€²ä½¿ç”¨è€…çš„è³¼ç‰©è»Š
+			// è‹¥æ²’æœ‰ï¼Œåœ¨session newä¸€å€‹listå°‡å•†å“åŠ é€²å»
+			String productSpecString = request.getParameter("productSpecId"); // ç”¢å“æ˜ç´°id
+			Integer itemQuantity = Integer.valueOf(request.getParameter("itemQuantity")); // æ•¸é‡
+			String productSN = request.getParameter("productSN"); // ç”¢å“åç¨±
 			ProductSpecService productSpecService = new ProductSpecService();
-			List<String> errorMsgs = new ArrayList<String>(); // ¿ù»~°T®§
+			List<String> errorMsgs = new ArrayList<String>(); // éŒ¯èª¤è¨Šæ¯
 			request.setAttribute("errorMsgs", errorMsgs);
 			
 			if(productSpecString.trim().length() == 0) {
-				errorMsgs.add("½Ğ¿ï¾Ü¤Ø¤o");
+				errorMsgs.add("è«‹é¸æ“‡å°ºå¯¸");
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/SportifyShop.do?action=shopsingle&productSN="+productSN);
 				dispatcher.forward(request, response);
 				return;
 			}
 			
-			Integer productSpecId = Integer.valueOf(productSpecString); // ²£«~©ú²Óid
-			Integer stock = productSpecService.getOneProduct(productSpecId).getProductStock(); // ®w¦s¼Æ¶q
+			Integer productSpecId = Integer.valueOf(productSpecString); // ç”¢å“æ˜ç´°id
+			Integer stock = productSpecService.getOneProduct(productSpecId).getProductStock(); // åº«å­˜æ•¸é‡
 			
 			try {
-				// ÁÊ¶R¼Æ¶q»İ¤p©ó®w¦s¶q
+				// è³¼è²·æ•¸é‡éœ€å°æ–¼åº«å­˜é‡
 				if(stock >= itemQuantity) {
 					
-					// ¨Ï¥ÎªÌµn¤Jªºª¬ºA¤U
+					// ä½¿ç”¨è€…ç™»å…¥çš„ç‹€æ…‹ä¸‹
 					if(userId != null) {
 						
 						CartListService cartListService = new CartListService();
@@ -163,8 +163,8 @@ public class ShoppingCart extends HttpServlet {
 						return;
 						
 					} else {
-						// ¥¼µn¤Jª¬ºA¤U¡A¥ı¦bsession¨úcartList
-						// ¨ú¤£¨ì«hnew¤@­Ó
+						// æœªç™»å…¥ç‹€æ…‹ä¸‹ï¼Œå…ˆåœ¨sessionå–cartList
+						// å–ä¸åˆ°å‰‡newä¸€å€‹
 						List<CartListVO> cartList = (List<CartListVO>)session.getAttribute("cartList");
 						
 						if(cartList == null) {
@@ -182,7 +182,7 @@ public class ShoppingCart extends HttpServlet {
 						} else {
 							
 							for(CartListVO vo : cartList) {
-								// ­Y¬O¦³¬Û¦Pª«¥ó¡Aª½±µ¥[¤W¼Æ¶q§Y¥i
+								// è‹¥æ˜¯æœ‰ç›¸åŒç‰©ä»¶ï¼Œç›´æ¥åŠ ä¸Šæ•¸é‡å³å¯
 								if(productSpecId.intValue() == vo.getProductSpecId()) {
 									itemQuantity = vo.getItemQuantity() + itemQuantity;
 									CartListVO cartListVO = new CartListVO();
@@ -197,7 +197,7 @@ public class ShoppingCart extends HttpServlet {
 									
 								} 
 							}
-							// ­Y¨S¦³¬Û¦Pª«¥ó¡A«h¦blist¤¤·s¼W¤@µ§
+							// è‹¥æ²’æœ‰ç›¸åŒç‰©ä»¶ï¼Œå‰‡åœ¨listä¸­æ–°å¢ä¸€ç­†
 							CartListVO cartListVO = new CartListVO();
 							cartListVO.setProductSpecId(productSpecId);
 							cartListVO.setItemQuantity(itemQuantity);
@@ -206,7 +206,7 @@ public class ShoppingCart extends HttpServlet {
 							dispatcher.forward(request, response);
 							return;
 							
-							// µn¤J«á±NsessionªºÁÊª«¨®ª«¥ó©ñ¶i¦Û¤vªºÁÊª«¨®¡A¨Ã²¾°£sessionªºÁÊª«¨®
+							// ç™»å…¥å¾Œå°‡sessionçš„è³¼ç‰©è»Šç‰©ä»¶æ”¾é€²è‡ªå·±çš„è³¼ç‰©è»Šï¼Œä¸¦ç§»é™¤sessionçš„è³¼ç‰©è»Š
 //							List<CartListVO> cartList = (List<CartListVO>)session.getAttribute("cartList");
 //							CartListService cartListService = new CartListService();
 //							if(cartList != null) {
@@ -220,23 +220,23 @@ public class ShoppingCart extends HttpServlet {
 					}	
 				} else {
 					
-					errorMsgs.add("®w¦s¼Æ¶q¤£¨¬¡A½Ğ­×§ï¼Æ¶q");
+					errorMsgs.add("åº«å­˜æ•¸é‡ä¸è¶³ï¼Œè«‹ä¿®æ”¹æ•¸é‡");
 					request.setAttribute("itemQuantity", itemQuantity);
 					RequestDispatcher failureView = request.getRequestDispatcher("/shopping/SportifyShop.do?action=shopsingle&productSN="+productSN);
 					failureView.forward(request, response);
 					return;
 				}				
 			} catch(Exception e) {
-				errorMsgs.add("µLªk¥[¤J¦¹°Ó«~¦ÜÁÊª«¨®  : " + e.getMessage());
+				errorMsgs.add("ç„¡æ³•åŠ å…¥æ­¤å•†å“è‡³è³¼ç‰©è»Š  : " + e.getMessage());
 				RequestDispatcher failureView = request.getRequestDispatcher("/shopping/SportifyShop.do?action=shopsingle&productSN="+productSN);
 				failureView.forward(request, response);
 				return;
 			}
 		}
 		
-		// §R°£¡A³z¹Lajax
+		// åˆªé™¤ï¼Œé€éajax
 		if("delete".equals(action)) {
-			List<String> errorMsgs = new ArrayList<String>(); // ¿ù»~°T®§
+			List<String> errorMsgs = new ArrayList<String>(); // éŒ¯èª¤è¨Šæ¯
 			request.setAttribute("errorMsgs", errorMsgs);
 			
 			try {
@@ -249,23 +249,23 @@ public class ShoppingCart extends HttpServlet {
 				
 			} catch(Exception e) {
 				
-				errorMsgs.add("µLªk§R°£¦¹°Ó«~  : " + e.getMessage());
+				errorMsgs.add("ç„¡æ³•åˆªé™¤æ­¤å•†å“  : " + e.getMessage());
 				RequestDispatcher failureView = request.getRequestDispatcher("/shopping/shoppingcart.jsp");
 				failureView.forward(request, response);
 				return;
 			}
 			
 		}
-		// ´î¤Ö¤@¥ó¡A³z¹Lajax
+		// æ¸›å°‘ä¸€ä»¶ï¼Œé€éajax
 		if("deleteOnePiece".equals(action)) {
-			List<String> errorMsgs = new ArrayList<String>(); // ¿ù»~°T®§
+			List<String> errorMsgs = new ArrayList<String>(); // éŒ¯èª¤è¨Šæ¯
 			request.setAttribute("errorMsgs", errorMsgs);
 			
 			try {
 				
 				Integer productSpecId = new Integer(request.getParameter("productSpecId"));
 				Integer itemQuantity = new Integer(request.getParameter("itemQuantity"));
-				// ¼Æ¶q¤j©ó¤@¥ó¡A¤~¯à´î¤Ö
+				// æ•¸é‡å¤§æ–¼ä¸€ä»¶ï¼Œæ‰èƒ½æ¸›å°‘
 				if(1 < itemQuantity) {
 					
 					CartListService cartListService = new CartListService();
@@ -275,7 +275,7 @@ public class ShoppingCart extends HttpServlet {
 					
 				} else {
 					
-					errorMsgs.add("¼Æ¶q¬°1¡AµLªk¦A´î¤Ö");
+					errorMsgs.add("æ•¸é‡ç‚º1ï¼Œç„¡æ³•å†æ¸›å°‘");
 					RequestDispatcher failureView = request.getRequestDispatcher("/shopping/shoppingcart.jsp");
 					failureView.forward(request, response);
 					return;
@@ -284,7 +284,7 @@ public class ShoppingCart extends HttpServlet {
 				
 			} catch(Exception e) {
 				
-				errorMsgs.add("µLªk´î¤Ö¦¹°Ó«~¼Æ¶q  : " + e.getMessage());
+				errorMsgs.add("ç„¡æ³•æ¸›å°‘æ­¤å•†å“æ•¸é‡  : " + e.getMessage());
 				RequestDispatcher failureView = request.getRequestDispatcher("/shopping/shoppingcart.jsp");
 				failureView.forward(request, response);
 				return;
@@ -292,20 +292,20 @@ public class ShoppingCart extends HttpServlet {
 			}
 		}
 		
-		// ¼W¥[¤@¥ó¡A³z¹Lajax
+		// å¢åŠ ä¸€ä»¶ï¼Œé€éajax
 		if("addOnePiece".equals(action)) {
 			
-			List<String> errorMsgs = new ArrayList<String>(); // ¿ù»~°T®§
+			List<String> errorMsgs = new ArrayList<String>(); // éŒ¯èª¤è¨Šæ¯
 			request.setAttribute("errorMsgs", errorMsgs);
 			
 			try {
-				// ­n§ó§ï¬°Service
+				// è¦æ›´æ”¹ç‚ºService
 				Integer productSpecId = new Integer(request.getParameter("productSpecId"));
 				Integer itemQuantity = new Integer(request.getParameter("itemQuantity"));
-				// ½T»{®w¦s¶q
+				// ç¢ºèªåº«å­˜é‡
 				ProductSpecJDBCDAO productSpecDAO = new ProductSpecJDBCDAO();
 				ProductSpecVO productSpec = productSpecDAO.findByPrimaryKey(productSpecId);
-				// ®w¦s¶q¥²¶·¤j©óÁÊ¶R¼Æ¶q
+				// åº«å­˜é‡å¿…é ˆå¤§æ–¼è³¼è²·æ•¸é‡
 				if(productSpec.getProductStock() > itemQuantity) {
 					
 					CartListService cartListService = new CartListService();
@@ -314,7 +314,7 @@ public class ShoppingCart extends HttpServlet {
 					return;
 					
 				} else {
-					errorMsgs.add("®w¦s¼Æ¶q¤£¨¬¡A½Ğ­×§ï¼Æ¶q");
+					errorMsgs.add("åº«å­˜æ•¸é‡ä¸è¶³ï¼Œè«‹ä¿®æ”¹æ•¸é‡");
 					request.setAttribute("itemQuantity", itemQuantity);
 					RequestDispatcher failureView = request.getRequestDispatcher("/shopping/shoppingcart.jsp");
 					failureView.forward(request, response);
@@ -323,7 +323,7 @@ public class ShoppingCart extends HttpServlet {
 				
 			} catch(Exception e) {
 				
-				errorMsgs.add("µLªk¼W¥[¦¹°Ó«~¼Æ¶q  : " + e.getMessage());
+				errorMsgs.add("ç„¡æ³•å¢åŠ æ­¤å•†å“æ•¸é‡  : " + e.getMessage());
 				RequestDispatcher failureView = request.getRequestDispatcher("/shopping/shoppingcart.jsp");
 				failureView.forward(request, response);
 				return;
@@ -332,7 +332,7 @@ public class ShoppingCart extends HttpServlet {
 		
 		if("nextStep".equals(action)) {
 			
-			// ¨ú¥X¸Ó·|­ûªºÁÊª«¨®¤º®e¦Ü¶ñ¼g¸ê®Æ­¶­±
+			// å–å‡ºè©²æœƒå“¡çš„è³¼ç‰©è»Šå…§å®¹è‡³å¡«å¯«è³‡æ–™é é¢
 			CartListService cartListService = new CartListService();
 			List<CartListVO> cartList = cartListService.getCartList(userId);
 			session.setAttribute("cartList", cartList);
