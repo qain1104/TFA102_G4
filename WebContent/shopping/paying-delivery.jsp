@@ -4,6 +4,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*, com.cartList.model.CartListVO, com.cartList.model.CartListService, com.morder.model.MorderVO" %>
 <% 
+	response.setHeader("Cache-Control","no-cache");
+	response.setHeader("Pragma","no-cache"); 
+	response.setDateHeader ("Expires", 0);
+	
  	Integer userId = (Integer)session.getAttribute("userId"); 
 //	Integer userId = new Integer(1003);
  	CartListService cartListService = new CartListService(); 

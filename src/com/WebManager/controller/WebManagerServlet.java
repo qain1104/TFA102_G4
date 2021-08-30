@@ -110,6 +110,7 @@ public class WebManagerServlet extends HttpServlet {
 							}
 
 							String url = req.getContextPath() + "/Sportify.jsp";
+							System.out.println("return");
 							res.sendRedirect(url);
 							return;
 
