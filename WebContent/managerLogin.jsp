@@ -77,7 +77,7 @@
 			<form method="post"
 				action="<%=request.getContextPath()%>/webManager/WebManagerServlet.do">
 				<input type="text" class="fadeIn second" name="inputAccount"
-					required="required" placeholder="管理員帳號"> <input type="text"
+					required="required" placeholder="管理員帳號"> <input type="password"
 					class="fadeIn third" name="inputPassword" required="required"
 					placeholder="管理員密碼"> <input type="hidden" name="action"
 					value="managerIn"> <input type="submit"
