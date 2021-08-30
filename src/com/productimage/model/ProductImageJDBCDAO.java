@@ -1,6 +1,12 @@
 package com.productimage.model;
 
 import java.util.*;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import java.sql.*;
 
 public class ProductImageJDBCDAO implements ProductImageDAO_interface {
@@ -22,6 +28,17 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 	private static final String UPDATE = 
 		"UPDATE PRODUCTIMAGE set productImageSN=? ,productSN=? ,productImage=? where productImageSN = ?";
 
+	// jndi
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void insert(ProductImageVO productImageVO) {
 
@@ -30,8 +47,9 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();;
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setInt(1, productImageVO.getProductSN());
@@ -39,10 +57,6 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -74,8 +88,9 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setInt(1, productImageVO.getProductSN());
@@ -85,10 +100,6 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -120,8 +131,9 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setInt(1, productImageSN);
@@ -129,10 +141,6 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -166,8 +174,9 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, productImageSN);
@@ -183,10 +192,6 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -228,8 +233,9 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -243,10 +249,6 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -286,8 +288,9 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();;
 			pstmt = con.prepareStatement(GET_ONE_STMT_BY_PRODUCT);
 			pstmt.setInt(1, productSN);
 			rs = pstmt.executeQuery();
@@ -300,10 +303,6 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 			}
 
 			
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());

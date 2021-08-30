@@ -8,6 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	public static final String THEURL = "jdbc:mysql://mysql5257.chickenkiller.com:3306/TFA102_G4?serverTimezone=Asia/Taipei";
@@ -19,19 +24,34 @@ public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 	public static final String QUERY_TYPE = "SELECT * FROM ORDER_DELIVERY_TYPE WHERE orderDeliveryTypeId = ?";
 	public static final String QUERY_ALLTYPE = "SELECT * FROM ORDER_DELIVERY_TYPE";
 	
+	// jndi
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(DRIVER);
-		} catch (ClassNotFoundException e) {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	// jdbc
+//	static {
+//		try {
+//			Class.forName(DRIVER);
+//		} catch(ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
 	@Override
 	public void addOrderDeliveryType(Order_delivery_typeVO type) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(ADD_TYPE);
 			pstmt.setString(1, type.getDeliveryType());
 			pstmt.setInt(2, type.getDeliveryFee());
@@ -61,7 +81,8 @@ public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_TYPE);
 			pstmt.setInt(1, orderDeliveryTypeId);
 			pstmt.executeUpdate();
@@ -90,7 +111,8 @@ public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_TYPE);
 			pstmt.setString(1, type.getDeliveryType());
 			pstmt.setInt(2, type.getDeliveryFee());
@@ -123,7 +145,8 @@ public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 		ResultSet rs = null;
 		Order_delivery_typeVO odtVO = null;
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_TYPE);
 			pstmt.setInt(1, orderDeliveryTypeId);
 			rs = pstmt.executeQuery();
@@ -166,7 +189,8 @@ public class Order_delivery_typeDAO implements Order_delivery_typeDAO_interface{
 		ResultSet rs = null;
 		List<Order_delivery_typeVO> list = new ArrayList<Order_delivery_typeVO>();
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_ALLTYPE);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {

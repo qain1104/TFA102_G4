@@ -10,6 +10,11 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import com.order_list.model.Order_listVO;
 
 
@@ -27,20 +32,34 @@ public class MorderDAO implements MorderDAO_interface{
 	public static final String QUERY_ALLMORDER = "SELECT * FROM MORDER";
 	public static final String ADD_ORDERLIST = "INSERT INTO ORDER_LIST (productSpecId, orderSN, orderCost, purchaseQuantity, productRate, productFeedback) VALUES (?, ?, ?, ?, ?, ?)";
 	
+	// jndi
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(DRIVER);
-		} catch(ClassNotFoundException e) {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	// jdbc
+//	static {
+//		try {
+//			Class.forName(DRIVER);
+//		} catch(ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Override
 	public void addMorder(MorderVO morder) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(ADD_MORDER);
 			pstmt.setInt(1, morder.getUserId());
 			
@@ -100,7 +119,8 @@ public class MorderDAO implements MorderDAO_interface{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_MORDER);
 			pstmt.setInt(1, orderSN);
 			pstmt.executeUpdate();
@@ -130,7 +150,8 @@ public class MorderDAO implements MorderDAO_interface{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_MORDER);
 			pstmt.setInt(1, morder.getUserId());
 			pstmt.setInt(2, morder.getCouponId());				
@@ -183,7 +204,8 @@ public class MorderDAO implements MorderDAO_interface{
 		MorderVO morder = null;
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_MORDER);
 			pstmt.setInt(1, orderSN);
 			rs = pstmt.executeQuery();
@@ -250,7 +272,8 @@ public class MorderDAO implements MorderDAO_interface{
 		List<MorderVO> list = new ArrayList<MorderVO>();
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_ALLMORDER);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -318,7 +341,8 @@ public class MorderDAO implements MorderDAO_interface{
 		List<MorderVO> morderList = new ArrayList<MorderVO>();
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_MORDER_USER);
 			pstmt.setInt(1, userId);
 			rs = pstmt.executeQuery();
@@ -386,8 +410,8 @@ public class MorderDAO implements MorderDAO_interface{
 		String cols[] = { "orderSN" };
 		Integer newOrderSN = null;
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
-			
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(ADD_MORDER, cols);
 			// ·s¼W­q³æ

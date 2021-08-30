@@ -8,6 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	public static final String THEURL = "jdbc:mysql://mysql5257.chickenkiller.com:3306/TFA102_G4?serverTimezone=Asia/Taipei";
@@ -20,13 +25,26 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 	public static final String QUERY_LIST_USER = "SELECT * FROM PRODUCT_WATCH_LIST WHERE userId = ?";
 	public static final String QUERY_ALLLIST = "SELECT * FROM PRODUCT_WATCH_LIST";
 	
+	// jndi
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(DRIVER);
-		} catch (ClassNotFoundException e) {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	// jdbc
+//	static {
+//		try {
+//			Class.forName(DRIVER);
+//		} catch(ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Override
 	public void addWatchList(Product_watch_listVO watchList) {
@@ -34,7 +52,8 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(ADD_LIST);
 			pstmt.setInt(1, watchList.getProductSN());
 			pstmt.setInt(2, watchList.getUserId());
@@ -66,7 +85,8 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_LIST);
 			pstmt.setInt(1, pwlSN);
 			pstmt.executeUpdate();
@@ -96,7 +116,8 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_LIST);
 			pstmt.setInt(1, watchList.getProductSN());
 			pstmt.setInt(2, watchList.getUserId());
@@ -130,7 +151,8 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 		Product_watch_listVO watchList = null;
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_LIST);
 			pstmt.setInt(1, pwlSN);
 			rs = pstmt.executeQuery();
@@ -175,7 +197,8 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 		List<Product_watch_listVO> list = new ArrayList<Product_watch_listVO>();
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_ALLLIST);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -221,7 +244,8 @@ public class Product_watch_listDAO implements Product_watch_listDAO_interface{
 		List<Product_watch_listVO> trackingList = new ArrayList<Product_watch_listVO>();
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_LIST_USER);
 			pstmt.setInt(1, userId);
 			rs = pstmt.executeQuery();

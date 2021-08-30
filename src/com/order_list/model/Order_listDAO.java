@@ -11,6 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import com.morder.model.MorderService;
 import com.morder.model.MorderVO;
 import com.order_delivery_type.model.Order_delivery_typeVO;
@@ -32,20 +37,33 @@ public class Order_listDAO implements Order_listDAO_interface{
 	public static final String QUERY_ALLORDERLIST = "SELECT * FROM ORDER_LIST";
 	public static final String QUERY_ORDERLIST_BYSPECID = "SELECT * FROM ORDER_LIST WHERE productSpecId = ?";
 	
+	// jndi
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(DRIVER);
-		} catch (ClassNotFoundException e) {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	
+	// jdbc
+//	static {
+//		try {
+//			Class.forName(DRIVER);
+//		} catch(ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	@Override
 	public void addOrderList(Order_listVO orderList) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(ADD_ORDERLIST);
 			pstmt.setInt(1, orderList.getProductSpecId());
 			pstmt.setInt(2, orderList.getOrderSN());
@@ -84,7 +102,8 @@ public class Order_listDAO implements Order_listDAO_interface{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_ORDERLIST);
 			pstmt.setInt(1, orderList.getProductSpecId());
 			pstmt.setInt(2, orderList.getOrderSN());
@@ -122,7 +141,8 @@ public class Order_listDAO implements Order_listDAO_interface{
 		ResultSet rs = null;
 		Order_listVO orderList = null;
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_ORDERLIST);
 			pstmt.setInt(1, orderListSN);
 			rs = pstmt.executeQuery();
@@ -170,7 +190,8 @@ public class Order_listDAO implements Order_listDAO_interface{
 		ResultSet rs = null;
 		List<Order_listVO> list = new ArrayList<Order_listVO>();
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_ALLORDERLIST);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -219,7 +240,8 @@ public class Order_listDAO implements Order_listDAO_interface{
 		ResultSet rs = null;
 		List<Order_listVO> list = new ArrayList<Order_listVO>();
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_ORDERLIST_BYMORDER);
 			pstmt.setInt(1, orderSN);
 			rs = pstmt.executeQuery();
@@ -286,7 +308,8 @@ public class Order_listDAO implements Order_listDAO_interface{
 		ResultSet rs = null;
 		List<Order_listVO> list = new ArrayList<Order_listVO>();
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_ORDERLIST_BYSPECID);
 			pstmt.setInt(1, productSpecId);
 			rs = pstmt.executeQuery();

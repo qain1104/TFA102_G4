@@ -2,6 +2,11 @@ package com.productspec.model;
 
 import java.util.*;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import com.cartList.model.CartListService;
 import com.cartList.model.CartListVO;
 import com.order_list.model.Order_listVO;
@@ -31,6 +36,17 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 		"UPDATE PRODUCTSPEC set productStock=? where productSpecId = ?";
 	private static final String GET_PRODUCTSPEC = 
 			"SELECT * FROM PRODUCTSPEC where productSN = ?";	
+	// jndi
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	@Override
 	public void insert(ProductSpecVO productSpecVO) {
@@ -40,8 +56,9 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();;
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setInt(1, productSpecVO.getProductSN());
@@ -51,10 +68,6 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -86,8 +99,9 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();;
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setInt(1, productSpecVO.getProductSN());
@@ -99,10 +113,6 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -134,8 +144,9 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();;
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setInt(1, productSpecId);
@@ -143,10 +154,6 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -180,8 +187,9 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();;
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, productSpecId);
@@ -199,10 +207,6 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -244,8 +248,9 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();;
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -261,10 +266,6 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -304,8 +305,9 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 		Integer price = null;
 		
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();;
 			pstmt = con.prepareStatement(GET_PRICE_CARTLIST);
 			pstmt.setInt(1, cartList.getProductSpecId());
 			rs = pstmt.executeQuery();
@@ -313,10 +315,6 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 			price = rs.getInt("productPrice");
 		
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -354,8 +352,9 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();;
 			pstmt = con.prepareStatement(UPDATE_STOCK);
 			
 			pstmt.setInt(1, productStock);
@@ -364,10 +363,6 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -399,8 +394,9 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();;
 			pstmt = con.prepareStatement(GET_PRODUCTSPEC);
 			pstmt.setInt(1, productSN);
 			rs = pstmt.executeQuery();
@@ -417,10 +413,6 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 			
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
