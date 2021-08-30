@@ -59,7 +59,7 @@
 					<li class="list-group-item"><button type="button"
 							class="btn btn-success">新增場地</button></li>
 					<li class="list-group-item"><button type="button"
-							class="btn btn-success">修改場地</button></li>
+							class="btn btn-success">查看場地</button></li>
 					<li class="list-group-item"><button type="button"
 							class="btn btn-success">租借單管理</button></li>
 				</ul>
