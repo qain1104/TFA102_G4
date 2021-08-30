@@ -103,7 +103,7 @@ public class WebManagerServlet extends HttpServlet {
 							}
 							
 							String location = (String) session.getAttribute("location");
-							if(location != null && location == req.getContextPath()+"/webManager/WebManagerServlet.do") {
+							if(location != null && location != req.getContextPath()+"/webManager/WebManagerServlet.do") {
 								session.removeAttribute("location");
 								res.sendRedirect(location);
 								return;
@@ -198,7 +198,7 @@ public class WebManagerServlet extends HttpServlet {
 							session.setAttribute("currentC", temp);
 							session.removeAttribute("cartList");
 							String location = (String) session.getAttribute("location");
-							if(location != null && location == req.getContextPath()+"/webManager/WebManagerServlet.do") {
+							if(location != null && location != req.getContextPath()+"/webManager/WebManagerServlet.do") {
 								session.removeAttribute("location");
 								res.sendRedirect(location);
 								return;
