@@ -10,7 +10,7 @@ public class REPORTService {
 	private REPORTDAO_interface dao;
 
 	public REPORTService() {
-		dao = new REPORTJDBCDAO();
+		dao = new REPORTJNDIDAO();
 	}
 
 	public REPORTVO addReport(Integer articleSN,Integer replySN,Integer userId,Integer reportClass,String reportContent,Timestamp reportDate,Integer reportStatus,Integer managerId,Timestamp reportAuditDate){

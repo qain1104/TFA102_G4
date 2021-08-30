@@ -11,7 +11,7 @@ public class ARTICLEService {
 	private ARTICLEDAO_interface dao;
 
 	public ARTICLEService() {
-		dao = new ARTICLEJDBCDAO();
+		dao = new ARTICLEJNDIDAO();
 	}
 
 	public ARTICLEVO addArticle(Integer userId,Integer articleClass,Integer articleType,String articleTitle,byte[] articleContent,Integer articlePop,Integer articleLikes,Timestamp articleDate,Timestamp articleUpDate,Integer articleStatus)
