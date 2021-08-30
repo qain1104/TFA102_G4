@@ -30,7 +30,7 @@
 	response.setHeader("Cache-Control","no-cache");
 	response.setHeader("Pragma","no-cache"); 
 	response.setDateHeader ("Expires", 0); 
-	session.setAttribute("currentPage", request.getRequestURI());
+	session.setAttribute("location", request.getRequestURI());
 	
 	ProductVO shopSingleProduct = (ProductVO)session.getAttribute("shopSingleProduct");
 	List<ProductSpecVO> specList = (List<ProductSpecVO>)session.getAttribute("specList");
@@ -226,12 +226,6 @@
                 </div>
                 </c:forEach>
             </div>
-
-       <a href="<%= request.getContextPath() %>/order/MorderManagement.do?action=morderManagement">Mordertest</a>
-       <br>
-       <a href="<%= request.getContextPath() %>/tracking/ProductTracking.do?action=trackingManagement">Trackingtest</a>
-       <br>
-       <a href="<%= request.getContextPath() %>/order/MorderManagement.do?action=reviewManagement">Reviewtest</a>
        </div>
     </section>
     <!-- End Article -->

@@ -40,21 +40,21 @@
             <input type="hidden" name="action" value="">
             
             <ul class="list-group">
-                <li class="list-group-item"><button type="button" class="btn btn-success">我的商品訂單</button></li>
+                <li class="list-group-item"><button type="button" class="btn btn-success"><a href="<%= request.getContextPath() %>/order/MorderManagement.do?action=morderManagement">我的商品訂單</a></button></li>
                 <li class="list-group-item"><button type="button" class="btn btn-success">我的場地租借單</button></li>
               </ul>
           </div>
           <div class="col text-center" >
            <h3>追蹤清單</h3>
             <ul class="list-group">
-                <li class="list-group-item"><button type="button" class="btn btn-success">我的追蹤商品</button></li>
+                <li class="list-group-item"><button type="button" class="btn btn-success"><a href="<%= request.getContextPath() %>/tracking/ProductTracking.do?action=trackingManagement">我的追蹤商品</a></button></li>
                 <li class="list-group-item"><button type="button" class="btn btn-success">我的追蹤場地</button></li>
               </ul>
           </div>
           <div class="col text-center">
            <h3>我的評論</h3>
             <ul class="list-group">
-                <li class="list-group-item"><button type="button" class="btn btn-success">查看商品評論</button></li>
+                <li class="list-group-item"><button type="button" class="btn btn-success"><a href="<%= request.getContextPath() %>/order/MorderManagement.do?action=reviewManagement">查看商品評論</a></button></li>
                 <li class="list-group-item"><button type="button" class="btn btn-success">查看場地評論</button></li>
               </ul>
           </div>

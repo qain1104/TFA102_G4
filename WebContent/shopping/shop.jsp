@@ -8,7 +8,7 @@
 <%
  	List<ProductVO> shopAllproductList = (List<ProductVO>)session.getAttribute("shopAllproductList");
 	pageContext.setAttribute("shopAllproductList", shopAllproductList);
-	session.setAttribute("currentPage", request.getRequestURI());
+	session.setAttribute("location", request.getRequestURI());
 %>
 <!DOCTYPE html>
 <html>
