@@ -2,22 +2,31 @@
 package com.WebManager.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 
 public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 	
-	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
-	String userid = "root";
-	String passwd = "password";
+
+	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 
 	private static final String INSERT_STMT = "INSERT INTO WEB_MANAGER(managerName,managerEmail,managerAccount,managerPassword,managerPic,managerStatus) VALUES (?,?,?,?,?,?)";
@@ -32,8 +41,7 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);// 讓資料庫可預先編譯SQL指令，用於須變數傳遞且重複使用的指令
 			// 執行前先設定參數(即pstmt裡的?)
 			pstmt.setString(1, webManagerVO.getManagerName());
@@ -45,9 +53,6 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -76,8 +81,7 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, webManagerVO.getManagerName());
@@ -89,9 +93,6 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 			pstmt.setInt(7, webManagerVO.getManagerId());
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -122,16 +123,12 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setInt(1, managerId);
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -164,8 +161,7 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, managerId);
@@ -184,9 +180,6 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 				webManagerVO.setManagerStatus(rs.getInt("managerStatus"));
 			}
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -228,8 +221,7 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -246,9 +238,6 @@ public class WebManagerJDBCDAO implements WebManagerDAO_interface {
 				list.add(webManagerVO); // Store the row in the list
 			}
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());

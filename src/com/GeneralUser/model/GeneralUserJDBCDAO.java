@@ -2,17 +2,28 @@
 package com.GeneralUser.model;
 
 import java.util.*;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import java.sql.*;
 import java.sql.Date;
 import com.GeneralUser.model.GeneralUserVO;
 
 public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 
-	String driver = "com.mysql.cj.jdbc.Driver";
-//	String url = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
-	String url = "jdbc:mysql://mysql5257.chickenkiller.com:3306/TFA102_G4?rewriteBatchedStatements=true&serverTimezone=Asia/Taipei";
-	String userid = "root";
-	String passwd = "123456";
+	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static final String INSERT_STMT = "INSERT INTO GENERAL_USER(registerStatus, userAccount, userPassword, userName, id, email, address, phone, profilePic , createdTime ,gender) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String GET_ALL_STMT = "SELECT userId,registerStatus,userAccount,userPassword,userName,id,email,address,phone,profilePic,createdTime,gender FROM GENERAL_USER order by userId";
@@ -26,10 +37,9 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(INSERT_STMT);
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(INSERT_STMT);// 讓資料庫可預先編譯SQL指令，用於須變數傳遞且重複使用的指令
 			// 執行前先設定參數(即pstmt裡的?)
 			pstmt.setInt(1, generalUserVO.getRegisterStatus());
 			pstmt.setString(2, generalUserVO.getUserAccount());
@@ -45,9 +55,6 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -76,8 +83,7 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setInt(1, generalUserVO.getRegisterStatus());
@@ -93,9 +99,6 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 			pstmt.setInt(11, generalUserVO.getGender());
 			pstmt.setInt(12, generalUserVO.getUserId());
 			pstmt.executeUpdate();
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -125,16 +128,11 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setInt(1, userId);
 			pstmt.executeUpdate();
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -168,8 +166,7 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, userId);
@@ -192,9 +189,6 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 				generalUserVO.setCreatedTime(rs.getTimestamp("createdTime"));
 				generalUserVO.setGender(rs.getInt("gender"));
 			}
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -236,8 +230,7 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -258,9 +251,6 @@ public class GeneralUserJDBCDAO implements GeneralUserDAO_interface {
 				generalUserVO.setGender(rs.getInt("gender"));
 				list.add(generalUserVO); // Store the row in the list
 			}
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());

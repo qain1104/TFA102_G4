@@ -10,14 +10,23 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
-	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/TFA102_G4?serverTimezone=Asia/Taipei";
-	String userid = "root";
-	String passwd = "password";
-	
+	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
+		private static DataSource ds = null;
+		static {
+			try {
+				Context ctx = new InitialContext();
+				ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+		}
+
 	private static final String INSERT_STMT = "INSERT INTO SPORT_NEWS(managerId,title,content,newsDate,newsSource,newsType)VALUES (?,?,?,?,?,?)";
 	private static final String GET_ALL_STMT = "SELECT newsSn,managerId,title,content,newsDate,newsSource,newsType FROM SPORT_NEWS order by newsSn";
 	private static final String GET_ONE_STMT = "SELECT newsSn,managerId,title,content,newsDate,newsSource,newsType FROM SPORT_NEWS where newsSn = ?";
@@ -31,8 +40,7 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);// 讓資料庫可預先編譯SQL指令，用於須變數傳遞且重複使用的指令
 			// 執行前先設定參數(即pstmt裡的?)
 			pstmt.setInt(1, sportsNewsVO.getManagerId());
@@ -44,10 +52,7 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
-			// Handle any SQL errors
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
@@ -75,8 +80,7 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setInt(1, sportsNewsVO.getManagerId());
@@ -89,10 +93,7 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
-			// Handle any driver errors
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
@@ -121,16 +122,12 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setInt(1, newsSn);
 			pstmt.executeUpdate();
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -164,8 +161,7 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, newsSn);
@@ -182,11 +178,7 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 				sportsNewsVO.setNewsSource(rs.getString("newsSource"));
 				sportsNewsVO.setNewsType(rs.getInt("newsType"));
 			}
-			
 
-			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -228,8 +220,7 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -247,10 +238,7 @@ public class SportsNewsJDBCDAO implements SportsNewsDAO_interface {
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
-			// Handle any driver errors
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
