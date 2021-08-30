@@ -205,19 +205,19 @@ public class CorpUserServlet extends HttpServlet {
 
 				Integer registerStatus = new Integer(0);// 註冊一定預設是0
 				String corpAccount = req.getParameter("corpAccount").trim();
-				String corpAccountReg = "^[(a-zA-Z0-9)]{8,30}$";
+				String corpAccountReg = "^[(a-zA-Z0-9)]{8,16}$";
 				if (corpAccount == null || corpAccount.trim().length() == 0) {
 					errorMsgs.add("帳號: 請勿空白");
 				} else if (!corpAccount.trim().matches(corpAccountReg)) { // 以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("帳號: 只能是英文字母、數字 , 且長度必需在8到30之間");
+					errorMsgs.add("帳號: 只能是英文字母、數字 , 且長度必需在8到16之間");
 				}
 
 				String corpPassword = req.getParameter("corpPassword").trim();
-				String corpPasswordReg = "^[(a-zA-Z0-9)]{8,30}$";
+				String corpPasswordReg = "^[(a-zA-Z0-9)]{8,16}$";
 				if (corpPassword == null || corpPassword.trim().length() == 0) {
 					errorMsgs.add("密碼: 請勿空白");
 				} else if (!corpPassword.trim().matches(corpPasswordReg)) { // 以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("密碼: 只能是英文字母、數字 , 且長度必需在8到30之間");
+					errorMsgs.add("密碼: 只能是英文字母、數字 , 且長度必需在8到16之間");
 				}
 
 				String companyName = req.getParameter("companyName").trim();
@@ -279,6 +279,7 @@ public class CorpUserServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("corpUserVO", corpUserVO); // 含有輸入格式錯誤的corpUserVO物件,也存入req
+					req.setAttribute("errorMsgs", errorMsgs);
 					RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
@@ -320,6 +321,7 @@ public class CorpUserServlet extends HttpServlet {
 		if ("backToLogin".equals(action)) { // 來自login.jsp的請求
 			String url = "/login.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
+			session.removeAttribute("errorMsgs");
 			successView.forward(req, res);
 		}
 
