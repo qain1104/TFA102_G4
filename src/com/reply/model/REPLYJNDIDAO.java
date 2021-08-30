@@ -1,4 +1,4 @@
-package com.rlike.model;
+package com.reply.model;
 
 import java.util.*;
 
@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 import java.sql.*;
 
-public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
+public class REPLYJNDIDAO implements REPLYDAO_interface {
 	
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 	private static DataSource ds = null;
@@ -23,19 +23,19 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 	}
 	
 	private static final String INSERT_STMT = 
-			"INSERT INTO REPLY_LIKE (replySN,userId) VALUES (?, ?)";
+			"INSERT INTO REPLY (articleSN,userId,replyContent,replyLikes,replyDate,replyUpDate,replyStatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		private static final String GET_ALL_STMT = 
-			"SELECT replyLikeSN,replySN,userId FROM REPLY_LIKE order by replyLikeSN";
+			"SELECT replySN,articleSN,userId,replyContent,replyLikes,replyDate,replyUpDate,replyStatus FROM REPLY order by replySN";
 		private static final String GET_ONE_STMT = 
-			"SELECT replyLikeSN,replySN,userId FROM REPLY_LIKE where replyLikeSN = ?";
+			"SELECT replySN,articleSN,userId,replyContent,replyLikes,replyDate,replyUpDate,replyStatus FROM REPLY where replySN = ?";
 		private static final String DELETE = 
-			"DELETE FROM REPLY_LIKE where replyLikeSN = ?";
+			"DELETE FROM REPLY where replySN = ?";
 		private static final String UPDATE = 
-			"UPDATE REPLY_LIKE set replySN=?, userId=? where replyLikeSN = ?";
+			"UPDATE REPLY set articleSN=? ,userId=? ,replyContent=? ,replyLikes=? ,replyDate=? ,replyUpDate=? ,replyStatus=?  where replySN = ?";
 	
-
+	
 	@Override
-	public int insert(REPLY_LIKEVO rlikeVO) {
+	public int insert(REPLYVO replyVO) {
 		int updateCount = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -45,8 +45,17 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
-			pstmt.setInt(1,rlikeVO.getReplySN());
-			pstmt.setInt(2,rlikeVO.getUserId());
+			pstmt.setInt(1,replyVO.getArticleSN());
+			pstmt.setInt(2,replyVO.getUserId());
+			pstmt.setBytes(3,replyVO.getReplyContent());
+			pstmt.setInt(4,replyVO.getReplyLikes());
+			pstmt.setTimestamp(5,replyVO.getReplyDate());
+			if(replyVO.getReplyUpDate()==null) {
+				pstmt.setNull(6, java.sql.Types.INTEGER);
+			}else {
+			pstmt.setTimestamp(6,replyVO.getReplyUpDate());
+			}
+			pstmt.setInt(7,replyVO.getReplyStatus());
 				
 			updateCount = pstmt.executeUpdate();
 
@@ -75,7 +84,7 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 	}
 
 	@Override
-	public int update(REPLY_LIKEVO rlikeVO) {
+	public int update(REPLYVO replyVO) {
 		int updateCount = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -85,9 +94,18 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
-			pstmt.setInt(3,rlikeVO.getReplyLikeSN());
-			pstmt.setInt(1,rlikeVO.getReplySN());
-			pstmt.setInt(2,rlikeVO.getUserId());
+			pstmt.setInt(1,replyVO.getArticleSN());
+			pstmt.setInt(2,replyVO.getUserId());
+			pstmt.setBytes(3,replyVO.getReplyContent());
+			pstmt.setInt(4,replyVO.getReplyLikes());
+			pstmt.setTimestamp(5,replyVO.getReplyDate());
+			if(replyVO.getReplyUpDate()==null) {
+				pstmt.setNull(6, java.sql.Types.INTEGER);
+			}else {
+			pstmt.setTimestamp(6,replyVO.getReplyUpDate());
+			}
+			pstmt.setInt(7,replyVO.getReplyStatus());
+			pstmt.setInt(8,replyVO.getReplySN());
 
 			updateCount = pstmt.executeUpdate();
 
@@ -116,7 +134,7 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 	}
 
 	@Override
-	public int delete(Integer replyLikeSN) {
+	public int delete(Integer replySN) {
 		int updateCount = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -126,7 +144,7 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 			
-			pstmt.setInt(1, replyLikeSN);
+			pstmt.setInt(1, replySN);
 			
 			updateCount = pstmt.executeUpdate();
 
@@ -155,8 +173,8 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 	}
 
 	@Override
-	public REPLY_LIKEVO findByPrimaryKey(Integer replyLikeSN) {
-		REPLY_LIKEVO rlikeVO = null;
+	public REPLYVO findByPrimaryKey(Integer replySN) {
+		REPLYVO replyVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -166,16 +184,21 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 			
-			pstmt.setInt(1, replyLikeSN);
+			pstmt.setInt(1, replySN);
 			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				// empVo 也稱為 Domain objects
-				rlikeVO = new REPLY_LIKEVO();
-				rlikeVO.setReplyLikeSN(rs.getInt("replyLikeSN"));
-				rlikeVO.setReplySN(rs.getInt("replySN"));
-				rlikeVO.setUserId(rs.getInt("userId"));
+				replyVO = new REPLYVO();
+				replyVO.setReplySN(rs.getInt("replySN"));
+				replyVO.setArticleSN(rs.getInt("articleSN"));
+				replyVO.setUserId(rs.getInt("userId"));
+				replyVO.setReplyContent(rs.getBytes("replyContent"));
+				replyVO.setReplyLikes(rs.getInt("replyLikes"));
+				replyVO.setReplyDate(rs.getTimestamp("replyDate"));
+				replyVO.setReplyUpDate(rs.getTimestamp("replyUpDate"));
+				replyVO.setReplyStatus(rs.getInt("replyStatus"));
 			}
 
 			// Handle any driver errors
@@ -206,13 +229,13 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 				}
 			}
 		}
-		return rlikeVO;
+		return replyVO;
 	}
 
 	@Override
-	public List<REPLY_LIKEVO> getAll() {
-		List<REPLY_LIKEVO> list = new ArrayList<REPLY_LIKEVO>();
-		REPLY_LIKEVO rlikeVO = null;
+	public List<REPLYVO> getAll() {
+		List<REPLYVO> list = new ArrayList<REPLYVO>();
+		REPLYVO replyVO = null;
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -226,11 +249,16 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 
 			while (rs.next()) {
 				// empVO 也稱為 Domain objects
-				rlikeVO = new REPLY_LIKEVO();
-				rlikeVO.setReplyLikeSN(rs.getInt("replyLikeSN"));
-				rlikeVO.setReplySN(rs.getInt("replySN"));
-				rlikeVO.setUserId(rs.getInt("userId"));
-				list.add(rlikeVO); // Store the row in the vector
+				replyVO = new REPLYVO();
+				replyVO.setReplySN(rs.getInt("replySN"));
+				replyVO.setArticleSN(rs.getInt("articleSN"));
+				replyVO.setUserId(rs.getInt("userId"));
+				replyVO.setReplyContent(rs.getBytes("replyContent"));
+				replyVO.setReplyLikes(rs.getInt("replyLikes"));
+				replyVO.setReplyDate(rs.getTimestamp("replyDate"));
+				replyVO.setReplyUpDate(rs.getTimestamp("replyUpDate"));
+				replyVO.setReplyStatus(rs.getInt("replyStatus"));
+				list.add(replyVO); // Store the row in the vector
 			}
 
 			// Handle any driver errors
@@ -262,5 +290,6 @@ public class REPLY_LIKEJDBCDAO implements REPLY_LIKEDAO_interface {
 			}
 		}
 		return list;
-	}	
+	}
+	
 }

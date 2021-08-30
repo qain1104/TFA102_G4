@@ -8,7 +8,7 @@ public class REPLY_LIKEService {
 	private REPLY_LIKEDAO_interface dao;
 
 	public REPLY_LIKEService() {
-		dao = new REPLY_LIKEJDBCDAO();
+		dao = new REPLY_LIKEJNDIDAO();
 	}
 
 	public REPLY_LIKEVO addRlike(Integer replySN, Integer userId) {

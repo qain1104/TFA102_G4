@@ -11,7 +11,7 @@ public class REPLYService {
 	private REPLYDAO_interface dao;
 
 	public REPLYService() {
-		dao = new REPLYJDBCDAO();
+		dao = new REPLYJNDIDAO();
 	}
 
 	public REPLYVO addReply(Integer articleSN, Integer userId, byte[] replyContent) {
