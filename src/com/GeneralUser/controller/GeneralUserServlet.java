@@ -340,7 +340,9 @@ public class GeneralUserServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("註冊失敗:" + e.getMessage());
+				System.out.println(errorMsgs);
 				RequestDispatcher failureView = req.getRequestDispatcher("/generalUser/select_page.jsp");
+		
 				failureView.forward(req, res);
 				return;
 			}
