@@ -4,7 +4,7 @@
 
 
 <%
-response.setHeader("Refresh", "3; "+request.getContextPath()+"/csresponse/csresponse.jsp");
+response.setHeader("Refresh", "3; "+request.getContextPath()+"/Sportify.jsp");
 %>
 
 
