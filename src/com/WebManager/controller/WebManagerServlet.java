@@ -118,9 +118,8 @@ public class WebManagerServlet extends HttpServlet {
 							System.out.println("重新導向登入頁面");
 							session.setAttribute("location", req.getRequestURI());
 							System.out.println(req.getRequestURI());
-							session.setAttribute("errorMsgs", errorMsgs);
-							String url = req.getContextPath() + "/login.jsp";
-							res.sendRedirect(url);
+							RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+							failureView.forward(req, res);
 							return;
 						}
 					}
@@ -130,8 +129,8 @@ public class WebManagerServlet extends HttpServlet {
 				System.out.println("查無此會員,重新導向登入頁面");
 				session.setAttribute("location", req.getRequestURI());
 				session.setAttribute("errorMsgs", errorMsgs);
-				String url = req.getContextPath() + "/login.jsp";
-				res.sendRedirect(url);
+				RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+				failureView.forward(req, res);
 				return;
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
@@ -212,9 +211,8 @@ public class WebManagerServlet extends HttpServlet {
 							errorMsgs.add("帳號或密碼錯誤");
 							System.out.println("重新導向登入頁面");
 							session.setAttribute("location", req.getRequestURI());
-							session.setAttribute("errorMsgs", errorMsgs);
-							String url = req.getContextPath() + "/login.jsp";
-							res.sendRedirect(url);
+							RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+							failureView.forward(req, res);
 							return;
 						}
 					}
@@ -223,8 +221,8 @@ public class WebManagerServlet extends HttpServlet {
 				System.out.println("查無此會員,重新導向登入頁面");
 				session.setAttribute("location", req.getRequestURI());
 //				session.setAttribute("errorMsgs", errorMsgs);
-				String url = req.getContextPath() + "/login.jsp";
-				res.sendRedirect(url);
+				RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+				failureView.forward(req, res);
 				return;
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
