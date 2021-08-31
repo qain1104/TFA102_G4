@@ -17,17 +17,21 @@
 	ARTICLEService aSvc = new ARTICLEService();
 	REPLYService rSvc = new REPLYService();
 	ARTICLE_LIKEService alikeSvc = new ARTICLE_LIKEService();
-	REPLY_LIKEService rlikeSvc =new REPLY_LIKEService();
+	REPLY_LIKEService rlikeSvc = new REPLY_LIKEService();
 	ARTICLEVO articleVO = aSvc.getOneArticle(articleSN);
 	request.setAttribute("articleVO", articleVO);
 	List<REPLYVO> list = rSvc.getReplybyArticle(articleSN);
 	request.setAttribute("list", list);
-	Datahandle dh = new Datahandle(); 
+	Datahandle dh = new Datahandle();
 	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 %>
-<%Integer userId=null; %>
+<%
+	Integer userId = null;
+%>
 <c:if test="${!empty userId}">
-<%userId=(Integer)session.getAttribute("userId"); %>
+	<%
+		userId = (Integer) session.getAttribute("userId");
+	%>
 </c:if>
 <!DOCTYPE html>
 <html>
@@ -69,7 +73,6 @@ img {
 </style>
 </head>
 <body>
-${userId}
 	<jsp:include page="/header.jsp" flush="true" />
 	<!-- 論壇回覆本體 -->
 	<section class="bg-light">
@@ -97,7 +100,16 @@ ${userId}
 							</div>
 						</div>
 						<!-- !最上面標題 -->
-
+						<%-- 錯誤表列 --%>
+						<c:if test="${not empty errorMsgs}">
+							<font style="color: red"></font>
+							<ul>
+								<c:forEach var="message" items="${errorMsgs}">
+									<li style="color: red">${message}</li>
+								</c:forEach>
+							</ul>
+						</c:if>
+						<%-- !錯誤表列 --%>
 						<!--主體文章大樓 -->
 						<c:choose>
 							<c:when test="${articleVO.articleStatus==0}">
@@ -174,15 +186,21 @@ ${userId}
 																<input type="hidden" name="articleSN"
 																	value="${articleVO.articleSN}"> <input
 																	type="hidden" name="loguserId" value="${userId}">
-																	<c:if test="${!empty userId}">
-																	<c:set var="aliked" value="<%=alikeSvc.doesaliked(userId,articleVO.getArticleSN())%>"></c:set>
-																	</c:if>
-																	<c:choose>
-																	<c:when test="${empty userId || !aliked}"><button class="btn btn-success" type="submit">收回推</button></c:when>
-																	
-																	<c:otherwise><button class="btn btn-success" type="submit" ${empty userId? "disabled":""}>推推</button></c:otherwise>
-																	</c:choose>
-																		
+																<c:if test="${!empty userId}">
+																	<c:set var="aliked"
+																		value="<%=alikeSvc.doesaliked(userId, articleVO.getArticleSN())%>"></c:set>
+																</c:if>
+																<c:choose>
+																	<c:when test="${!empty userId && !aliked}">
+																		<button class="btn btn-success" type="submit">收回推</button>
+																	</c:when>
+
+																	<c:otherwise>
+																		<button class="btn btn-success" type="submit"
+																			${empty userId? "disabled":""}>推推</button>
+																	</c:otherwise>
+																</c:choose>
+
 															</form>
 														</div>
 														<div class="card col-auto">
@@ -245,10 +263,11 @@ ${userId}
 													</div>
 													<div class="fs-5 text-success text-center">
 														<c:forEach var="userVO" items="<%=guSvc.getAll()%>">
-													<c:if test="${userVO.userId eq replyVO.userId}">
+															<c:if test="${userVO.userId eq replyVO.userId}">
 	                    ${userVO.userName}
                     </c:if>
-												</c:forEach></div>
+														</c:forEach>
+													</div>
 												</div>
 											</div>
 											<div class="card col-10 pb-3">
@@ -299,12 +318,18 @@ ${userId}
 																			value="${replyVO.replySN}"> <input
 																			type="hidden" name="loguserId" value="${userId}">
 																		<c:if test="${!empty userId}">
-																	<c:set var="rliked" value="<%=rlikeSvc.doesrliked(userId,replyVO.getReplySN())%>"></c:set>
-																	</c:if>
-																	<c:choose>
-																	<c:when test="${empty userId || !rliked}"><button class="btn btn-success" type="submit">收回推</button></c:when>
-																	<c:otherwise><button class="btn btn-success" type="submit" ${empty userId? "disabled":""}>推推</button></c:otherwise>
-																	</c:choose>
+																			<c:set var="rliked"
+																				value="<%=rlikeSvc.doesrliked(userId, replyVO.getReplySN())%>"></c:set>
+																		</c:if>
+																		<c:choose>
+																			<c:when test="${!empty userId &&  !rliked}">
+																				<button class="btn btn-success" type="submit">收回推</button>
+																			</c:when>
+																			<c:otherwise>
+																				<button class="btn btn-success" type="submit"
+																					${empty userId? "disabled":""}>推推</button>
+																			</c:otherwise>
+																		</c:choose>
 																	</form>
 																</div>
 																<div class="card col-auto">

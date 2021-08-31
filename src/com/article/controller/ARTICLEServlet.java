@@ -17,9 +17,8 @@ public class ARTICLEServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		req.setCharacterEncoding("UTF-8");
-		String action = req.getParameter("action");
-
-		if ("insert".equals(action)) { // ¨Ó¦ÛaddEmp.jspªº½Ğ¨D
+		String action = req.getParameter("action");	
+		if ("insert".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -27,28 +26,28 @@ public class ARTICLEServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*********************** 1.±µ¦¬½Ğ¨D°Ñ¼Æ - ¿é¤J®æ¦¡ªº¿ù»~³B²z *************************/
+				/*********************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¨Dï¿½Ñ¼ï¿½ - ï¿½ï¿½Jï¿½æ¦¡ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************/
 				Integer articleClass = null;
 				try {
 					articleClass = new Integer(req.getParameter("articleClass").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("½Ğ¿ï¾Ü¤ÀÃş.");
+					errorMsgs.add("è«‹é¸æ“‡åˆ†é¡");
 				}
 				Integer articleType = null;
 				try {
 					articleType = new Integer(req.getParameter("articleType").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("½Ğ¿ï¾ÜÃş«¬.");
+					errorMsgs.add("è«‹é¸æ“‡é¡å‹");
 				}
 
 				String articleTitle = req.getParameter("articleTitle");
 				if (articleTitle == null || articleTitle.trim().length() == 0) {
-					errorMsgs.add("½Ğ¿é¤J¼ĞÃD");
+					errorMsgs.add("è«‹è¼¸å…¥æ¨™é¡Œ");
 				}
 
 				String articleContent = req.getParameter("articleContent");
 				if (articleContent == null || articleContent.trim().length() == 0) {
-					errorMsgs.add("½Ğ¿é¤J¤º¤å");
+					errorMsgs.add("è«‹è¼¸å…¥å…§å®¹");
 				}
 
 				Integer userId = new Integer(req.getParameter("userId").trim());
@@ -75,25 +74,25 @@ public class ARTICLEServlet extends HttpServlet {
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("aVO1", aVO1); // §t¦³¿é¤J®æ¦¡¿ù»~ªºempVOª«¥ó,¤]¦s¤Jreq
+					req.setAttribute("aVO1", aVO1);
 					RequestDispatcher failureView = req.getRequestDispatcher("/article/post.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 
-				/*************************** 2.¶}©l·s¼W¸ê®Æ ***************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½sï¿½Wï¿½ï¿½ï¿½ ***************************************/
 				ARTICLEService articleSvc = new ARTICLEService();
 				aVO1 = articleSvc.addArticle(userId, articleClass, articleType, articleTitle, bytes, articlePop,
 						articleLikes, articleDate, articleUpDate, articleStatus);
 
-				/*************************** 3.·s¼W§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) ***********/
+				/*************************** 3.ï¿½sï¿½Wï¿½ï¿½ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) ***********/
 				String url = "/article/article.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // ·s¼W¦¨¥\«áÂà¥ælistAllEmp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z **********************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z **********************************/
 			} catch (Exception e) {
-				errorMsgs.add(e.getMessage());
+				errorMsgs.add("ç™¼æ–‡å¤±æ•—"+e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/article/post.jsp");
 				failureView.forward(req, res);
 			}
@@ -110,190 +109,191 @@ public class ARTICLEServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
-				/*************************** 1.±µ¦¬½Ğ¨D°Ñ¼Æ ****************************************/
+				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¨Dï¿½Ñ¼ï¿½ ****************************************/
 				Integer articleSN = new Integer(req.getParameter("articleSN").trim());
-				/*************************** 2.¶}©l¬d¸ß¸ê®Æ ****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½dï¿½ß¸ï¿½ï¿½ ****************************************/
 				ARTICLEService artSvc = new ARTICLEService();
 				ARTICLEVO articleVO = artSvc.getOneArticle(articleSN);
 
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("articleVO", articleVO); // §t¦³¿é¤J®æ¦¡¿ù»~ªºempVOª«¥ó,¤]¦s¤Jreq
-					RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+					req.setAttribute("articleVO", articleVO); // ï¿½tï¿½ï¿½ï¿½ï¿½Jï¿½æ¦¡ï¿½ï¿½ï¿½~ï¿½ï¿½empVOï¿½ï¿½ï¿½ï¿½,ï¿½]ï¿½sï¿½Jreq
+					RequestDispatcher failureView = req.getRequestDispatcher("/article/post.jsp");
 					failureView.forward(req, res);
-					return; // µ{¦¡¤¤Â_
+					return; // ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½_
 				}
 
 				req.setAttribute("articleVO", articleVO);
-				/*************************** 3.·Ç³ÆÂà¥æ(Send the Success view) *************/
+				/*************************** 3.ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) *************/
 				String url ="/article/editpost.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // ·s¼W¦¨¥\«áÂà¥ælistAllEmp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); // ï¿½sï¿½Wï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½listAllEmp.jsp
 				successView.forward(req, res);
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z *************************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("«e©¹­×§ï¥¢±Ñ:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+				errorMsgs.add("æ–°å¢å¤±æ•—:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/article/post.jsp");
 				failureView.forward(req, res);
 			}
 		}
 		
 		
-		if ("upedita".equals(action)) { // ¨Ó¦Ûupdate_emp_input.jspªº½Ğ¨D
+		if ("upedita".equals(action)) { // ï¿½Ó¦ï¿½update_emp_input.jspï¿½ï¿½ï¿½Ğ¨D
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
-				/*************************** 1.±µ¦¬½Ğ¨D°Ñ¼Æ ****************************************/
+				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¨Dï¿½Ñ¼ï¿½ ****************************************/
 				Integer articleSN = new Integer(req.getParameter("articleSN").trim());
 				Integer articleClass = null;
 				try {
 					articleClass = new Integer(req.getParameter("articleClass").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("½Ğ¿ï¾Ü¤ÀÃş.");
+					errorMsgs.add("è«‹é¸æ“‡åˆ†é¡");
 				}
 				Integer articleType = null;
 				try {
 					articleType = new Integer(req.getParameter("articleType").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("½Ğ¿ï¾ÜÃş«¬.");
+					errorMsgs.add("è«‹é¸æ“‡é¡å‹");
 				}
 
 				String articleTitle = req.getParameter("articleTitle");
 				if (articleTitle == null || articleTitle.trim().length() == 0) {
-					errorMsgs.add("½Ğ¿é¤J¼ĞÃD");
+					errorMsgs.add("è«‹è¼¸å…¥æ¨™é¡Œ");
 				}
 
 				String articleContent = req.getParameter("articleContent");
 				if (articleContent == null || articleContent.trim().length() == 0) {
-					errorMsgs.add("½Ğ¿é¤J¤º¤å");
+					errorMsgs.add("è«‹è¼¸å…¥å…§æ–‡");
 				}
 				byte[] bytes = articleContent.getBytes("UTF-8");
-				/*************************** 2.¶}©l¬d¸ß¸ê®Æ ****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½dï¿½ß¸ï¿½ï¿½ ****************************************/
 				ARTICLEService artSvc = new ARTICLEService();
 				ARTICLEVO articleVO = artSvc.getOneArticle(articleSN);
 
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("articleVO", articleVO); // §t¦³¿é¤J®æ¦¡¿ù»~ªºempVOª«¥ó,¤]¦s¤Jreq
-					RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+					req.setAttribute("articleVO", articleVO); // ï¿½tï¿½ï¿½ï¿½ï¿½Jï¿½æ¦¡ï¿½ï¿½ï¿½~ï¿½ï¿½empVOï¿½ï¿½ï¿½ï¿½,ï¿½]ï¿½sï¿½Jreq
+					RequestDispatcher failureView = req.getRequestDispatcher("/article/editpost.jsp");
 					failureView.forward(req, res);
-					return; // µ{¦¡¤¤Â_
+					return; // ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½_
 				}
 
-				/*************************** 2.¶}©l­×§ï¸ê®Æ *****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½×§ï¿½ï¿½ï¿½ *****************************************/
 				artSvc.editArticle(articleVO, articleClass, articleType, articleTitle, bytes);
-				/*************************** 3.­×§ï§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) *************/
-				req.setAttribute("articleVO", articleVO); // ¸ê®Æ®wupdate¦¨¥\«á,¥¿½TªºªºempVOª«¥ó,¦s¤Jreq
+				/*************************** 3.ï¿½×§ï§¹ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) *************/
+				req.setAttribute("articleVO", articleVO); // ï¿½ï¿½Æ®wupdateï¿½ï¿½ï¿½\ï¿½ï¿½,ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½empVOï¿½ï¿½ï¿½ï¿½,ï¿½sï¿½Jreq
 				String url = "/article/reply.jsp?sn=" + articleSN;
-				RequestDispatcher successView = req.getRequestDispatcher(url); // ­×§ï¦¨¥\«á,Âà¥ælistOneEmp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); // ï¿½×§ï¦¨ï¿½\ï¿½ï¿½,ï¿½ï¿½ï¿½listOneEmp.jsp
 				successView.forward(req, res);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z *************************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("­×§ï¸ê®Æ¥¢±Ñ:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+				errorMsgs.add("ä¿®æ”¹è³‡æ–™å¤±æ•—:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/article/editpost.jsp");
 				failureView.forward(req, res);
 			}
 		}
 		
 
-		if ("uppopa".equals(action)) { // ¨Ó¦Ûupdate_emp_input.jspªº½Ğ¨D
+		if ("uppopa".equals(action)) { // ï¿½Ó¦ï¿½update_emp_input.jspï¿½ï¿½ï¿½Ğ¨D
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
-				/*************************** 1.±µ¦¬½Ğ¨D°Ñ¼Æ ****************************************/
+				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¨Dï¿½Ñ¼ï¿½ ****************************************/
 				Integer articleSN = new Integer(req.getParameter("articleSN").trim());
-				/*************************** 2.¶}©l¬d¸ß¸ê®Æ ****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½dï¿½ß¸ï¿½ï¿½ ****************************************/
 				ARTICLEService artSvc = new ARTICLEService();
 				ARTICLEVO articleVO = artSvc.getOneArticle(articleSN);
 
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("articleVO", articleVO); // §t¦³¿é¤J®æ¦¡¿ù»~ªºempVOª«¥ó,¤]¦s¤Jreq
-					RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+					req.setAttribute("articleVO", articleVO); // ï¿½tï¿½ï¿½ï¿½ï¿½Jï¿½æ¦¡ï¿½ï¿½ï¿½~ï¿½ï¿½empVOï¿½ï¿½ï¿½ï¿½,ï¿½]ï¿½sï¿½Jreq
+					RequestDispatcher failureView = req.getRequestDispatcher(req.getContextPath() + "/article/reply.jsp?sn=" + articleSN);
 					failureView.forward(req, res);
-					return; // µ{¦¡¤¤Â_
+					return; // ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½_
 				}
 
-				/*************************** 2.¶}©l­×§ï¸ê®Æ *****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½×§ï¿½ï¿½ï¿½ *****************************************/
 				artSvc.updateapop(articleVO);
-				/*************************** 3.­×§ï§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) *************/
-				req.setAttribute("articleVO", articleVO); // ¸ê®Æ®wupdate¦¨¥\«á,¥¿½TªºªºempVOª«¥ó,¦s¤Jreq
+				/*************************** 3.ï¿½×§ï§¹ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) *************/
+				req.setAttribute("articleVO", articleVO); // ï¿½ï¿½Æ®wupdateï¿½ï¿½ï¿½\ï¿½ï¿½,ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½empVOï¿½ï¿½ï¿½ï¿½,ï¿½sï¿½Jreq
 				String url = req.getContextPath() + "/article/reply.jsp?sn=" + articleSN;
 				res.sendRedirect(url);
 
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z *************************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("­×§ï¸ê®Æ¥¢±Ñ:" + e.getMessage());
+				errorMsgs.add("äººæ°£æ–°å¢å¤±æ•—:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
 				failureView.forward(req, res);
 			}
 		}
 		
 		
-		if ("upstatus".equals(action)) { // ¨Ó¦Ûupdate_emp_input.jspªº½Ğ¨D
+		if ("upstatus".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 			try {
-				/*************************** 1.±µ¦¬½Ğ¨D°Ñ¼Æ ****************************************/
+				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¨Dï¿½Ñ¼ï¿½ ****************************************/
 				Integer articleSN = new Integer(req.getParameter("articleSN").trim());
-				/*************************** 2.¶}©l¬d¸ß¸ê®Æ ****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½dï¿½ß¸ï¿½ï¿½ ****************************************/
 				ARTICLEService artSvc = new ARTICLEService();
 				ARTICLEVO articleVO = artSvc.getOneArticle(articleSN);
 				
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("articleVO", articleVO); // §t¦³¿é¤J®æ¦¡¿ù»~ªºempVOª«¥ó,¤]¦s¤Jreq
-					RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+					req.setAttribute("articleVO", articleVO);
+					RequestDispatcher failureView = req.getRequestDispatcher("/article/editpost.jsp");
 					failureView.forward(req, res);
-					return; // µ{¦¡¤¤Â_
+					return;
 				}
 				
-				/*************************** 2.¶}©l­×§ï¸ê®Æ *****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½×§ï¿½ï¿½ï¿½ *****************************************/
 				Integer articleStatus =1;
 				artSvc.updateastatus(articleVO, articleStatus);
-				/*************************** 3.­×§ï§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) *************/
-				req.setAttribute("articleVO", articleVO); // ¸ê®Æ®wupdate¦¨¥\«á,¥¿½TªºªºempVOª«¥ó,¦s¤Jreq
+				/*************************** 3.ï¿½×§ï§¹ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) *************/
+				req.setAttribute("articleVO", articleVO);
 				String url = req.getContextPath() + "/article/reply.jsp?sn=" + articleSN;
 				res.sendRedirect(url);
 				
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z *************************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("­×§ï¸ê®Æ¥¢±Ñ:" + e.getMessage());
+				errorMsgs.add("åˆªé™¤å¤±æ•—" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
 				failureView.forward(req, res);
 			}
 		}
 		
-		if ("alike".equals(action)) { // ¨Ó¦Ûupdate_emp_input.jspªº½Ğ¨D
+		if ("alike".equals(action)) { // ï¿½Ó¦ï¿½update_emp_input.jspï¿½ï¿½ï¿½Ğ¨D
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
+			Integer articleSN =null;
 			try {
-				/*************************** 1.±µ¦¬½Ğ¨D°Ñ¼Æ ****************************************/
-				Integer articleSN =null;
+				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¨Dï¿½Ñ¼ï¿½ ****************************************/
+				articleSN =null;
 				try {
 					articleSN = new Integer(req.getParameter("articleSN").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("¨S¦³articleSN.");
+					errorMsgs.add("æ²’æœ‰articleSN.");
 				}
 				
 				Integer loguserId =new Integer(req.getParameter("loguserId"));
-				/*************************** 2.¶}©l¬d¸ß¸ê®Æ ****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½dï¿½ß¸ï¿½ï¿½ ****************************************/
 				ARTICLEService artSvc = new ARTICLEService();
 				ARTICLEVO articleVO = artSvc.getOneArticle(articleSN);
 				ARTICLE_LIKEService alikeSvc=new ARTICLE_LIKEService();
 				List<ARTICLE_LIKEVO> alikelist=alikeSvc.getArticlelike(articleSN);
 				
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher(req.getContextPath() + "/article/reply.jsp?sn=" + articleSN);
 					failureView.forward(req, res);
-					return; // µ{¦¡¤¤Â_
+					return;
 				}
 				
-				/*************************** 2.¶}©l­×§ï¸ê®Æ *****************************************/
+				/*************************** 2.ï¿½}ï¿½lï¿½×§ï¿½ï¿½ï¿½ *****************************************/
 				if(alikelist.stream().noneMatch(e -> loguserId.equals(e.getUserId()))) {
 				artSvc.addlike(articleVO);
 				alikeSvc.addAlike(articleSN, loguserId);
@@ -302,14 +302,14 @@ public class ARTICLEServlet extends HttpServlet {
 					Optional<ARTICLE_LIKEVO> alikeVO=alikelist.stream().filter(e -> e.getUserId().equals(loguserId)).findFirst();
 					alikeSvc.deleteAlike(alikeVO.get().getArticleLikeSN());
 				}
-				/*************************** 3.­×§ï§¹¦¨,·Ç³ÆÂà¥æ(Send the Success view) *************/
+				/*************************** 3.ï¿½×§ï§¹ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) *************/
 				String url = req.getContextPath() + "/article/reply.jsp?sn=" + articleSN;
 				res.sendRedirect(url);
 				
-				/*************************** ¨ä¥L¥i¯àªº¿ù»~³B²z *************************************/
+				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("­×§ï¸ê®Æ¥¢±Ñ:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
+				errorMsgs.add("æŒ‰è®šoræ”¶å›å¤±æ•—" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(req.getContextPath() + "/article/reply.jsp?sn=" + articleSN);
 				failureView.forward(req, res);
 			}
 		}
