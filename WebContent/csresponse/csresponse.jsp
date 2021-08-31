@@ -37,7 +37,7 @@
 	<div class="container-fluid bg-light py-5">
 		<div class="col-md-6 m-auto text-center">
 			<h1 class="h1">客服回應表單</h1>
-			<p>我們非常抱歉遇到讓你使用不愉快的經驗，請提供資訊讓我們得以改進</p>
+			<p>請填寫下列資訊，將有專人為你服務，Sportify感謝您！</p>
 		</div>
 	</div>
 	<!-- Start Contact -->
@@ -48,25 +48,25 @@
 				role="form" id="sendmail">
 				<div class="row">
 					<div class="form-group col-md-6 mb-3">
-						<label for="inputname">Name</label> <input type="text"
+						<label for="inputname">姓名</label> <input type="text"
 							class="form-control mt-1" id="name" name="name"
-							placeholder="Name" required>
+							placeholder="您的名字" required>
 					</div>
 					<div class="form-group col-md-6 mb-3">
-						<label for="inputemail">Email</label> <input type="email"
+						<label for="inputemail">聯絡Email</label> <input type="email"
 							class="form-control mt-1" id="email" name="email"
-							placeholder="Email" required>
+							placeholder="請注意輸入格式，如有誤將不會收到信件" required>
 					</div>
 				</div>
 				<div class="mb-3">
-					<label for="inputsubject">Subject</label> <input type="text"
+					<label for="inputsubject">標題</label> <input type="text"
 						class="form-control mt-1" id="subject" name="subject"
-						placeholder="Subject" required>
+						placeholder="您遭遇的問題" required>
 				</div>
 				<div class="mb-3">
-					<label for="inputmessage">Message</label>
+					<label for="inputmessage">內文</label>
 					<textarea class="form-control mt-1" id="message" name="message"
-						placeholder="Message" rows="8" required></textarea>
+						placeholder="我們很遺憾您遭遇問題，請在此詳細填寫您的問題" rows="8" required></textarea>
 				</div>
 				<div class="row">
 					<div class="col text-end mt-2">

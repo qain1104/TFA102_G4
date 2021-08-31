@@ -77,11 +77,13 @@ public class SportsGroupServlet extends HttpServlet {
 				String url = "/sportsGroup/listOneSportsGroup.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 				successView.forward(req, res);
+				return;
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/sportsGroup/select_page.jsp");
 				failureView.forward(req, res);
+				return;
 			}
 
 		}
@@ -198,12 +200,14 @@ public class SportsGroupServlet extends HttpServlet {
 				String url = "/sportsGroup/sportsGroup.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
+				return;
 				/*************************** 其他可能的錯誤處理 **********************************/
 
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/sportsGroup/sportsGroup.jsp");
 				failureView.forward(req, res);
+				return;
 			}
 		}
 
@@ -252,11 +256,13 @@ public class SportsGroupServlet extends HttpServlet {
 				String url = "/sportsGroup/sportsGroup.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
+				return;
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/article/testerror.jsp");
 				failureView.forward(req, res);
+				return;
 			}
 
 		}
@@ -300,12 +306,14 @@ public class SportsGroupServlet extends HttpServlet {
 				String url = req.getContextPath() + "/sportsGroup/sportsGroup.jsp?whichClass=" + whichClass;
 				
 				res.sendRedirect(url);
+				return;
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/sportsGroup/sportsGroup.jsp");
 				failureView.forward(req, res);
+				return;
 			}
 
 		}
@@ -331,10 +339,12 @@ public class SportsGroupServlet extends HttpServlet {
 			String sendbacktext = "我們已收到你的來信，客服人員會盡快跟您聯繫。";
 			MailService mailService2 = new MailService();
             mailService2.sendMail(sendbackto, sendbacktitle, sendbacktext);
+        	String url = req.getContextPath() + "/csresponse/Sucess.jsp";
+    		
+    		res.sendRedirect(url);
+    		return;
 		}
-		String url = req.getContextPath() + "/csresponse/Sucess.jsp";
-		
-		res.sendRedirect(url);
+	
 
 	}
 }

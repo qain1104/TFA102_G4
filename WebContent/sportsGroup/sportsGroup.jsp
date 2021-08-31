@@ -13,7 +13,7 @@
 	//SportsGroupVO sportsGroupVO = (SportsGroupVO) request.getAttribute("sportsGroupVO");
 	//ParticipantVO participantVO = (ParticipantVO) request.getAttribute("participantVO");
 	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-	Integer userId = 1001;
+	Integer userId = (Integer)session.getAttribute("userId");
 %>
 
 <c:choose>

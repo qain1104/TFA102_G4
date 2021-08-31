@@ -91,7 +91,7 @@ https://templatemo.com/tm-559-zay-shop
 					</li>
 					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/sportsGroup/sportsGroup.jsp">揪團</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="about.html">關於我們</a>
+					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/aboutus/aboutus.jsp">關於我們</a>
 					</li>
 				</ul>
 			</div>
