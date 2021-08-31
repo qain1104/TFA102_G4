@@ -1,6 +1,6 @@
 <%@page import="com.product.model.ProductVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="BIG5"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <% 
@@ -29,7 +29,7 @@
 <jsp:include page="/header.jsp" flush="true" />
    <!-- Start Member Center -->
     <div class="member_center">
-        ·|­û¤¤¤ß<span id="purchasing_order">§Úªº°Ó«~­q³æ</span>
+        æœƒå“¡ä¸­å¿ƒ<span id="purchasing_order">æˆ‘çš„å•†å“è¨‚å–®</span>
     </div>
     <!-- End Memeber Center -->
 
@@ -38,12 +38,12 @@
     <table class="table table-light order_management">
         <thead>
           <tr>
-            <th scope="col">­q³æ½s¸¹</th>
-            <th scope="col">ÁÊ¶R¤é´Á</th>
-            <th scope="col">¹B°e¤è¦¡</th>
-            <th scope="col">¥X³fª¬ºA</th>
-            <th scope="col">Àu´f¨é</th>
-            <th scope="col">¾Ş§@</th>
+            <th scope="col">è¨‚å–®ç·¨è™Ÿ</th>
+            <th scope="col">è³¼è²·æ—¥æœŸ</th>
+            <th scope="col">é‹é€æ–¹å¼</th>
+            <th scope="col">å‡ºè²¨ç‹€æ…‹</th>
+            <th scope="col">å„ªæƒ åˆ¸</th>
+            <th scope="col">æ“ä½œ</th>
           </tr>
         </thead>
         <tbody>
@@ -53,23 +53,23 @@
             <c:set var="purchaseDate" value="${userMorder.purchaseDate}"/>
             <fmt:formatDate value="${purchaseDate}" var="date" pattern="yyyy-MM-dd"/>
             <td class="align-middle purchaseDate">${date}</td>
-            <td class="align-middle orderDeliveyTypeId">${(userMorder.orderDeliveyTypeId == 14001)? "¦v°t" : "¶W°Ó¨ú³f"}</td>
+            <td class="align-middle orderDeliveyTypeId">${(userMorder.orderDeliveyTypeId == 14001)? "å®…é…" : "è¶…å•†å–è²¨"}</td>
             <td class="align-middle deliveryStatus">
-            <c:if test="${userMorder.deliveryStatus == 0}">¥¼¥X³f</c:if>
-            <c:if test="${userMorder.deliveryStatus == 1}">¤w¥X³f</c:if>
-            <c:if test="${userMorder.deliveryStatus == 2}">¤w°e¹F</c:if>
+            <c:if test="${userMorder.deliveryStatus == 0}">æœªå‡ºè²¨</c:if>
+            <c:if test="${userMorder.deliveryStatus == 1}">å·²å‡ºè²¨</c:if>
+            <c:if test="${userMorder.deliveryStatus == 2}">å·²é€é”</c:if>
             </td>
             <td class="align-middle couponId">
             <c:set var="couponId" value="${userMorder.couponId}"></c:set>
             <jsp:useBean id="couponService" class="com.coupon.model.CouponService"></jsp:useBean>
                 <span class="couponSN">${couponService.getCoupon(couponId).couponSN}</span>
                 <div class="coupon_information">
-                                                    Àu´f¨é§Ç¸¹ : <span class="couponSNN">${couponService.getCoupon(couponId).couponSN}</span><br>
-                                                    ¨Ï¥Î¸ê°T : <span class="couponInfo">${couponService.getCoupon(couponId).couponName}</span>
+                                                    å„ªæƒ åˆ¸åºè™Ÿ : <span class="couponSNN">${couponService.getCoupon(couponId).couponSN}</span><br>
+                                                    ä½¿ç”¨è³‡è¨Š : <span class="couponInfo">${couponService.getCoupon(couponId).couponName}</span>
                 </div>
             </td>
             <td class="align-middle operation">
-                <p class="text-center"><a class="btn btn-success" href="<%= request.getContextPath() %>/order/MorderManagement.do?action=orderListManagement&orderSN=${userMorder.orderSN}">ÀËµø</a></p>
+                <p class="text-center"><a class="btn btn-success" href="<%= request.getContextPath() %>/order/MorderManagement.do?action=orderListManagement&orderSN=${userMorder.orderSN}">æª¢è¦–</a></p>
             </td>
           </tr>
         </c:forEach>

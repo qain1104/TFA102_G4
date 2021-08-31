@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="BIG5"%>
+pageEncoding="UTF-8"%>
 
 	    <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
@@ -11,7 +11,7 @@ pageEncoding="BIG5"%>
                     <ul class="list-unstyled text-light footer-link-list">
                         <li>
                             <i class="fas fa-map-marker-alt fa-fw"></i>
-                            104¥x¥_¥«¤¤¤s°Ï«n¨ÊªF¸ô¤T¬q219¸¹5¼Ó
+                            104å°åŒ—å¸‚ä¸­å±±å€å—äº¬æ±è·¯ä¸‰æ®µ219è™Ÿ5æ¨“
                         </li>
                         <li>
                             <i class="fa fa-phone fa-fw"></i>
@@ -27,12 +27,12 @@ pageEncoding="BIG5"%>
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">­º­¶</a></li>
-                        <li><a class="text-decoration-none" href="#">°Ó«°</a></li>
-                        <li><a class="text-decoration-none" href="#">¯²­É³õ¦a</a></li>
-                        <li><a class="text-decoration-none" href="#">½×¾Â/´ª¹Î</a></li>
-                        <li><a class="text-decoration-none" href="#">³Ì·s®ø®§</a></li>
-                        <li><a class="text-decoration-none" href="#">Ãö©ó§Ú­Ì</a></li>
+                        <li><a class="text-decoration-none" href="#">é¦–é </a></li>
+                        <li><a class="text-decoration-none" href="#">å•†åŸŽ</a></li>
+                        <li><a class="text-decoration-none" href="#">ç§Ÿå€Ÿå ´åœ°</a></li>
+                        <li><a class="text-decoration-none" href="#">è«–å£‡/æªåœ˜</a></li>
+                        <li><a class="text-decoration-none" href="#">æœ€æ–°æ¶ˆæ¯</a></li>
+                        <li><a class="text-decoration-none" href="#">é—œæ–¼æˆ‘å€‘</a></li>
                     </ul>
                 </div>
             </div>

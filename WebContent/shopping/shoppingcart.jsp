@@ -6,14 +6,14 @@
 <%@page import="com.cartList.model.CartListService"%>
 <%@ page import="java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="BIG5"%> 
+    pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% 
 	response.setHeader("Cache-Control","no-cache");
 	response.setHeader("Pragma","no-cache"); 
 	response.setDateHeader ("Expires", 0);
 	
- 	Integer userId = (Integer)session.getAttribute("userId"); // ·|­û½s¸¹
+ 	Integer userId = (Integer)session.getAttribute("userId"); // æœƒå“¡ç·¨è™Ÿ
  	
  	if(userId == null){
  		session.setAttribute("location", request.getRequestURI());
@@ -23,9 +23,9 @@
  	
  	CartListService cartListService = new CartListService();  
 	Map<CartListVO, ProductVO> shoppingCartMap =  cartListService.getProductFromSpec(userId);
-	session.setAttribute("shoppingCartMap", shoppingCartMap); // ÁÊª«¨®©Ò»İªº¸ê®Æ
+	session.setAttribute("shoppingCartMap", shoppingCartMap); // è³¼ç‰©è»Šæ‰€éœ€çš„è³‡æ–™
 	Map<String, Integer> totalCartList = cartListService.getTotalAmount(userId);
-	session.setAttribute("totalCartList", totalCartList); // ­pºâÁ`ª÷ÃB©MÁ`¼Æ¶q
+	session.setAttribute("totalCartList", totalCartList); // è¨ˆç®—ç¸½é‡‘é¡å’Œç¸½æ•¸é‡
 
 %> 
 
@@ -53,13 +53,13 @@
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
-                <h1 class="h2 pb-4">ÁÊª«¨®</h1> 
+                <h1 class="h2 pb-4">è³¼ç‰©è»Š</h1> 
             </div>
             <div class="paying container">
                 <div class="paying_status row">
-                    <div class="status_bar col-3" id="checking_purchasing_list" style="background-color: #59AB6E; color: white; padding: 15px;">½T»{ÁÊª«²M³æ</div>
-                    <div class="status_bar col-3" id="choosing_method" style="background-color: #f8f9fa; padding: 0 auto; color: black;">¿ï¾Ü¥I´Ú¤è¦¡¤Î¹B°e¸ê®Æ</div>
-                    <div class="status_bar col-3" id="purchasing_completed" style="background-color: #f8f9fa; padding: 15px;">ÁÊª«§¹¦¨</div>
+                    <div class="status_bar col-3" id="checking_purchasing_list" style="background-color: #59AB6E; color: white; padding: 15px;">ç¢ºèªè³¼ç‰©æ¸…å–®</div>
+                    <div class="status_bar col-3" id="choosing_method" style="background-color: #f8f9fa; padding: 0 auto; color: black;">é¸æ“‡ä»˜æ¬¾æ–¹å¼åŠé‹é€è³‡æ–™</div>
+                    <div class="status_bar col-3" id="purchasing_completed" style="background-color: #f8f9fa; padding: 15px;">è³¼ç‰©å®Œæˆ</div>
                 </div>
             </div>
         </div>
@@ -74,13 +74,13 @@
                 <table class="table">
                     <thead>
                       <tr class="merchandise_property">
-                        <th scope="col" class="merchandise_title">°Ó«~</th>
-                        <th scope="col">°Ó«~¦WºÙ</th>
-                        <th scope="col">¤Ø¤o</th>
-                        <th scope="col">³æ»ù</th>
-                        <th scope="col" class="merchandise_quantity">¥ó¼Æ</th>
-                        <th scope="col">ª÷ÃB</th>
-                        <th scope="col">¾Ş§@</th>
+                        <th scope="col" class="merchandise_title">å•†å“</th>
+                        <th scope="col">å•†å“åç¨±</th>
+                        <th scope="col">å°ºå¯¸</th>
+                        <th scope="col">å–®åƒ¹</th>
+                        <th scope="col" class="merchandise_quantity">ä»¶æ•¸</th>
+                        <th scope="col">é‡‘é¡</th>
+                        <th scope="col">æ“ä½œ</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -106,7 +106,7 @@
 	                            </ul>
 	                        </td>
 	                        <td class="merchandise_amount">${getQuantity * getPrice}</td>
-	                        <td><button type="button" class="btn btn-outline-success btn-delete" name="action" value="delete">§R°£</button></td>
+	                        <td><button type="button" class="btn btn-outline-success btn-delete" name="action" value="delete">åˆªé™¤</button></td>
 	                     </tr>
 	                     </c:forEach>
 	                     </form>
@@ -115,8 +115,8 @@
 			</div>
             <div class="under_list container">
                 <div class="under_list_row row">
-                    <div class="total_quantity col-md-2 offset-md-8">¦@ <strong><span id="morder_quantity">${totalCartList.get("totalQuantity")}</span></strong> ¥ó</div>
-                    <div class="total_amount col-md-2 offset-md-8">Á`ª÷ÃB: <strong><span id="morder_amount">${totalCartList.get("totalAmount")}</span></strong></div>
+                    <div class="total_quantity col-md-2 offset-md-8">å…± <strong><span id="morder_quantity">${totalCartList.get("totalQuantity")}</span></strong> ä»¶</div>
+                    <div class="total_amount col-md-2 offset-md-8">ç¸½é‡‘é¡: <strong><span id="morder_amount">${totalCartList.get("totalAmount")}</span></strong></div>
                 </div>
             </div>
         </div>           
@@ -127,10 +127,10 @@
 	<div class="button_before_footer">
 	    <form action="<%= request.getContextPath() %>/shopping/shoppingcart.do" method="POST">
 	        <div class="back_to_shop" style="position: relative; left: -400px; bottom: 35px;">
-	            <button type="submit" class="btn btn-success btn-lg" name="action" value="backToShop">Ä~ÄòÁÊª«</button>         
+	            <button type="submit" class="btn btn-success btn-lg" name="action" value="backToShop">ç¹¼çºŒè³¼ç‰©</button>         
 	        </div>
 	        <div class="next_step" style="position: relative; right: -400px; bottom: 80px;">
-	            <button type="submit" class="btn btn-success btn-lg" name="action" value="nextStep">¤U¤@¨B</button>
+	            <button type="submit" class="btn btn-success btn-lg" name="action" value="nextStep">ä¸‹ä¸€æ­¥</button>
 	        </div>
 	     </form>
 	 </div>

@@ -2,7 +2,7 @@
 <%@page import="com.cartList.model.CartListService"%>
 <%@page import="com.cartList.model.CartListVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="BIG5"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!--
     
@@ -80,18 +80,18 @@ https://templatemo.com/tm-559-zay-shop
 			<div class="flex-fill">
 				<ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
 					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/Sportify.jsp">­º­¶</a></li>
+						href="<%=request.getContextPath()%>/Sportify.jsp">é¦–é </a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/shopping/SportifyShop.do?action=shop">°Ó«°</a>
+						href="<%=request.getContextPath()%>/shopping/SportifyShop.do?action=shop">å•†åŸ</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="">³õ¦a¯²­É</a>
+					<li class="nav-item"><a class="nav-link" href="">å ´åœ°ç§Ÿå€Ÿ</a>
 
 					</li>
-					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/article/article.jsp">½×¾Â</a>
+					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/article/article.jsp">è«–å£‡</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="shop.html">´ª¹Î</a>
+					<li class="nav-item"><a class="nav-link" href="shop.html">æªåœ˜</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="about.html">Ãö©ó§Ú­Ì</a>
+					<li class="nav-item"><a class="nav-link" href="about.html">é—œæ–¼æˆ‘å€‘</a>
 					</li>
 				</ul>
 			</div>
@@ -120,19 +120,19 @@ https://templatemo.com/tm-559-zay-shop
 						<c:choose>
 							<c:when test="${empty currentG && empty currentC}">
 								<span class="member_list" id="list_1"><a
-									href="<%=request.getContextPath()%>/login.jsp">µn¤J/µù¥U</a></span>
+									href="<%=request.getContextPath()%>/login.jsp">ç™»å…¥/è¨»å†Š</a></span>
 							</c:when>
 							<c:when test="${!empty currentG && empty currentC}">
 								<span class="member_list" id="list_2"><a
-									href="<%=request.getContextPath()%>/generalUser/generalUserMainPage.jsp">·|­û¤¤¤ß</a></span>
+									href="<%=request.getContextPath()%>/generalUser/generalUserMainPage.jsp">æœƒå“¡ä¸­å¿ƒ</a></span>
 								<span class="member_list" id="list_1"><a
-									href="<%=request.getContextPath()%>/webManager/WebManagerServlet.do?action=logout">µn¥X</a></span>
+									href="<%=request.getContextPath()%>/webManager/WebManagerServlet.do?action=logout">ç™»å‡º</a></span>
 							</c:when>
 							<c:otherwise>
 								<span class="member_list" id="list_2"><a
-									href="<%=request.getContextPath()%>/corpUser/corpUserMainPage.jsp">·|­û¤¤¤ß</a></span>
+									href="<%=request.getContextPath()%>/corpUser/corpUserMainPage.jsp">æœƒå“¡ä¸­å¿ƒ</a></span>
 								<span class="member_list" id="list_1"><a
-									href="<%=request.getContextPath()%>/webManager/WebManagerServlet.do?action=logout">µn¥X</a></span>
+									href="<%=request.getContextPath()%>/webManager/WebManagerServlet.do?action=logout">ç™»å‡º</a></span>
 							</c:otherwise>
 
 
@@ -157,7 +157,7 @@ https://templatemo.com/tm-559-zay-shop
 			method="POST" class="modal-content modal-body border-0 p-0">
 			<div class="input-group mb-2">
 				<input type="text" class="form-control" id="inputModalSearch"
-					name="query" placeholder="·Q¶R¤°»ò°Ó«~¶Ü?">
+					name="query" placeholder="æƒ³è²·ä»€éº¼å•†å“å—?">
 				<button type="submit" class="input-group-text bg-success text-light"
 					name="action" value="search">
 					<i class="fa fa-fw fa-search text-white"></i>

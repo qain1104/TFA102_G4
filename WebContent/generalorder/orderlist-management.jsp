@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=BIG5"
-    pageEncoding="BIG5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 
@@ -30,7 +30,7 @@ response.setDateHeader ("Expires", 0);
 <jsp:include page="/header.jsp" flush="true" />	
 	 <!-- Start Member Center -->
     <div class="member_center">
-        ·|­û¤¤¤ß<span id="purchasing_order">§Úªº°Ó«~­q³æ</span>
+        æœƒå“¡ä¸­å¿ƒ<span id="purchasing_order">æˆ‘çš„å•†å“è¨‚å–®</span>
     </div>
     <div class="order_number">${morder.orderSN}</div>
     <!-- End Memeber Center -->
@@ -40,13 +40,13 @@ response.setDateHeader ("Expires", 0);
     <table class="table table-light order_management">
         <thead>
           <tr>
-            <th scope="col">¦WºÙ</th>
-            <th scope="col">¤Ø¤o</th>
-            <th scope="col">»ù®æ</th>
-            <th scope="col">¼Æ¶q</th>
-            <th scope="col">²£«~¹Ï¤ù</th>
-            <th scope="col">¥X³fª¬ºA</th>
-            <th scope="col">¤p­p</th>
+            <th scope="col">åç¨±</th>
+            <th scope="col">å°ºå¯¸</th>
+            <th scope="col">åƒ¹æ ¼</th>
+            <th scope="col">æ•¸é‡</th>
+            <th scope="col">ç”¢å“åœ–ç‰‡</th>
+            <th scope="col">å‡ºè²¨ç‹€æ…‹</th>
+            <th scope="col">å°è¨ˆ</th>
           </tr>
         </thead>
         <jsp:useBean id="productSpecService" class="com.productspec.model.ProductSpecService"/>
@@ -68,9 +68,9 @@ response.setDateHeader ("Expires", 0);
             </td>
             <td class="align-middle productImage"><img src="<%=request.getContextPath() %>/ProductImage?productSN=${getProductSpec.productSN}" alt="product_image" style="width: 100px;"></td>
             <td class="align-middle deliveryStatus">
-			<c:if test="${morder.deliveryStatus == 0}">¥¼¥X³f</c:if>  
-			<c:if test="${morder.deliveryStatus == 1}">¤w¥X³f</c:if>
-			<c:if test="${morder.deliveryStatus == 2}">¤w°e¹F</c:if>        
+			<c:if test="${morder.deliveryStatus == 0}">æœªå‡ºè²¨</c:if>  
+			<c:if test="${morder.deliveryStatus == 1}">å·²å‡ºè²¨</c:if>
+			<c:if test="${morder.deliveryStatus == 2}">å·²é€é”</c:if>        
             </td>
             <td class="align-middle item_amount">${getProductSpec.productPrice * orderListVO.purchaseQuantity}</td>
           </tr>
@@ -83,15 +83,15 @@ response.setDateHeader ("Expires", 0);
     <div class="under_list container">
         <div class="under_list_row row delivery_information">
             <div class="type col-md-12 offset-md-1"></div>
-            <div class="receiver col-md-2 offset-md-1">¦¬³f¤H : ${morder.receiver}</div>
-            <div class="receiver_phone col-md-7 offset-md-1">³sµ¸¹q¸Ü : ${morder.receiverPhone}</div>
+            <div class="receiver col-md-2 offset-md-1">æ”¶è²¨äºº : ${morder.receiver}</div>
+            <div class="receiver_phone col-md-7 offset-md-1">é€£çµ¡é›»è©± : ${morder.receiverPhone}</div>
             <c:if test="${morder.orderDeliveyTypeId == 14001}">
-            <div class="receiver_address col-md-12 offset-md-1">¦a§} : ${morder.receiverAddress}</div>
+            <div class="receiver_address col-md-12 offset-md-1">åœ°å€ : ${morder.receiverAddress}</div>
             </c:if>
 			<c:if test="${morder.orderDeliveyTypeId == 14002}">
-            <div class="stor_name col-md-2 offset-md-1">¶W°Ó : ${morder.storeName}</div>
-            <div class="stor_no col-md-2 offset-md-1">¶W°Ó½s¸¹ : ${morder.storeId}</div>
-            <div class="stor_address col-md-12 offset-md-1">¶W°Ó¦a§} : ${morder.storeAddress}</div>
+            <div class="stor_name col-md-2 offset-md-1">è¶…å•† : ${morder.storeName}</div>
+            <div class="stor_no col-md-2 offset-md-1">è¶…å•†ç·¨è™Ÿ : ${morder.storeId}</div>
+            <div class="stor_address col-md-12 offset-md-1">è¶…å•†åœ°å€ : ${morder.storeAddress}</div>
             </c:if>
         </div>
     </div>

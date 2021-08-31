@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="BIG5"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*, com.cartList.model.CartListVO, com.cartList.model.CartListService" %>
 <!DOCTYPE html>
@@ -25,7 +25,7 @@
 <jsp:include page="/header.jsp" flush="true" />
    <!-- Start Member Center -->
     <div class="member_center">
-        �|������<span id="trackinglist">�ӫ~�l�ܲM��</span>
+        會員中心<span id="trackinglist">商品追蹤清單</span>
     </div>
     <!-- End Memeber Center -->
 
@@ -34,11 +34,11 @@
     <table class="table table-light merchandise_trackinglist">
         <thead>
           <tr>
-            <th scope="col">���ئC��</th>
-            <th scope="col">�ӫ~�W��</th>
-            <th scope="col">�ӫ~�Ϥ�</th>
-            <th scope="col">�����l��</th>
-            <th scope="col">�ʶR</th>
+            <th scope="col">項目列表</th>
+            <th scope="col">商品名稱</th>
+            <th scope="col">商品圖片</th>
+            <th scope="col">取消追蹤</th>
+            <th scope="col">購買</th>
           </tr>
         </thead>
         <tbody>

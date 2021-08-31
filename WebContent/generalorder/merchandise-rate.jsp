@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="BIG5"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="java.util.*, com.cartList.model.CartListVO, com.cartList.model.CartListService" %>
@@ -30,7 +30,7 @@
 <jsp:include page="/header.jsp" flush="true" />
     <!-- Start Member Center -->
     <div class="member_center">
-        ╥|╜Ш╓╓╓ъ<span id="trackinglist">╖з╙╨╣Ш╩Ы</span>
+        Ф°┐Е⌠║Д╦╜Е©┐<span id="trackinglist">Ф┬▒Г └Х╘∙Е┐╧</span>
     </div>
     <!-- End Memeber Center -->
 
@@ -39,11 +39,11 @@
     <table class="table table-light merchandise_trackinglist">
         <thead>
           <tr>
-            <th scope="col">ай╤R╓И╢а</th>
-            <th scope="col">╡ё╚~╕W╨ы</th>
-            <th scope="col">╣Ш╩Ы</th>
-            <th scope="col">╣Ш╫в╓╨╝e</th>
-            <th scope="col">╬ч╖@</th>
+            <th scope="col">ХЁ╪Х╡╥Ф≈╔Ф°÷</th>
+            <th scope="col">Г■╒Е⌠│Е░█Г╗╠</th>
+            <th scope="col">Х╘∙Е┐╧</th>
+            <th scope="col">Х╘∙Х╚√Е┘╖Е╝╧</th>
+            <th scope="col">Ф⌠█Д╫°</th>
           </tr>
         </thead>
         <tbody>

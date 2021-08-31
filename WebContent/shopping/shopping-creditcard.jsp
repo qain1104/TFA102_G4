@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="BIG5"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import = "com.morder.model.MorderVO" %>
 <%@ page import = "com.order_list.model.Order_listVO" %>
@@ -26,40 +26,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/credit_card.css">
-    <title>«H¥Î¥d¥I´Ú</title>
+    <title>ä¿¡ç”¨å¡ä»˜æ¬¾</title>
 </head>
 <body>
     <form class="credit-card">
         <div class="form-header">
-          <h4 class="title">«H¥Î¥d¸ê®Æ</h4>
+          <h4 class="title">ä¿¡ç”¨å¡è³‡æ–™</h4>
         </div>
        
         <div class="form-body">
           <!-- Card Number -->
-          <div class="card_title">«H¥Î¥d¥d¸¹</div>
+          <div class="card_title">ä¿¡ç”¨å¡å¡è™Ÿ</div>
           <input type="text" class="card-number" name="orderCard" placeholder="1234-5678-1234-5678" value="${orderCard}">
        	  <div style="color:red"> ${errorMsgs.orderCard} </div>
           <!-- Date Field -->
           <div class="date-field">
             <div class="month">
-                <div class="card_title">«H¥Î¥d¦³®Ä¤ë¥÷</div>
+                <div class="card_title">ä¿¡ç”¨å¡æœ‰æ•ˆæœˆä»½</div>
                 <select name="orderCardMonth" value="${orderCardMonth}">
-                    <option value="1">1¤ë</option>
-                    <option value="2">2¤ë</option>
-                    <option value="3">3¤ë</option>
-                    <option value="4">4¤ë</option>
-                    <option value="5">5¤ë</option>
-                    <option value="6">6¤ë</option>
-                    <option value="7">7¤ë</option>
-                    <option value="8">8¤ë</option>
-                    <option value="9">9¤ë</option>
-                    <option value="10">10¤ë</option>
-                    <option value="11">11¤ë</option>
-                    <option value="12">12¤ë</option>
+                    <option value="1">1æœˆ</option>
+                    <option value="2">2æœˆ</option>
+                    <option value="3">3æœˆ</option>
+                    <option value="4">4æœˆ</option>
+                    <option value="5">5æœˆ</option>
+                    <option value="6">6æœˆ</option>
+                    <option value="7">7æœˆ</option>
+                    <option value="8">8æœˆ</option>
+                    <option value="9">9æœˆ</option>
+                    <option value="10">10æœˆ</option>
+                    <option value="11">11æœˆ</option>
+                    <option value="12">12æœˆ</option>
                 </select>
             </div>
             <div class="year">
-                <div class="card_title">«H¥Î¥d¦³®Ä¦~¥÷</div>
+                <div class="card_title">ä¿¡ç”¨å¡æœ‰æ•ˆå¹´ä»½</div>
                 <select name="orderCardYear" value="${orderCardMonth}">
                     <option value="2021">2021</option>
                     <option value="2022">2022</option>
@@ -79,7 +79,7 @@
        
           <!-- Card Verification Field -->
           <div class="card-verification">
-            <div class="card_title">«H¥Î¥d­I«á¥½3½X</div>
+            <div class="card_title">ä¿¡ç”¨å¡èƒŒå¾Œæœ«3ç¢¼</div>
             <div class="cvv-input">
               <input type="text" class="cvv-number" name="cvvNumber" value="${cvvNumber}">
             </div>
@@ -87,7 +87,7 @@
 		  <div style="color:red"> ${errorMsgs.cvvNumber} </div>
 		  <div style="color:red"> ${errorMsgs.addError} </div>
           <!-- Buttons -->
-          <button type="submit" class="proceed-btn" name="action" value="aftercreditcard">½T»{¥I´Ú</button>
+          <button type="submit" class="proceed-btn" name="action" value="aftercreditcard">ç¢ºèªä»˜æ¬¾</button>
         </div>
     </form>
 </body>

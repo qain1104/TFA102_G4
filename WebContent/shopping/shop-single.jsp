@@ -2,7 +2,7 @@
 <%@page import="com.productspec.model.ProductSpecVO"%>
 <%@page import="com.product.model.ProductVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="BIG5"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*, com.cartList.model.CartListVO, com.cartList.model.CartListService" %>
 <!DOCTYPE html>
@@ -38,13 +38,13 @@
 	List<Integer> shopSingleImageSN = (List<Integer>)session.getAttribute("shopSingleImageSN");
 	List<Order_listVO> rateReview = (List<Order_listVO>)session.getAttribute("rateReview");
 	
-	pageContext.setAttribute("shopSingleProduct", shopSingleProduct); // ±q²£«~³¯Äý­¶­±©Ò±a¹L¨ÓªºProductVO
-	pageContext.setAttribute("specList", specList); // Controller°e¹L¨Óªº²£«~©ú²Ó²M³æ
-	pageContext.setAttribute("shopSinglePrice", shopSinglePrice); // Controller°e¹L¨Óªº²£«~»ù¿ú
-	pageContext.setAttribute("shopSingleImageSN", shopSingleImageSN); // Controller°e¹L¨Óªº²£«~·Ó¤ù½s¸¹
-	pageContext.setAttribute("rateReview", rateReview); // ¸Ó²£«~ªºµû¤À©Mµû½×
+	pageContext.setAttribute("shopSingleProduct", shopSingleProduct); // å¾žç”¢å“é™³è¦½é é¢æ‰€å¸¶éŽä¾†çš„ProductVO
+	pageContext.setAttribute("specList", specList); // Controlleré€éŽä¾†çš„ç”¢å“æ˜Žç´°æ¸…å–®
+	pageContext.setAttribute("shopSinglePrice", shopSinglePrice); // Controlleré€éŽä¾†çš„ç”¢å“åƒ¹éŒ¢
+	pageContext.setAttribute("shopSingleImageSN", shopSingleImageSN); // Controlleré€éŽä¾†çš„ç”¢å“ç…§ç‰‡ç·¨è™Ÿ
+	pageContext.setAttribute("rateReview", rateReview); // è©²ç”¢å“çš„è©•åˆ†å’Œè©•è«–
 	
-	Integer itemQuantity = (Integer)request.getAttribute("itemQuantity"); // ­qÁÊ¿ï¨úªº¼Æ¶q
+	Integer itemQuantity = (Integer)request.getAttribute("itemQuantity"); // è¨‚è³¼é¸å–çš„æ•¸é‡
 %>
 <jsp:include page="/header.jsp" flush="true" />	
     <!-- Open Content -->
@@ -165,7 +165,7 @@
 					  <div class="accordion-item ">
 					    <h2 class="accordion-header" id="headingOne">
 					      <button class="accordion-button btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="color: white;">
-					        	¬Ý¬Ý¨ä¥L¤Hªºµû½×
+					        	çœ‹çœ‹å…¶ä»–äººçš„è©•è«–
 					      </button>
 					    </h2>
 					    <c:forEach var="rateReview" items="${rateReview}">
@@ -205,7 +205,7 @@
     <section class="py-5">
         <div class="container">
             <div class="row text-left p-2 pb-3">
-                <h4>±z©Î³\³ßÅw</h4>
+                <h4>æ‚¨æˆ–è¨±å–œæ­¡</h4>
             </div>
 
             <!--Start Carousel Wrapper-->
@@ -220,7 +220,7 @@
                         </div>
                         <div class="card-body">
                             <a href="<%=request.getContextPath()%>/shopping/SportifyShop.do?action=shopsingle&productSN=${related.key.productSN}" class="h3 text-decoration-none">${related.key.productName}</a>
-                            <p class="text-center mb-0">NTD ${related.value} °_</p>
+                            <p class="text-center mb-0">NTD ${related.value} èµ·</p>
                         </div>
                     </div>
                 </div>

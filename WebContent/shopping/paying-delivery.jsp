@@ -1,6 +1,6 @@
 <%@page import="com.product.model.ProductVO"%>
-<%@ page language="java" contentType="text/html; charset=BIG5"
-    pageEncoding="BIG5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*, com.cartList.model.CartListVO, com.cartList.model.CartListService, com.morder.model.MorderVO" %>
 <% 
@@ -42,13 +42,13 @@
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-4">
-                <h1 class="h2 pb-4">•I¥⁄§Ë¶°§ŒπB∞e∏ÍÆ∆</h1> 
+                <h1 class="h2 pb-4">‰ªòÊ¨æÊñπÂºèÂèäÈÅãÈÄÅË≥áÊñô</h1> 
             </div>
             <div class="paying container">
                 <div class="paying_status row">
-                    <div class="status_bar col-3" id="checking_purchasing_list" style="background-color: #f8f9fa; padding: 15px; color: black;">ΩTª{¡ ™´≤M≥Ê</div>
-                    <div class="status_bar col-3" id="choosing_method" style="background-color: #59AB6E; color: white; padding: 0 auto;">øÔæ‹•I¥⁄§Ë¶°§ŒπB∞e∏ÍÆ∆</div>
-                    <div class="status_bar col-3" id="purchasing_completed" style="background-color: #f8f9fa; padding: 15px;">¡ ™´ßπ¶®</div>
+                    <div class="status_bar col-3" id="checking_purchasing_list" style="background-color: #f8f9fa; padding: 15px; color: black;">Á¢∫Ë™çË≥ºÁâ©Ê∏ÖÂñÆ</div>
+                    <div class="status_bar col-3" id="choosing_method" style="background-color: #59AB6E; color: white; padding: 0 auto;">ÈÅ∏Êìá‰ªòÊ¨æÊñπÂºèÂèäÈÅãÈÄÅË≥áÊñô</div>
+                    <div class="status_bar col-3" id="purchasing_completed" style="background-color: #f8f9fa; padding: 15px;">Ë≥ºÁâ©ÂÆåÊàê</div>
                 </div>
             </div>
         </div>
@@ -63,12 +63,12 @@
                 <table class="table">
                     <thead>
                       <tr class="merchandise_property">
-                        <th scope="col" class="merchandise_title">∞”´~</th>
-                        <th scope="col">∞”´~¶W∫Ÿ</th>
-                        <th scope="col">§ÿ§o</th>
-                        <th scope="col">≥Êª˘</th>
-                        <th scope="col" class="merchandise_quantity">•Ûº∆</th>
-                        <th scope="col">™˜√B</th>
+                        <th scope="col" class="merchandise_title">ÂïÜÂìÅ</th>
+                        <th scope="col">ÂïÜÂìÅÂêçÁ®±</th>
+                        <th scope="col">Â∞∫ÂØ∏</th>
+                        <th scope="col">ÂñÆÂÉπ</th>
+                        <th scope="col" class="merchandise_quantity">‰ª∂Êï∏</th>
+                        <th scope="col">ÈáëÈ°ç</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -100,60 +100,60 @@
             <div class="check_paying_delivery">
                 <form class="row g-3 purchasing_data" action="<%= request.getContextPath() %>/order/Morder.do" method="POST">
                     <div class="list_block">
-                        	≠q¡ §H∏ÍÆ∆
+                        	Ë®ÇË≥º‰∫∫Ë≥áÊñô
                     </div>
                     <div class="col-md-3">
-                        <label for="inputBuyer" class="form-label">≠q¡ §H</label><span style="color:red">${errorMsgs.userName}</span>
+                        <label for="inputBuyer" class="form-label">Ë®ÇË≥º‰∫∫</label><span style="color:red">${errorMsgs.userName}</span>
                         <input type="text" class="form-control" id="inputBuyer" name="userName" value="${currentG.userName}" readonly="true">
                     </div>
                     <div class="col-md-3 offset-md-1">
-                        <label for="inputPhone" class="form-label">¡pµ∏πq∏‹</label><span style="color:red">${errorMsgs.phone}</span>
+                        <label for="inputPhone" class="form-label">ËÅØÁµ°ÈõªË©±</label><span style="color:red">${errorMsgs.phone}</span>
                         <input type="text" class="form-control" id="inputPhone" name="phone" value="${currentG.phone}" readonly="true">
                     </div>
                     <div class="col-10">
-                        <label for="inputAddress" class="form-label">¶aß}</label><span style="color:red">${errorMsgs.address}</span>
+                        <label for="inputAddress" class="form-label">Âú∞ÂùÄ</label><span style="color:red">${errorMsgs.address}</span>
                         <input type="text" class="form-control" id="inputAddress" name="address" value="${currentG.address}" readonly="true">
                     </div>
                     <div class="list_block">
-                       	 ∞t∞e§Ë¶°
+                       	 ÈÖçÈÄÅÊñπÂºè
                     </div><span style="color:red">${errorMsgs.deliveyType}</span>
                     <fieldset class="row mb-3 delivery_type">
                         <div class="col-sm-5">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="deliveryType" id="home_delivery" value="14001" checked <c:if test="${morder.orderDeliveyTypeId == '14001'}">checked</c:if>>   
                                 <label class="form-check-label" for="home_delivery">                                              
-                                  	¶v∞t
+                                  	ÂÆÖÈÖç
                                 </label>
                             </div>
 <!--                             <div class="form-check offset-sm-3"> -->
 <%--                                 <input class="form-check-input" type="radio" name="deliveryType" id="convenience_store" value="14002" <c:if test="${morder.orderDeliveyTypeId == '14002'}">checked</c:if>> --%>
 <!--                                 <label class="form-check-label" for="convenience_store"> -->
-<!--                                   	∂W∞”®˙≥f -->
+<!--                                   	Ë∂ÖÂïÜÂèñË≤® -->
 <!--                                 </label> -->
-<!--                                 <button type="button" class="btn btn-success pick -none" style="color:white;" onclick="showModal()">øÔ®˙™˘•´</button> -->
+<!--                                 <button type="button" class="btn btn-success pick -none" style="color:white;" onclick="showModal()">ÈÅ∏ÂèñÈñÄÂ∏Ç</button> -->
 <!--                             </div> -->
                         </div>
                     </fieldset>
                     <div class="list_block receiver">
-                        	¶¨≥f§H∏ÍÆ∆
+                        	Êî∂Ë≤®‰∫∫Ë≥áÊñô
                     </div><span style="color:red">${errorMsgs.deliveyType}</span>
                     <div class="same_buyer">
                         <input class="form-check-input" type="checkbox" id="same_as_buyer" name="sameAsBuyer" value="1" <c:if test="${param.sameAsBuyer == '1'}">checked</c:if>>
                         <label class="form-check-label" for="same_as_buyer">
-                           	 ¶P≠q¡ §H∏ÍÆ∆
+                           	 ÂêåË®ÇË≥º‰∫∫Ë≥áÊñô
                         </label>
                     </div>
                     <div class="receiver_data home">
                         <div class="col-md-3">
-                            <label for="inputReceiver" class="form-label">¶¨≥f§H</label>
+                            <label for="inputReceiver" class="form-label">Êî∂Ë≤®‰∫∫</label>
                             <input type="text" class="form-control" id="inputReceiver" name="receiver" value="${morder.receiver}">
                         </div>
                         <div class="col-md-3 offset-md-1">
-                            <label for="inputReceiverPhone" class="form-label">¡pµ∏πq∏‹</label>
+                            <label for="inputReceiverPhone" class="form-label">ËÅØÁµ°ÈõªË©±</label>
                             <input type="text" class="form-control" id="inputReceiverPhone" name="receiverPhone" value="${morder.receiverPhone}">
                         </div>
                         <div class="col-10">
-                            <label for="inputReceiverAddress" class="form-label">¶¨≥f¶aß}</label>
+                            <label for="inputReceiverAddress" class="form-label">Êî∂Ë≤®Âú∞ÂùÄ</label>
                             <input type="text" class="form-control" id="inputReceiverAddress" name="receiverAddress" value="${morder.receiverAddress}">
                         </div>
                     </div> 
@@ -164,20 +164,20 @@
                     <div style="color:red"> ${errorMsgs.storeName} </div>
                     <div style="color:red"> ${errorMsgs.storeAddress} </div>
                     <div class="list_block">
-                       	 •I¥⁄§Ë¶°
+                       	 ‰ªòÊ¨æÊñπÂºè
                     </div>
                     <fieldset class="row mb-3 paying_type">
                         <div class="col-sm-5">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="paying" id="cash" value="0" checked <c:if test="${morder.orderDeliveyTypeId == '0'}">checked</c:if>>
                                 <label class="form-check-label" for="cash">
-                                    	≥f®Ï•I¥⁄
+                                    	Ë≤®Âà∞‰ªòÊ¨æ
                                 </label>
                             </div>
                             <div class="form-check  offset-sm-3">
                             <input class="form-check-input" type="radio" name="paying" id="credit_card" value="1" <c:if test="${morder.orderDeliveyTypeId == '1'}">checked</c:if>>
                             <label class="form-check-label" for="credit_card">
-                                	´H•Œ•d
+                                	‰ø°Áî®Âç°
                             </label>
                           </div>
                         </div>
@@ -185,20 +185,20 @@
                     <jsp:useBean id="Order_delivery_typeDAO" class="com.order_delivery_type.model.Order_delivery_typeService"/>
                     <div class="under_list container">
                         <div class="under_list_row row">
-                            <div class="coupon col-md-4 offset-md-3">¿u¥f®ÈΩs∏π: <input type="text" name="couponValue" id="coupon" value="${couponValue}"></div>
-                            <div class="total_quantity col-md-2 offset-md-1">¶@ <strong><span id="morder_quantity">${totalCartList.get("totalQuantity")}</span></strong> •Û</div>
-                            <div class="delivery_fee col-md-2 offset-md-8">πB∂O: <strong><span id="order_delivery_type">${Order_delivery_typeDAO.getOneType(14001).deliveryFee}</span></strong></div>
-                            <div class="total_amount col-md-2 offset-md-8">¡`™˜√B: <strong><span id="morder_amount">${totalCartList.get("totalAmount") + Order_delivery_typeDAO.getOneType(14001).deliveryFee}</span></strong></div>
+                            <div class="coupon col-md-4 offset-md-3">ÂÑ™ÊÉ†Âà∏Á∑®Ëôü: <input type="text" name="couponValue" id="coupon" value="${couponValue}"></div>
+                            <div class="total_quantity col-md-2 offset-md-1">ÂÖ± <strong><span id="morder_quantity">${totalCartList.get("totalQuantity")}</span></strong> ‰ª∂</div>
+                            <div class="delivery_fee col-md-2 offset-md-8">ÈÅãË≤ª: <strong><span id="order_delivery_type">${Order_delivery_typeDAO.getOneType(14001).deliveryFee}</span></strong></div>
+                            <div class="total_amount col-md-2 offset-md-8">Á∏ΩÈáëÈ°ç: <strong><span id="morder_amount">${totalCartList.get("totalAmount") + Order_delivery_typeDAO.getOneType(14001).deliveryFee}</span></strong></div>
                         	<div style="color:red; margin-left: 279.5px"> ${errorMsgs.couponValue} </div>
                         	<div style="color:red; margin-left: 279.5px"> ${errorMsgs.addError} </div>
                         </div>
                     </div>
                     <div class="button_before_footer">
                         <div class="back_to_cart">
-                            <button class="btn btn-success btn-lg" name="action" value="backToCart">§W§@®B</button>         
+                            <button class="btn btn-success btn-lg" name="action" value="backToCart">‰∏ä‰∏ÄÊ≠•</button>         
                         </div>
                         <div class="next_step">
-                            <button class="btn btn-success btn-lg" name="action" value="payingProcess">§U§@®B</button>
+                            <button class="btn btn-success btn-lg" name="action" value="payingProcess">‰∏ã‰∏ÄÊ≠•</button>
                         </div>
                     </div>             
                 </form>

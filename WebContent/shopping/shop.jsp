@@ -3,7 +3,7 @@
 <%@page import="java.util.*"%>
 <%@page import="com.product.model.ProductService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="BIG5"%> 
+    pageEncoding="UTF-8"%> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
  	List<ProductVO> shopAllproductList = (List<ProductVO>)session.getAttribute("shopAllproductList");
@@ -105,7 +105,7 @@
 								<i class="${Order_listService.getProductRate(product.productSN) >= 5 ? 'text-warning' : 'text-muted'} fa fa-star"></i>
 							</li>
 						</ul>
-							<p class="text-center mb-0">NTD ${productSpecDAO.getFirstItemPrice(product.productSN)} °_</p>
+							<p class="text-center mb-0">NTD ${productSpecDAO.getFirstItemPrice(product.productSN)} èµ·</p>
 						</div>
 					</div>
 				</div>
