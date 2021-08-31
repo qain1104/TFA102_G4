@@ -140,4 +140,14 @@
 		<servlet-name>Venue_NophoursServlet</servlet-name>
 		<url-pattern>/venuenop/venuenop.do</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>SportsGroupServlet</servlet-name>
+		<servlet-class>com.sportsgroup.controller.SportsGroupServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SportsGroupServlet</servlet-name>
+		<url-pattern>/sportsGroup/sportsGroup.do</url-pattern>
+	</servlet-mapping>
+
+
 </web-app>

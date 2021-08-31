@@ -19,10 +19,9 @@
 			class="list-group-item list-group-item-action">我的文章</a>
 	</div>
 	<div class="list-group list-group-flush">
-		<a href="#"
+		<a  href="<%=request.getContextPath()%>/sportsGroup/sportsGroup.jsp?whichClass=0"
 			class="list-group-item list-group-item-action list-group-item-success"
-			aria-current="true"> 揪團首頁 </a> <a href="#"
-			class="list-group-item list-group-item-action">揪團</a> <a href="#"
+			aria-current="true"> 揪團首頁 </a><a ${empty userId? 'style="display:none"':''} href="<%=request.getContextPath()%>/sportsGroup/sportsGroup.jsp?whichClass=1"
 			class="list-group-item list-group-item-action">我的揪團</a>
 	</div>
 </div>
