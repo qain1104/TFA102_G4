@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
+<%
+response.setHeader("Refresh", "3; "+request.getContextPath()+"/login.jsp");
+%>
 <html>
   <head>
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
@@ -46,7 +48,7 @@
         <i class="checkmark">讚!</i>
       </div>
         <h1>恭喜</h1> 
-        <p>您已可以登入Sportify平台!<br/>請關閉視窗，重新登入!</p>
+        <p>您已驗證成功!<br/>3秒後自動跳轉!</p>
       </div>
     </body>
 </html>

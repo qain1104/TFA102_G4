@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="BIG5">
-<title>Insert title here</title>
+<title>註冊成功 請驗證信箱</title>
 </head>
 <body>
 <head>
