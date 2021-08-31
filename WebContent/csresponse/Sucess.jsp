@@ -48,10 +48,7 @@ response.setHeader("Refresh", "3; "+request.getContextPath()+"/Sportify.jsp");
     </style>
     <body>
       <div class="card">
-      <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
-        <i class="checkmark">讚!</i>
-      </div>
-        <h1>恭喜</h1> 
+     <img src="<%=request.getContextPath()%>/assets/img/mailsending.gif">
         <p>發送成功<br/>3秒後自動跳轉回首頁</p>
       </div>
     </body>
