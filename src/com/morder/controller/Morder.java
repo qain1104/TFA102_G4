@@ -156,197 +156,208 @@ public class Morder extends HttpServlet {
 					(Map<CartListVO, ProductVO>)session.getAttribute("shoppingCartMap"); // 購物車物件對應產品名稱的Map物件
 			Map<String, Integer> totalCartList = 
 					(Map<String, Integer>)session.getAttribute("totalCartList"); // 取得購物車的總數量及總金額
+			String checkBack = (String)session.getAttribute("checkBack"); // 確認是否為重整
 			
-			// 配送方式:宅配 --> 貨到付款及信用卡付款
-			if(14001 == deliveryType) {
+			if(checkBack == null) {
 				
-				// 付款方式為貨到付款
-				if(0 == paying) {
+				// 配送方式:宅配 --> 貨到付款及信用卡付款
+				if(14001 == deliveryType) {
 					
-					CouponService couponService = new CouponService(); 
-					CouponVO couponVO = couponService.getCouponBySn(couponValue);
-					Integer discount = checkCoupon(couponValue); // 優惠券折扣
-					// 當優惠券折扣回傳-1表示無符合的優惠券，回傳錯誤訊息
-					if(discount == -1) {
-						errorMsgs.put("couponValue", "查無此優惠券");
-					}
-					
-					Integer deliveryFee = getDeliveryFee(deliveryType); // 運費
-					Integer totalAmount = totalCartList.get("totalAmount"); // 商品的總金額
-
-					// 新增訂單
-					MorderVO morder = new MorderVO(); // 訂單
-					morder.setUserId(userId);
-					
-					// 優惠券相關限制條件
-					if(couponVO != null) {
-						// 必須符合優惠券限制條件才可以做優惠折扣
-						if(totalAmount >= new Integer(couponVO.getCouponInfo())) {
-							// 優惠券不為空值才set
-							morder.setCouponId(couponVO.getCouponId());
-							morder.setTotalPrice(totalAmount - discount + deliveryFee);
-						} else {
-							// 不符合則送出錯誤訊息
-							errorMsgs.put("couponValue", "使用優惠券須符合" + couponVO.getCouponName());
+					// 付款方式為貨到付款
+					if(0 == paying) {
+						
+						CouponService couponService = new CouponService(); 
+						CouponVO couponVO = couponService.getCouponBySn(couponValue);
+						Integer discount = checkCoupon(couponValue); // 優惠券折扣
+						// 當優惠券折扣回傳-1表示無符合的優惠券，回傳錯誤訊息
+						if(discount == -1) {
+							errorMsgs.put("couponValue", "查無此優惠券");
 						}
-					} else {
-						// 若為空值則直接計算總金額
-						morder.setTotalPrice(totalAmount - discount + deliveryFee);
-					}
-					
-					morder.setOrderPayment(paying);
-					morder.setOrderDeliveyTypeId(deliveryType);
-					morder.setReceiver(receiver);
-					morder.setReceiverPhone(receiverPhone);
-					morder.setReceiverAddress(receiverAddress);
-					
-					// 將購物車的商品放進訂單明細
-					Set<CartListVO> cartlistSet = shoppingCartMap.keySet();
-					List<Order_listVO> list = new ArrayList<Order_listVO>();
-					
-					ProductSpecService specService = new ProductSpecService();
-					for(CartListVO cartListVO : cartlistSet) {
-						// 各項數量
-						Integer itemQuantity = cartListVO.getItemQuantity();
-						Order_listVO order_listVO = new Order_listVO();
-						order_listVO.setProductSpecId(cartListVO.getProductSpecId());
-						order_listVO.setPurchaseQuantity(itemQuantity);
-						// 拿購物車內容找到個別的價錢*數目當作各項的小計
-						Integer price = specService.cartListGetPrice(cartListVO);
-						order_listVO.setOrderCost(price * itemQuantity);
-						// 將從購物車拿到的屬性變成訂單明細並塞入一個list帶入addMorderWithList(MorderVO morder, List<Order_listVO> list)
-						list.add(order_listVO);
-					}
-					// 錯誤轉交
-					if(!errorMsgs.isEmpty()) {
-						request.setAttribute("errorMsgs", errorMsgs);
-						request.setAttribute("morder", morder);
-						request.setAttribute("couponValue", couponValue);
-						request.setAttribute("list", list);
-						RequestDispatcher failure = request.getRequestDispatcher("/shopping/paying-delivery.jsp");
-						failure.forward(request, response);
-						return;
-					}
-					
-					try {
-						MorderService morderService = new MorderService();
-						Order_listService orderListService = new Order_listService();
-						Integer newOrderSN = morderService.addMorderWithList(morder, list);
-						// 新增成功後，扣掉庫存量
-						ConsumeStock consumeStock = new ConsumeStock();
-						for(Order_listVO orderList : list) {
-							Integer stockAfterShopping =consumeStock.consumeStock(orderList);
-							if(stockAfterShopping < 0) {
-								errorMsgs.put("addError", "庫存量不足，請連絡廠商");
-								return;
+						
+						Integer deliveryFee = getDeliveryFee(deliveryType); // 運費
+						Integer totalAmount = totalCartList.get("totalAmount"); // 商品的總金額
+						
+						// 新增訂單
+						MorderVO morder = new MorderVO(); // 訂單
+						morder.setUserId(userId);
+						
+						// 優惠券相關限制條件
+						if(couponVO != null) {
+							// 必須符合優惠券限制條件才可以做優惠折扣
+							if(totalAmount >= new Integer(couponVO.getCouponInfo())) {
+								// 優惠券不為空值才set
+								morder.setCouponId(couponVO.getCouponId());
+								morder.setTotalPrice(totalAmount - discount + deliveryFee);
 							} else {
-								specService.updateStock(orderList.getProductSpecId(), stockAfterShopping);
+								// 不符合則送出錯誤訊息
+								errorMsgs.put("couponValue", "使用優惠券須符合" + couponVO.getCouponName());
 							}
-						}
-						
-						// 新增成功後，清空購物車
-						CartListService cartListService = new CartListService();
-						cartListService.deleteCartList(userId);
-						
-						//下個頁面需要的屬性
-						List<Order_listVO> newList = orderListService.getOrderListByOrder(newOrderSN);
-						MorderVO newMorder = morderService.getMorder(newOrderSN);
-						String purchasingDate = DateTransform.TimeStampTranslatedToString(newMorder.getPurchaseDate());
-						CouponVO coupon = couponService.getCoupon(newMorder.getCouponId());
-						
-						// 新增成功後將session的東西清乾淨
-						session.removeAttribute("shoppingCartMap");
-						session.removeAttribute("totalCartList");
-						// request forward給下個頁面所需要的物件
-						request.setAttribute("newMorder", newMorder);
-						request.setAttribute("newList", newList);
-						request.setAttribute("purchasingDate", purchasingDate);
-						request.setAttribute("coupon", coupon);
-						RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shopping-complete.jsp");
-						dispatcher.forward(request, response);
-						
-					} catch(Exception e) {
-						errorMsgs.put("addError", "新增訂單失敗 : " + e.getMessage());
-					}
-					
-				} 
-				// 付款方式為信用卡付款，先跳轉信用卡資料頁面
-				if(1 == paying) {
-					
-					CouponService couponService = new CouponService(); 
-					CouponVO couponVO = couponService.getCouponBySn(couponValue);
-					Integer discount = checkCoupon(couponValue); // 優惠券折扣
-					// 當優惠券折扣回傳-1表示無符合的優惠券，回傳錯誤訊息
-					if(discount == -1) {
-						errorMsgs.put("couponValue", "查無此優惠券，請重新輸入");
-					}
-					
-					Integer deliveryFee = getDeliveryFee(deliveryType); // 運費
-					Integer totalAmount = totalCartList.get("totalAmount"); // 商品的總金額
-
-					// 新增訂單
-					MorderVO morder = new MorderVO(); // 訂單
-					morder.setUserId(userId);
-					
-					// 優惠券相關限制條件
-					if(couponVO != null) {
-						// 必須符合優惠券限制條件才可以做優惠折扣
-						if(totalAmount >= new Integer(couponVO.getCouponInfo())) {
-							// 優惠券不為空值才set
-							morder.setCouponId(couponVO.getCouponId());
-							morder.setTotalPrice(totalAmount - discount + deliveryFee);
 						} else {
-							// 不符合則送出錯誤訊息
-							errorMsgs.put("couponValue", "使用優惠券須符合" + couponVO.getCouponName());
+							// 若為空值則直接計算總金額
+							morder.setTotalPrice(totalAmount - discount + deliveryFee);
 						}
-					} else {
-						// 若為空值則直接計算總金額
-						morder.setTotalPrice(totalAmount - discount + deliveryFee);
+						
+						morder.setOrderPayment(paying);
+						morder.setOrderDeliveyTypeId(deliveryType);
+						morder.setReceiver(receiver);
+						morder.setReceiverPhone(receiverPhone);
+						morder.setReceiverAddress(receiverAddress);
+						
+						// 將購物車的商品放進訂單明細
+						Set<CartListVO> cartlistSet = shoppingCartMap.keySet();
+						List<Order_listVO> list = new ArrayList<Order_listVO>();
+						
+						ProductSpecService specService = new ProductSpecService();
+						for(CartListVO cartListVO : cartlistSet) {
+							// 各項數量
+							Integer itemQuantity = cartListVO.getItemQuantity();
+							Order_listVO order_listVO = new Order_listVO();
+							order_listVO.setProductSpecId(cartListVO.getProductSpecId());
+							order_listVO.setPurchaseQuantity(itemQuantity);
+							// 拿購物車內容找到個別的價錢*數目當作各項的小計
+							Integer price = specService.cartListGetPrice(cartListVO);
+							order_listVO.setOrderCost(price * itemQuantity);
+							// 將從購物車拿到的屬性變成訂單明細並塞入一個list帶入addMorderWithList(MorderVO morder, List<Order_listVO> list)
+							list.add(order_listVO);
+						}
+						// 錯誤轉交
+						if(!errorMsgs.isEmpty()) {
+							request.setAttribute("errorMsgs", errorMsgs);
+							request.setAttribute("morder", morder);
+							request.setAttribute("couponValue", couponValue);
+							request.setAttribute("list", list);
+							RequestDispatcher failure = request.getRequestDispatcher("/shopping/paying-delivery.jsp");
+							failure.forward(request, response);
+							return;
+						}
+						
+						try {
+							MorderService morderService = new MorderService();
+							Order_listService orderListService = new Order_listService();
+							Integer newOrderSN = morderService.addMorderWithList(morder, list);
+							// 新增成功後，扣掉庫存量
+							ConsumeStock consumeStock = new ConsumeStock();
+							for(Order_listVO orderList : list) {
+								Integer stockAfterShopping =consumeStock.consumeStock(orderList);
+								if(stockAfterShopping < 0) {
+									errorMsgs.put("addError", "庫存量不足，請連絡廠商");
+									return;
+								} else {
+									specService.updateStock(orderList.getProductSpecId(), stockAfterShopping);
+								}
+							}
+							
+							// 新增成功後，清空購物車
+							CartListService cartListService = new CartListService();
+							cartListService.deleteCartList(userId);
+							
+							//下個頁面需要的屬性
+							List<Order_listVO> newList = orderListService.getOrderListByOrder(newOrderSN);
+							MorderVO newMorder = morderService.getMorder(newOrderSN);
+							String purchasingDate = DateTransform.TimeStampTranslatedToString(newMorder.getPurchaseDate());
+							CouponVO coupon = couponService.getCoupon(newMorder.getCouponId());
+							
+							// 新增成功後將session的東西清乾淨
+							session.removeAttribute("shoppingCartMap");
+							session.removeAttribute("totalCartList");
+							// request forward給下個頁面所需要的物件
+							request.setAttribute("newMorder", newMorder);
+							request.setAttribute("newList", newList);
+							request.setAttribute("purchasingDate", purchasingDate);
+							request.setAttribute("coupon", coupon);
+							session.setAttribute("checkBack", "true");
+							RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shopping-complete.jsp");
+							dispatcher.forward(request, response);
+							
+						} catch(Exception e) {
+							errorMsgs.put("addError", "新增訂單失敗 : " + e.getMessage());
+						}
+						
+					} 
+					// 付款方式為信用卡付款，先跳轉信用卡資料頁面
+					if(1 == paying) {
+						
+						CouponService couponService = new CouponService(); 
+						CouponVO couponVO = couponService.getCouponBySn(couponValue);
+						Integer discount = checkCoupon(couponValue); // 優惠券折扣
+						// 當優惠券折扣回傳-1表示無符合的優惠券，回傳錯誤訊息
+						if(discount == -1) {
+							errorMsgs.put("couponValue", "查無此優惠券，請重新輸入");
+						}
+						
+						Integer deliveryFee = getDeliveryFee(deliveryType); // 運費
+						Integer totalAmount = totalCartList.get("totalAmount"); // 商品的總金額
+						
+						// 新增訂單
+						MorderVO morder = new MorderVO(); // 訂單
+						morder.setUserId(userId);
+						
+						// 優惠券相關限制條件
+						if(couponVO != null) {
+							// 必須符合優惠券限制條件才可以做優惠折扣
+							if(totalAmount >= new Integer(couponVO.getCouponInfo())) {
+								// 優惠券不為空值才set
+								morder.setCouponId(couponVO.getCouponId());
+								morder.setTotalPrice(totalAmount - discount + deliveryFee);
+							} else {
+								// 不符合則送出錯誤訊息
+								errorMsgs.put("couponValue", "使用優惠券須符合" + couponVO.getCouponName());
+							}
+						} else {
+							// 若為空值則直接計算總金額
+							morder.setTotalPrice(totalAmount - discount + deliveryFee);
+						}
+						
+						morder.setOrderPayment(paying);
+						morder.setOrderDeliveyTypeId(deliveryType);
+						morder.setReceiver(receiver);
+						morder.setReceiverPhone(receiverPhone);
+						morder.setReceiverAddress(receiverAddress);
+						
+						// 將購物車的商品放進訂單明細
+						Set<CartListVO> cartlistSet = shoppingCartMap.keySet();
+						List<Order_listVO> list = new ArrayList<Order_listVO>();
+						
+						ProductSpecService specService = new ProductSpecService();
+						for(CartListVO cartListVO : cartlistSet) {
+							// 各項數量
+							Integer itemQuantity = cartListVO.getItemQuantity();
+							Order_listVO order_listVO = new Order_listVO();
+							order_listVO.setProductSpecId(cartListVO.getProductSpecId());
+							order_listVO.setPurchaseQuantity(itemQuantity);
+							// 拿購物車內容找到個別的價錢*數目當作各項的小計
+							Integer price = specService.cartListGetPrice(cartListVO);
+							order_listVO.setOrderCost(price * itemQuantity);
+							// 將從購物車拿到的屬性變成訂單明細並塞入一個list帶入addMorderWithList(MorderVO morder, List<Order_listVO> list)
+							list.add(order_listVO);
+						}
+						// 錯誤轉交
+						if(!errorMsgs.isEmpty()) {
+							request.setAttribute("errorMsgs", errorMsgs);
+							request.setAttribute("morder", morder);
+							request.setAttribute("couponValue", couponValue);
+							request.setAttribute("list", list);
+							RequestDispatcher failure = request.getRequestDispatcher("/shopping/paying-delivery.jsp");
+							failure.forward(request, response);
+							return;
+						}
+						
+						// 跳轉信用卡頁面
+						session.setAttribute("morder", morder);
+						session.setAttribute("couponValue", couponValue);
+						session.setAttribute("list", list);
+						RequestDispatcher creditCard = request.getRequestDispatcher("/shopping/shopping-creditcard.jsp");
+						creditCard.forward(request, response);
 					}
-					
-					morder.setOrderPayment(paying);
-					morder.setOrderDeliveyTypeId(deliveryType);
-					morder.setReceiver(receiver);
-					morder.setReceiverPhone(receiverPhone);
-					morder.setReceiverAddress(receiverAddress);
-					
-					// 將購物車的商品放進訂單明細
-					Set<CartListVO> cartlistSet = shoppingCartMap.keySet();
-					List<Order_listVO> list = new ArrayList<Order_listVO>();
-					
-					ProductSpecService specService = new ProductSpecService();
-					for(CartListVO cartListVO : cartlistSet) {
-						// 各項數量
-						Integer itemQuantity = cartListVO.getItemQuantity();
-						Order_listVO order_listVO = new Order_listVO();
-						order_listVO.setProductSpecId(cartListVO.getProductSpecId());
-						order_listVO.setPurchaseQuantity(itemQuantity);
-						// 拿購物車內容找到個別的價錢*數目當作各項的小計
-						Integer price = specService.cartListGetPrice(cartListVO);
-						order_listVO.setOrderCost(price * itemQuantity);
-						// 將從購物車拿到的屬性變成訂單明細並塞入一個list帶入addMorderWithList(MorderVO morder, List<Order_listVO> list)
-						list.add(order_listVO);
-					}
-					// 錯誤轉交
-					if(!errorMsgs.isEmpty()) {
-						request.setAttribute("errorMsgs", errorMsgs);
-						request.setAttribute("morder", morder);
-						request.setAttribute("couponValue", couponValue);
-						request.setAttribute("list", list);
-						RequestDispatcher failure = request.getRequestDispatcher("/shopping/paying-delivery.jsp");
-						failure.forward(request, response);
-						return;
-					}
-					
-					// 跳轉信用卡頁面
-					session.setAttribute("morder", morder);
-					session.setAttribute("couponValue", couponValue);
-					session.setAttribute("list", list);
-					RequestDispatcher creditCard = request.getRequestDispatcher("/shopping/shopping-creditcard.jsp");
-					creditCard.forward(request, response);
-				}
-				
-			}  // 配送方式:超商取貨 --> 貨到付款及信用卡付款(此功能刪除)
+				}	
+			} else if(checkBack.equals("true")) {
+				// 若使用者點選上一頁會跳轉至商城頁面
+				session.removeAttribute("checkBack");
+				response.sendRedirect(request.getContextPath()+"/shopping/SportifyShop.do?action=shop");
+			}
+			
+			
+			// 配送方式:超商取貨 --> 貨到付款及信用卡付款(此功能刪除)
 //			else if(14002 == deliveryType) {
 //				
 //			}
@@ -354,86 +365,96 @@ public class Morder extends HttpServlet {
 		
 		// 信用卡填寫資料頁面
 		if("aftercreditcard".equals(action)) {
-			Map<String, String> errorMsgs = new HashMap<String, String>(); // 錯誤訊息
-			String orderCard = request.getParameter("orderCard"); // 信用卡卡號
-			String orderCardMonth = request.getParameter("orderCardMonth"); // 信用卡月份
-			String orderCardYear= request.getParameter("orderCardYear"); // 信用卡年份
-			String cvvNumber= request.getParameter("cvvNumber");
-			String cardRegex = "^[\\d]{4}-[\\d]{4}-[\\d]{4}-[\\d]{4}$";
-			String cvvRegex = "^[\\d]{3}$";
 			
-			if(orderCard == null || orderCard.trim().length() == 0) {
-				errorMsgs.put("orderCard", "信用卡號碼不得為空白");
-			} else if(!orderCard.matches(cardRegex)) {
-				errorMsgs.put("orderCard", "信用卡號碼格式錯誤、不得超過6碼");
-			}
-			if(cvvNumber == null || cvvNumber.trim().length() == 0) {
-				errorMsgs.put("cvvNumber", "安全碼不得為空白");
-			} else if(!cvvNumber.matches(cvvRegex)) {
-				errorMsgs.put("cvvNumber", "安全碼應為3碼，且須為數字");
-			}
+			String checkBack = (String)session.getAttribute("checkBack");
 			
-			// 在原本morder物件中加入信用卡資料並新增訂單和訂單明細
-			MorderVO morder = (MorderVO)session.getAttribute("morder");
-			List<Order_listVO> list = (List<Order_listVO>)session.getAttribute("list");
-			morder.setOrderCard(orderCard);
-			morder.setOrderCardMonth(orderCardMonth);
-			morder.setOrderCardYear(orderCardYear);
-			
-			// 錯誤轉交
-			if(!errorMsgs.isEmpty()) {
-				request.setAttribute("errorMsgs", errorMsgs);
-				request.setAttribute("orderCard", orderCard);
-				request.setAttribute("orderCardMonth", orderCardMonth);
-				request.setAttribute("orderCardYear", orderCardYear);
-				request.setAttribute("cvvNumber", cvvNumber);
-				RequestDispatcher failure = request.getRequestDispatcher("/shopping/shopping-creditcard.jsp");
-				failure.forward(request, response);
-				return;
-			}
-			
-			try {
-				ProductSpecService specService = new ProductSpecService();
-				MorderService morderService = new MorderService();
-				Order_listService orderListService = new Order_listService();
-				Integer newOrderSN = morderService.addMorderWithList(morder, list);
+			if(checkBack == null) {
+				Map<String, String> errorMsgs = new HashMap<String, String>(); // 錯誤訊息
+				String orderCard = request.getParameter("orderCard"); // 信用卡卡號
+				String orderCardMonth = request.getParameter("orderCardMonth"); // 信用卡月份
+				String orderCardYear= request.getParameter("orderCardYear"); // 信用卡年份
+				String cvvNumber= request.getParameter("cvvNumber");
+				String cardRegex = "^[\\d]{4}-[\\d]{4}-[\\d]{4}-[\\d]{4}$";
+				String cvvRegex = "^[\\d]{3}$";
 				
-				// 新增成功後，扣掉庫存量
-				ConsumeStock consumeStock = new ConsumeStock();
-				for(Order_listVO orderList : list) {
-					Integer stockAfterShopping =consumeStock.consumeStock(orderList);
-					if(stockAfterShopping < 0) {
-						errorMsgs.put("addError", "庫存量不足，請連絡廠商");
-						return;
-					} else {
-						specService.updateStock(orderList.getProductSpecId(), stockAfterShopping);
-					}
+				if(orderCard == null || orderCard.trim().length() == 0) {
+					errorMsgs.put("orderCard", "信用卡號碼不得為空白");
+				} else if(!orderCard.matches(cardRegex)) {
+					errorMsgs.put("orderCard", "信用卡號碼格式錯誤、不得超過16碼");
+				}
+				if(cvvNumber == null || cvvNumber.trim().length() == 0) {
+					errorMsgs.put("cvvNumber", "安全碼不得為空白");
+				} else if(!cvvNumber.matches(cvvRegex)) {
+					errorMsgs.put("cvvNumber", "安全碼應為3碼，且須為數字");
 				}
 				
-				// 新增成功後，清空購物車
-				CartListService cartListService = new CartListService();
-				cartListService.deleteCartList(userId);
+				// 在原本morder物件中加入信用卡資料並新增訂單和訂單明細
+				MorderVO morder = (MorderVO)session.getAttribute("morder");
+				List<Order_listVO> list = (List<Order_listVO>)session.getAttribute("list");
+				morder.setOrderCard(orderCard);
+				morder.setOrderCardMonth(orderCardMonth);
+				morder.setOrderCardYear(orderCardYear);
 				
-				//下個頁面需要的屬性
-				List<Order_listVO> newList = orderListService.getOrderListByOrder(newOrderSN);
-				MorderVO newMorder = morderService.getMorder(newOrderSN);
-				String purchasingDate = DateTransform.TimeStampTranslatedToString(newMorder.getPurchaseDate());
-				CouponService couponService = new CouponService();
-				CouponVO coupon = couponService.getCoupon(newMorder.getCouponId());
+				// 錯誤轉交
+				if(!errorMsgs.isEmpty()) {
+					request.setAttribute("errorMsgs", errorMsgs);
+					request.setAttribute("orderCard", orderCard);
+					request.setAttribute("orderCardMonth", orderCardMonth);
+					request.setAttribute("orderCardYear", orderCardYear);
+					request.setAttribute("cvvNumber", cvvNumber);
+					RequestDispatcher failure = request.getRequestDispatcher("/shopping/shopping-creditcard.jsp");
+					failure.forward(request, response);
+					return;
+				}
 				
-				// 新增成功後將session的東西清乾淨
-				session.removeAttribute("shoppingCartMap");
-				session.removeAttribute("totalCartList");
-				// request forward給下個頁面所需要的物件
-				request.setAttribute("newMorder", newMorder);
-				request.setAttribute("newList", newList);
-				request.setAttribute("purchasingDate", purchasingDate);
-				request.setAttribute("coupon", coupon);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shopping-complete.jsp");
-				dispatcher.forward(request, response);
-				
-			} catch(Exception e) {
-				errorMsgs.put("addError", "新增訂單失敗 : " + e.getMessage());
+				try {
+					ProductSpecService specService = new ProductSpecService();
+					MorderService morderService = new MorderService();
+					Order_listService orderListService = new Order_listService();
+					Integer newOrderSN = morderService.addMorderWithList(morder, list);
+					
+					// 新增成功後，扣掉庫存量
+					ConsumeStock consumeStock = new ConsumeStock();
+					for(Order_listVO orderList : list) {
+						Integer stockAfterShopping =consumeStock.consumeStock(orderList);
+						if(stockAfterShopping < 0) {
+							errorMsgs.put("addError", "庫存量不足，請連絡廠商");
+							return;
+						} else {
+							specService.updateStock(orderList.getProductSpecId(), stockAfterShopping);
+						}
+					}
+					
+					// 新增成功後，清空購物車
+					CartListService cartListService = new CartListService();
+					cartListService.deleteCartList(userId);
+					
+					//下個頁面需要的屬性
+					List<Order_listVO> newList = orderListService.getOrderListByOrder(newOrderSN);
+					MorderVO newMorder = morderService.getMorder(newOrderSN);
+					String purchasingDate = DateTransform.TimeStampTranslatedToString(newMorder.getPurchaseDate());
+					CouponService couponService = new CouponService();
+					CouponVO coupon = couponService.getCoupon(newMorder.getCouponId());
+					
+					// 新增成功後將session的東西清乾淨
+					session.removeAttribute("shoppingCartMap");
+					session.removeAttribute("totalCartList");
+					// request forward給下個頁面所需要的物件
+					request.setAttribute("newMorder", newMorder);
+					request.setAttribute("newList", newList);
+					request.setAttribute("purchasingDate", purchasingDate);
+					request.setAttribute("coupon", coupon);
+					session.setAttribute("checkBack", "true");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shopping-complete.jsp");
+					dispatcher.forward(request, response);
+					
+				} catch(Exception e) {
+					errorMsgs.put("addError", "新增訂單失敗 : " + e.getMessage());
+				}
+			} else if(checkBack.equals("true")) {
+				// 若使用者點選上一頁會跳轉至商城頁面
+				session.removeAttribute("checkBack");
+				response.sendRedirect(request.getContextPath()+"/shopping/SportifyShop.do?action=shop");
 			}
 		}
 	}

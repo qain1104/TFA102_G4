@@ -9,6 +9,7 @@
  	List<ProductVO> shopAllproductList = (List<ProductVO>)session.getAttribute("shopAllproductList");
 	pageContext.setAttribute("shopAllproductList", shopAllproductList);
 	session.setAttribute("location", request.getRequestURI());
+	session.removeAttribute("checkBack");
 %>
 <!DOCTYPE html>
 <html>

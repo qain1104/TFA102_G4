@@ -65,7 +65,7 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 			if (rs.next()) {
 				key = rs.getInt(1); // 只支援欄位索引值取得自增主鍵值
 				System.out.println("自增主鍵值 = " + key + "(剛新增成功的員工編號)");
-			} else {
+			} else{
 				System.out.println("NO KEYS WERE GENERATED.");
 			}
 			rs.close();

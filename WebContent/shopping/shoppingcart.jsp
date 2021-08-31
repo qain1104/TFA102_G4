@@ -26,6 +26,7 @@
 	session.setAttribute("shoppingCartMap", shoppingCartMap); // 購物車所需的資料
 	Map<String, Integer> totalCartList = cartListService.getTotalAmount(userId);
 	session.setAttribute("totalCartList", totalCartList); // 計算總金額和總數量
+	session.removeAttribute("checkBack");
 
 %> 
 
