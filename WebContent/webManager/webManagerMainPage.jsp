@@ -3,6 +3,12 @@
     pageEncoding="BIG5"%>
 <%@ page import="com.WebManager.model.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+// 防止快取
+response.setHeader("Cache-Control", "no-store");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +38,12 @@
         <h1 class=" text-primary fw-bold">Sportify後台</h1>
         <br>
         <p class="">目前管理員:${webManagerVO.managerName}</p>
+       	<form action="<%=request.getContextPath()%>/webManager/WebManagerServlet.do" method="post">
+            	<input type="hidden" name="action" value="managerLogout">
+            		<ul class="list-group">
+                		<li class="list-group-item"><button type="submit" class="btn btn-primary">登出</button></li>
+              		</ul>
+            </form>
       
         <div class="row mt-5">
           <div class="col">

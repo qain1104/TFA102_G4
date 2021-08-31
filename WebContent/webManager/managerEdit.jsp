@@ -50,7 +50,7 @@ img {
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-6"><label class="labels">管理員名稱:</label><input type="text" readonly="readonly" class="form-control"  name="managerName" value="${webManagerVO.managerName}"></div>
-                    <div class="col-md-6"><label class="labels">管理員狀態:</label><input type="text"  readonly="readonly" class="form-control"  name="managerStatus" value="${webManagerVO.managerStatus}"></div>
+                    <div class="col-md-6"><label class="labels">管理員狀態:</label><input type="text"  readonly="readonly" class="form-control"  name="managerStatus" value="${webManagerVO.managerStatus==1?'在職':'離職'}"></div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-6"><label class="labels">管理員帳號:</label><input type="text" readonly="readonly" class="form-control" name="managerAccount" value="${webManagerVO.managerAccount}"></div>

@@ -779,10 +779,17 @@ public class WebManagerServlet extends HttpServlet {
 		if ("logout".equals(action)) {
 			session.removeAttribute("currentG");
 			session.removeAttribute("currentC");
-			session.removeAttribute("currentW");
 			session.invalidate();
 
 			String url = req.getContextPath() + "/Sportify.jsp";
+			res.sendRedirect(url);
+		}
+		
+		if ("managerLogout".equals(action)) {
+			session.removeAttribute("webManagerVO");
+			session.invalidate();
+
+			String url = req.getContextPath() + "/managerLogin.jsp";
 			res.sendRedirect(url);
 		}
 	}

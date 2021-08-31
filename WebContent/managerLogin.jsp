@@ -4,6 +4,16 @@
 <%@ page import="java.sql.Timestamp"%>
 <%@ page import="com.CorpUser.model.*"%>
 <%@ page import="com.GeneralUser.model.*"%>
+<%
+// 防止快取
+response.setHeader("Cache-Control", "no-store");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+%>
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,9 +41,7 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/templatemo.css">
 
-<!-- header -->
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/assets/css/custom.css">
+
 
 <!-- Slick -->
 <link rel="stylesheet" type="text/css"
@@ -53,9 +61,7 @@
 			</c:forEach>
 		</ul>
 	</c:if>
-	<link
-		href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-		rel="stylesheet" id="bootstrap-css">
+
 	<script
 		src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<script
@@ -70,18 +76,16 @@
 			<div class="fadeIn first">
 				<span class="fadeIn second">Sportify後台</span>
 			</div>
-
+ 
 
 
 			<!-- Login Form -->
 			<form method="post"
 				action="<%=request.getContextPath()%>/webManager/WebManagerServlet.do">
-				<input type="text" class="fadeIn second" name="inputAccount"
-					required="required" placeholder="管理員帳號"> <input type="password"
-					class="fadeIn third" name="inputPassword" required="required"
-					placeholder="管理員密碼"> <input type="hidden" name="action"
-					value="managerIn"> <input type="submit"
-					class="fadeIn fourth" value="登入">
+				<input type="text" class="fadeIn second" name="inputAccount" required="required" placeholder="管理員帳號"> 
+					<input type="text" class="fadeIn third" name="inputPassword" required="required" placeholder="管理員密碼"> 
+					<input type="hidden" name="action" value="managerIn"> 
+					<input type="submit" class="fadeIn fourth" value="登入">
 			</form>
 
 			<!-- Remind Passowrd -->
