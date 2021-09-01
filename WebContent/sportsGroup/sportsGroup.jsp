@@ -124,7 +124,7 @@
 										<div class="col-auto justify-content-md-end">
 											<!-- 整個談窗+按鈕測試 -->
 											<!-- Button trigger modal -->
-											<button type="button" class="btn btn-success"
+											<button type="button" class="btn btn-success" ${empty userId? "disabled":""}
 												data-bs-toggle="modal" data-bs-target="#exampleModal">
 												發起揪團</button>
 											<!-- Modal -->
@@ -268,7 +268,7 @@
 										aria-labelledby="flush-headingOne${sportsGroupVO.sportsGroupSN}"
 										data-bs-parent="#accordionFlushExample">
 										<div class="accordion-body">
-											<p class="mb-0 text-success h6">揪團人：${sportsGroupVO.userId}
+											<p class="mb-0 text-success h6">揪團人：
 												${generalUserSvc.getOneGeneralUser(sportsGroupVO.userId).userName}</p>
 											<p class="mb-0 text-success h6">
 												報名時間：<%=tformat.format(pageContext.getAttribute("tdate1"))%>至<%=tformat.format(pageContext.getAttribute("tdate2"))%></p>

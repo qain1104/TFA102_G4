@@ -327,9 +327,9 @@ public class SportsGroupServlet extends HttpServlet {
 			System.out.println(name+email+subject+text);
 			
 			
-			String to = "luck820129@gmail.com";
+			String to = "tfa102sportify@gmail.com";
 			String title= "收到顧客反應表單:" + subject;
-			String messageText = "\n寄信人:"+name +"\n客戶Email:"+ email +"\n內文:" +text;
+			String messageText = "\n寄信人:"+name +"\n客戶信箱:"+ email +"\n內文:" +text;
 				
 			MailService mailService = new MailService();
             mailService.sendMail(to, title, messageText);
