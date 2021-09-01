@@ -96,16 +96,15 @@
                     <div class="container">
                         <div class="row p-5">
                             <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                                <img class="img-fluid" src="./assets/img/banner_img_03.jpg" alt="">
+                                <img class="img-fluid" src="./assets/img/moon.jpg" alt="">
                             </div>
                             <div class="col-lg-6 mb-0 d-flex align-items-center">
                                 <div class="text-align-left">
-                                    <h1 class="h1">Repr in voluptate</h1>
-                                    <h3 class="h2">Ullamco laboris nisi ut
+                                    <h1 class="h1">中秋節大優惠</h1>
+                                    <h3 class="h2">結帳時輸入序號: MOON 即享
                                     </h3>
                                     <p>
-                                        We bring you 100% free CSS templates for your websites. 
-                                                                            If you wish to support TemplateMo, please make a small contribution via PayPal or tell your friends about our website. Thank you.
+                                    	單筆消費滿1000折300
                                     </p>
                                 </div>
                             </div>
@@ -129,8 +128,7 @@
                 <div class="col-lg-6 m-auto">
                     <h1 class="h1">商城重點分類</h1>
                     <p>
-                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                            deserunt mollit anim id est laborum.
+                        	找不到適合的裝備嗎?
                     </p>
                 </div>
             </div>
