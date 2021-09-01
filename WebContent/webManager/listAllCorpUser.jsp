@@ -24,8 +24,8 @@
 <body>
 	<div class="container mt-5 mb-5">
 
-		<table class="table-primary justify-content-md-center">
-			<tr class="text-center">
+		<table class="table table-bordered text-center align-middle">
+			<tr class="primary border border-primary text-justify">
 				<th>編號</th>
 				<th>狀態</th>
 				<th>帳號</th>
@@ -43,7 +43,7 @@
 				end="<%=pageIndex + rowsPerPage - 1%>">
 				<tbody>
 				
-					<tr class="table-primary border border-primary text-center mx-auto">
+					<tr class="border border-primary">
 						<th scope="row">${corpUserVO.corpUserId}</th>
 						<td>${corpUserVO.registerStatus==0?'未認證':'已認證'}</td>
 						<td>${corpUserVO.corpAccount}</td>
@@ -54,9 +54,9 @@
 						<td>${corpUserVO.email}</td>
 						<td>${corpUserVO.phone}</td>
 						<td>${corpUserVO.address}</td>
-						<td><img class="rounded-circle mt-5"
+						<td style="max-width: 70px"><img class="rounded-circle"
 							src="<%=request.getContextPath()%>/Readerpic?corpUserId=${corpUserVO.corpUserId}"
-							style="max-width: 40%; max-height: 40%"></td>
+							style="max-width: 100%; max-height: 100%"></td>
 						<td>${corpUserVO.showcreatedTime()}</td>
 					</tr>
 				</tbody>

@@ -24,10 +24,9 @@
 </head>
 <body>
 	<div class="container mt-5 mb-5">
-			<table class="table-primary justify-content-md-center">
-				<div class="table-primary justify-content-md-center">
+			<table class="table table-bordered text-center align-middle">
 					<thead>
-						<tr class="primary border border-primary text-center mx-auto margin:auto">
+						<tr class="primary border border-primary text-justify">
 							<th scope="col">編號</th>
 							<th scope="col">認證</th>
 							<th scope="col">名稱</th>
@@ -44,7 +43,7 @@
 				<c:forEach var="generalUserVO" items="${list}"
 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 					<tbody>
-						<tr class="table-primary border border-primary text-center mx-auto">
+						<tr class="border border-primary">
 							<th scope="row">${generalUserVO.userId}</th>
 							<td style="min-width: 30px">${generalUserVO.registerStatus==0?'未認證':'已認證'}</td>
 							<td style="min-width: 30px">${generalUserVO.userName}</td>
@@ -55,9 +54,9 @@
 							<td style="min-width: 30px">${generalUserVO.email}</td>
 							<td style="min-width: 30px">${generalUserVO.phone}</td>
 							<td style="min-width: 30px">${generalUserVO.address}</td>
-							<td style="min-width: 30px"><img class="rounded-circle mt-5"
+							<td style="max-width: 70px"><img class="rounded-circle"
 								src="<%=request.getContextPath()%>/Readerpic?userId=${generalUserVO.userId}"
-								style="max-width: 30%; max-height: 30%"></td>
+								style="max-width:100%; max-height: 100%"></td>
 							<td>${generalUserVO.showcreatedTime()}</td>
 						</tr>
 					</tbody>
@@ -68,6 +67,5 @@
 			</div>
 			<a class="btn btn-primary fw-bold" href='select_page.jsp'>返回</a>
 		</div>
-	</div>
 </body>
 </html>

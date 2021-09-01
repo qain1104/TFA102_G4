@@ -21,9 +21,10 @@
 <body>
 	<div class="container mt-5 mb-5">
 
-		<table class="table-primary justify-content-md-center">
+		<table class="table table-bordered text-center align-middle">
 			<thead>
 				<tr class="primary border border-primary text-justify">
+					<th scope="col">大頭貼</th>
 					<th scope="col">編號</th>
 					<th scope="col">認證</th>
 					<th scope="col">名稱</th>
@@ -32,12 +33,15 @@
 					<th scope="col">信箱</th>
 					<th scope="col">電話</th>
 					<th scope="col">地址</th>
-					<th scope="col">大頭貼</th>
+					
 					<th scope="col">創建時間</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="table-primary border border-primary">
+				<tr class=" border border-primary">
+				<td style="max-width: 100px"><img class="rounded-circle"
+						src="<%=request.getContextPath()%>/Readerpic?userId=${generalUserVO.userId}"
+						style="max-width: 100%; max-height: 100%"></td>
 					<th scope="row">${generalUserVO.userId}</th>
 					<td style="min-width: 30px">${generalUserVO.registerStatus==0?'未認證':'已認證'}</td>
 					<td style="min-width: 30px">${generalUserVO.userName}</td>
@@ -48,9 +52,7 @@
 					<td style="min-width: 30px">${generalUserVO.email}</td>
 					<td style="min-width: 30px">${generalUserVO.phone}</td>
 					<td style="min-width: 30px">${generalUserVO.address}</td>
-					<td style="min-width: 30px"><img class="rounded-circle mt-5"
-						src="<%=request.getContextPath()%>/Readerpic?userId=${generalUserVO.userId}"
-						style="max-width: 30%; max-height: 30%"></td>
+					
 					<td>${generalUserVO.showcreatedTime()}</td>
 				</tr>
 			</tbody>
