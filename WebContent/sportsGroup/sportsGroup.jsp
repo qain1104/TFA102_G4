@@ -298,7 +298,7 @@
 																	value="${participantSVC.getParticipant(sportsGroupVO.sportsGroupSN).size()}">
 																	
 
-																<button class="btn btn-success" type="submit">參加${participantVO.participantID}</button>
+																<button class="btn btn-success" type="submit" ${empty userId? "disabled":""}>參加${participantVO.participantID}</button>
 															</form>
 														</c:when>
 														<c:when
