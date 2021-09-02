@@ -3,7 +3,7 @@
   <nav aria-label="Page navigation example">
 	<ul class="pagination justify-content-center">
 								<c:if test="${!empty param.whichClass}"><c:set var="whichlink" value="&whichClass=${param.whichClass}"></c:set></c:if>
-								<c:if test="${param.whichClass==5}"><c:set var="searchlink" value="&search=${param.search}"></c:set></c:if>
+								<c:if test="${param.whichClass==5}"><c:set var="searchlink" value="&search=${search}"></c:set></c:if>
 								
 								<%if(whichPage>3){%>
 								<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=1${whichlink}${searchlink}">1</a></li>
