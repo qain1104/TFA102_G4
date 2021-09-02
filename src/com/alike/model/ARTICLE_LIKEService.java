@@ -8,7 +8,7 @@ public class ARTICLE_LIKEService {
 	private ARTICLE_LIKEDAO_interface dao;
 
 	public ARTICLE_LIKEService() {
-		dao = new ARTICLE_LIKEJDBCDAO();
+		dao = new ARTICLE_LIKEJNDIDAO();
 	}
 
 	public ARTICLE_LIKEVO addAlike(Integer articleSN,Integer userId)
