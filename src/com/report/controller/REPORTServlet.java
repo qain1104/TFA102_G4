@@ -33,7 +33,7 @@ public class REPORTServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			Integer articleSN=null;
 			try {
-				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¨Dï¿½Ñ¼ï¿½ ****************************************/
+				/*************************** 1. ****************************************/
 				articleSN = new Integer(req.getParameter("articleSN").trim());
 				Integer floor = new Integer(req.getParameter("floor").trim());
 				Integer replySN = null;
@@ -42,7 +42,7 @@ public class REPORTServlet extends HttpServlet {
 				} else {
 					replySN = 0;
 				}
-				/*************************** 2.ï¿½}ï¿½lï¿½dï¿½ß¸ï¿½ï¿½ ****************************************/
+				/*************************** 2. ****************************************/
 				ARTICLEService artSvc = new ARTICLEService();
 				ARTICLEVO articleVO = artSvc.getOneArticle(articleSN);
 
@@ -62,13 +62,13 @@ public class REPORTServlet extends HttpServlet {
 				req.setAttribute("floor", floor);
 				req.setAttribute("articleVO", articleVO);
 				req.setAttribute("replySN", replySN);
-				/*************************** 3.ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) *************/
+				/*************************** 3.(Send the Success view) *************/
 				String url = "/article/report.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
-				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************************/
+				/*************************** *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("å‰å¾€æª¢èˆ‰å¤±æ•—:" + e.getMessage());
+				errorMsgs.add("«e©¹ÀËÁ|¥¢±Ñ:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher(req.getContextPath() + "/article/reply.jsp?sn=" + articleSN);
 				failureView.forward(req, res);
 			}
@@ -82,44 +82,44 @@ public class REPORTServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*********************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¨Dï¿½Ñ¼ï¿½ - ï¿½ï¿½Jï¿½æ¦¡ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************/
+				/*********************** 1. *************************/
 				Integer articleSN = null;
 				try {
 					articleSN = new Integer(req.getParameter("articleSN").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰articleSN.");
+					errorMsgs.add("¨S¦³articleSN.");
 				}
 				Integer floor = null;
 				try {
 					floor = new Integer(req.getParameter("floor").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰floor.");
+					errorMsgs.add("¨S¦³floor.");
 				}
 				Integer replySN = null;
 				if (floor != 1) {
 					try {
 						replySN = new Integer(req.getParameter("replySN").trim());
 					} catch (NumberFormatException e) {
-						errorMsgs.add(floor + "æ²’æœ‰replySN.");
+						errorMsgs.add(floor + "¨S¦³replySN.");
 					}
 				}
 				Integer userId = null;
 				try {
 					userId = new Integer(req.getParameter("userId").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰userId.");
+					errorMsgs.add("¨S¦³userId.");
 				}
 				Integer reportClass = null;
 				try {
 					reportClass = new Integer(req.getParameter("reportClass").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰reportClass.");
+					errorMsgs.add("¨S¦³reportClass.");
 				}
 				String reportContent = null;
 				try {
 					reportContent = new String(req.getParameter("reportContent").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰reportContent.");
+					errorMsgs.add("¨S¦³reportContent.");
 				}
 				java.sql.Timestamp reportDate = new java.sql.Timestamp(new java.util.Date().getTime());
 				Integer reportStatus = 0;
@@ -143,18 +143,18 @@ public class REPORTServlet extends HttpServlet {
 					failureView.forward(req, res);
 					return;
 				}
-				/*************************** 2.ï¿½}ï¿½lï¿½sï¿½Wï¿½ï¿½ï¿½ ***************************************/
+				/*************************** 2. ***************************************/
 				REPORTService reportSvc = new REPORTService();
 				reportSvc.addReport(articleSN, replySN, userId, reportClass, reportContent, reportDate, reportStatus,
 						managerId, reportAuditDate);
 
-				/*************************** 3.ï¿½sï¿½Wï¿½ï¿½ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) ***********/
+				/*************************** 3.(Send the Success view) ***********/
 				String url = req.getContextPath() + "/article/reply.jsp?sn=" + articleSN;
 				res.sendRedirect(url);
 
-				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z **********************************/
+				/*************************** **********************************/
 			} catch (Exception e) {
-				errorMsgs.add("ç™¼é€æª¢èˆ‰å¤±æ•—"+e.getMessage());
+				errorMsgs.add("µo°eÀËÁ|¥¢±Ñ"+e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/article/report.jsp");
 				failureView.forward(req, res);
 			}
@@ -167,12 +167,12 @@ public class REPORTServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			Integer whichClass=null;
 			try {
-				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¨Dï¿½Ñ¼ï¿½ ****************************************/
+				/*************************** 1. ****************************************/
 				Integer floor = null;
 				try {
 					floor = new Integer(req.getParameter("floor").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰floor.");
+					errorMsgs.add("¨S¦³floor.");
 				}
 				Integer articleSN = null;
 				Integer replySN = null;
@@ -180,41 +180,41 @@ public class REPORTServlet extends HttpServlet {
 					try {
 						articleSN = new Integer(req.getParameter("articleSN").trim());
 					} catch (NumberFormatException e) {
-						errorMsgs.add("æ²’æœ‰articleSN.");
+						errorMsgs.add("¨S¦³articleSN.");
 					}
 				} else {
 					try {
 						replySN = new Integer(req.getParameter("replySN").trim());
 					} catch (NumberFormatException e) {
-						errorMsgs.add("æ²’æœ‰replySN.");
+						errorMsgs.add("¨S¦³replySN.");
 					}
 				}
 				Integer reportSN = null;
 				try {
 					reportSN = new Integer(req.getParameter("reportSN").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰reportSN.");
+					errorMsgs.add("¨S¦³reportSN.");
 				}
 				Integer managerId = null;
 				try {
 					managerId =new Integer(req.getParameter("managerId").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰managerId.");
+					errorMsgs.add("¨S¦³managerId.");
 				}
 				Integer reportStatus = null;
 				try {
 					reportStatus = new Integer(req.getParameter("reportStatus").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰reportStatus.");
+					errorMsgs.add("¨S¦³reportStatus.");
 				}
 				whichClass = null;
 				try {
 					whichClass = new Integer(req.getParameter("whichClass").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰whichClass.");
+					errorMsgs.add("¨S¦³whichClass.");
 				}
 
-				/*************************** 2.ï¿½}ï¿½lï¿½dï¿½ß¸ï¿½ï¿½ ****************************************/
+				/*************************** 2. ****************************************/
 				if(reportStatus==1) {
 					String url = req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass;
 					res.sendRedirect(url);
@@ -229,7 +229,7 @@ public class REPORTServlet extends HttpServlet {
 					list = reportSvc.getReportSameReply(replySN);
 				}
 
-				/*************************** 2.ï¿½}ï¿½lï¿½×§ï¿½ï¿½ï¿½ *****************************************/
+				/*************************** 2.*****************************************/
 				for (REPORTVO reportVO : list) {
 					if (!errorMsgs.isEmpty()) {
 						req.setAttribute("reportVO", reportVO);
@@ -249,13 +249,13 @@ public class REPORTServlet extends HttpServlet {
 					REPLYVO replyVO = rSvc.getOneReply(replySN);
 					rSvc.updateastatus(replyVO, 1);
 				}
-				/*************************** 3.ï¿½×§ï§¹ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) *************/
+				/*************************** 3.(Send the Success view) *************/
 				String url = req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass;
 				res.sendRedirect(url);
 
-				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************************/
+				/*************************** *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("å¯©æ ¸æª¢èˆ‰å¤±æ•—:" + e.getMessage());
+				errorMsgs.add("¼f®ÖÀËÁ|¥¢±Ñ:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher(req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass);
 				failureView.forward(req, res);
 			}
@@ -269,26 +269,26 @@ public class REPORTServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			Integer whichClass = null;
 			try {
-				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¨Dï¿½Ñ¼ï¿½ ****************************************/
+				/*************************** 1. ****************************************/
 				Integer productSN = null;
 				try {
 					productSN = new Integer(req.getParameter("productSN").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰reportSN.");
+					errorMsgs.add("¨S¦³reportSN.");
 				}
 				Integer productStatus = null;
 				try {
 					productStatus = new Integer(req.getParameter("productStatus").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰reportSN.");
+					errorMsgs.add("¨S¦³reportSN.");
 				}
 				whichClass = null;
 				try {
 					whichClass = new Integer(req.getParameter("whichClass").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰whichClass.");
+					errorMsgs.add("¨S¦³whichClass.");
 				}
-				/*************************** 2.ï¿½}ï¿½lï¿½dï¿½ß¸ï¿½ï¿½ ****************************************/
+				/*************************** 2. ****************************************/
 				ProductService pdtSvc=new ProductService();
 				ProductVO pdtVO=pdtSvc.getOneProduct(productSN);
 				
@@ -299,15 +299,15 @@ public class REPORTServlet extends HttpServlet {
 					return;
 				}
 				
-				/*************************** 2.ï¿½}ï¿½lï¿½×§ï¿½ï¿½ï¿½ *****************************************/
+				/*************************** 2 *****************************************/
 				pdtSvc.updateProductStatus(pdtVO, productStatus);
-				/*************************** 3.ï¿½×§ï§¹ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) *************/
+				/*************************** 3.(Send the Success view) *************/
 				String url = req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass;
 				res.sendRedirect(url);
 				
-				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************************/
+				/***************************  *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("å¯©æ ¸å•†å“å¤±æ•—:" + e.getMessage());
+				errorMsgs.add("¼f®Ö°Ó«~¥¢±Ñ:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher(req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass);
 				failureView.forward(req, res);
 			}
@@ -320,26 +320,26 @@ public class REPORTServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			Integer whichClass = null;
 			try {
-				/*************************** 1.ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¨Dï¿½Ñ¼ï¿½ ****************************************/
+				/*************************** 1. ****************************************/
 				Integer venueSN = null;
 				try {
 					venueSN = new Integer(req.getParameter("venueSN").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰venueSN.");
+					errorMsgs.add("¨S¦³venueSN.");
 				}
 				Integer venueStatus = null;
 				try {
 					venueStatus = new Integer(req.getParameter("venueStatus").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰venueStatus.");
+					errorMsgs.add("¨S¦³venueStatus.");
 				}
 				whichClass = null;
 				try {
 					whichClass = new Integer(req.getParameter("whichClass").trim());
 				} catch (NumberFormatException e) {
-					errorMsgs.add("æ²’æœ‰whichClass.");
+					errorMsgs.add("¨S¦³whichClass.");
 				}
-				/*************************** 2.ï¿½}ï¿½lï¿½dï¿½ß¸ï¿½ï¿½ ****************************************/
+				/*************************** 2. ****************************************/
 				VenueService veSvc=new VenueService();
 				VenueVO venueVO=veSvc.getOneVenue(venueSN);
 				
@@ -350,15 +350,15 @@ public class REPORTServlet extends HttpServlet {
 					return;
 				}
 				
-				/*************************** 2.ï¿½}ï¿½lï¿½×§ï¿½ï¿½ï¿½ *****************************************/
+				/*************************** 2. *****************************************/
 				veSvc.updateVenueStatus(venueVO, venueStatus);
-				/*************************** 3.ï¿½×§ï§¹ï¿½ï¿½,ï¿½Ç³ï¿½ï¿½ï¿½ï¿½(Send the Success view) *************/
+				/*************************** 3.(Send the Success view) *************/
 				String url = req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass;
 				res.sendRedirect(url);
 				
-				/*************************** ï¿½ï¿½Lï¿½iï¿½àªºï¿½ï¿½ï¿½~ï¿½Bï¿½z *************************************/
+				/*************************** *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("å¯©æ ¸å ´åœ°å¤±æ•—:" + e.getMessage());
+				errorMsgs.add("¼f®Ö³õ¦a¥¢±Ñ:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher(req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass);
 				failureView.forward(req, res);
 			}
