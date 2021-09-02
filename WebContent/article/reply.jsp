@@ -67,8 +67,10 @@
 	href="<%=request.getContextPath()%>/assets/css/custom.css">
 <style>
 img {
-	max-width: 100%;
-	max-height: 100%;
+    max-height: 100%;  
+    max-width: 100%; 
+    width: auto;
+    height: auto;
 }
 </style>
 </head>
