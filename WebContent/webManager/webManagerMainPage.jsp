@@ -77,7 +77,7 @@ response.setDateHeader("Expires", 0);
           <div class="col">
            <h3>管理員功能</h3>
             <ul class="list-group">
-                <li class="list-group-item"><button type="button" class="btn btn-primary">審核首頁</button></li>
+                <li class="list-group-item"><a type="button" class="btn btn-primary" href="<%=request.getContextPath()%>/article/audit.jsp">審核首頁</a></li>
    	            <li class="list-group-item"><button type="button" class="btn btn-primary">客服回應</button></li>
               </ul>
           </div>

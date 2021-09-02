@@ -56,12 +56,10 @@
 			<div class="col text-center">
 				<h3>租借管理</h3>
 				<ul class="list-group">
-					<li class="list-group-item"><button type="button"
-							class="btn btn-success">新增場地</button></li>
-					<li class="list-group-item"><button type="button"
-							class="btn btn-success">查看場地</button></li>
-					<li class="list-group-item"><button type="button"
-							class="btn btn-success">租借單管理</button></li>
+					<li class="list-group-item"><a class="btn btn-success" href="<%=request.getContextPath()%>/venue/addVenue.jsp">新增場地 </a></li>
+					<li class="list-group-item"><a class="btn btn-success" href="<%=request.getContextPath()%>/venue/listAllVenue.jsp">查看場地 </a></li>
+<!-- 					<li class="list-group-item"><button type="button" -->
+<!-- 							class="btn btn-success">租借單管理</button></li> -->
 				</ul>
 			</div>
 			<div class="col text-center">

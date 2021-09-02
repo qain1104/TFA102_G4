@@ -198,7 +198,13 @@ response.setIntHeader("Refresh", 5);
 
 													<tr>
 														<td>${venueVO.venueName}</td>
-														<td>${venueVO.venueClass}</td>
+														<td><c:choose>
+							<c:when test="${venueVO.venueClass==1}">籃球場</c:when>
+							<c:when test="${venueVO.venueClass==2}">網球場</c:when>
+							<c:when test="${venueVO.venueClass==3}">排球場</c:when>
+							<c:when test="${venueVO.venueClass==4}">壘球場</c:when>
+							<c:when test="${venueVO.venueClass==5}">羽球場</c:when>
+						</c:choose></td>
 														<td>${venueVO.venuePhone}</td>
 														<td>${venueVO.venueAddress}</td>
 														<td>
