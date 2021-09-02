@@ -11,7 +11,9 @@
 	Datahandle dh = new Datahandle();
 %>
 <c:if test="${!empty userId}">
-<%userId=(Integer)session.getAttribute("userId"); %>
+	<%
+		userId = (Integer) session.getAttribute("userId");
+	%>
 </c:if>
 <!DOCTYPE html>
 <html>
@@ -21,8 +23,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="apple-touch-icon" href="../assets/img/apple-icon.png">
-<link rel="shortcut icon" type="image/x-icon"
-	href="<%=request.getContextPath()%>/assets/img/favicon.ico">
+<!-- 網頁logo -->
+<link rel="shortcut icon"
+	href="<%=request.getContextPath()%>/assets/img/logo1.png"
+	type="image/x-icon" />
 
 <!-- 介面排版用的 -->
 <link rel="stylesheet"
@@ -44,7 +48,7 @@
 	href="<%=request.getContextPath()%>/assets/css/custom.css">
 </head>
 <body>
-<jsp:include page="/header.jsp" flush="true" />
+	<jsp:include page="/header.jsp" flush="true" />
 	<!-- 論壇本體 -->
 	<div class="bg-light">
 		<div class="container pt-5 pb-5">
@@ -52,7 +56,7 @@
 
 				<!-- 左邊side -->
 				<div class="col-md-2 side">
-					<jsp:include page="articleside.jsp" flush="true"/>
+					<jsp:include page="articleside.jsp" flush="true" />
 				</div>
 				<!-- close左邊side -->
 
