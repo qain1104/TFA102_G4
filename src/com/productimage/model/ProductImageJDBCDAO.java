@@ -290,7 +290,7 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 
 //			Class.forName(driver);
 //			con = DriverManager.getConnection(url, userid, passwd);
-			con = ds.getConnection();;
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT_BY_PRODUCT);
 			pstmt.setInt(1, productSN);
 			rs = pstmt.executeQuery();
@@ -375,8 +375,8 @@ public class ProductImageJDBCDAO implements ProductImageDAO_interface {
 //		}
 		
 		// List<ProductImageVO> findByProduct(Integer productSN)
-		ProductImageService service = new ProductImageService();
-		List<ProductImageVO> list = service.findByProduct(new Integer(11001));
-		System.out.println(list.size());
+//		ProductImageService service = new ProductImageService();
+//		List<ProductImageVO> list = service.findByProduct(new Integer(11001));
+//		System.out.println(list.size());
 	}
 }

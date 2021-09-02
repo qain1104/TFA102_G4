@@ -1,6 +1,7 @@
 package com.productimage.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductImageService {
 
@@ -49,5 +50,12 @@ public class ProductImageService {
 	public List<ProductImageVO> findByProduct(Integer productSN){
 		return dao.findByProduct(productSN);
 	}
+	
+	 public List<ProductImageVO> getProductImageVO(Integer productSN) {
+		 List<ProductImageVO> list = dao.getAll().stream()
+                 .filter(e ->e.getProductSN().equals(productSN))
+                 .collect(Collectors.toList());
+         return list;         
+    	}
 
 }

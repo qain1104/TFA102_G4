@@ -55,14 +55,6 @@ public class ProductSpecService {
 	public List<ProductSpecVO> getAll() {
 		return dao.getAll();
 	}
-	
-	public ProductSpecVO getProductStock(Integer productSN) {
-         ProductSpecVO list = dao.getAll().stream()
-                 .filter(e ->e.getProductSN().equals(productSN))
-                 .findFirst()
-                 .get();
-         return list;         
-    }
 	 
 	public List<ProductSpecVO> getProductProduct(Integer productSN) {
          List<ProductSpecVO> list = dao.getAll().stream()
