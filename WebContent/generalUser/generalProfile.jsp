@@ -47,15 +47,20 @@ img {
 						<h4 class="text-right">個人資料</h4>
 					</div>
 					<div class="row mt-2">
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<label class="labels">一般會員編號:</label><input type="text"
 								readonly="readonly" class="form-control"
 								value="${currentG.userId}">
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<label class="labels">註冊狀態:</label><input type="text"
 								readonly="readonly" class="form-control"
 								value="${currentG.registerStatus==0?'未認證':'已認證'}">
+						</div>
+							<div class="col-md-4">
+							<label class="labels">性別:</label><input type="text"
+								readonly="readonly" class="form-control"
+								value="${currentG.gender==1?'男':'女'}">
 						</div>
 					</div>
 					<div class="row mt-3">
@@ -65,7 +70,7 @@ img {
 								value="${currentG.userAccount}">
 						</div>
 						<div class="col-md-6">
-							<label class="labels">一般會員密碼:</label><input type="text"
+							<label class="labels">一般會員密碼:</label><input type="password"
 								readonly="readonly" class="form-control"
 								value="${currentG.userPassword}">
 						</div>
@@ -74,11 +79,7 @@ img {
 								readonly="readonly" class="form-control"
 								value="${currentG.userName}">
 						</div>
-						<div class="col-md-6">
-							<label class="labels">性別:</label><input type="text"
-								readonly="readonly" class="form-control"
-								value="${currentG.gender==1?'男':'女'}">
-						</div>
+					
 						<div class="col-md-6">
 							<label class="labels">身分證字號:</label><input type="text"
 								readonly="readonly" class="form-control" value="${currentG.id}">
@@ -88,18 +89,19 @@ img {
 								readonly="readonly" class="form-control"
 								value="${currentG.phone}">
 						</div>
-					</div>
-					<div class="row mt-3">
-						<div class="col-md-6">
-							<label class="labels">信箱:</label><input type="text"
-								readonly="readonly" class="form-control"
-								value="${currentG.email}">
-						</div>
 						<div class="col-md-6">
 							<label class="labels">創建時間:</label><input type="text"
 								readonly="readonly" class="form-control"
 								value="<%=myFmt1.format(currentG.getCreatedTime())%>">
 						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-8">
+							<label class="labels">信箱:</label><input type="text"
+								readonly="readonly" class="form-control"
+								value="${currentG.email}">
+						</div>
+						
 						<div class="col-md-12">
 							<label class="labels">地址:</label><input type="text"
 								readonly="readonly" class="form-control"

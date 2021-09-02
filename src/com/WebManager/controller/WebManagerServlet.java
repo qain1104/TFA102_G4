@@ -87,25 +87,36 @@ public class WebManagerServlet extends HttpServlet {
 				for (GeneralUserVO each : list) {
 					if (each.getUserAccount().equals(inputAccount) || each.getEmail().equals(inputAccount)) {
 						if (each.getUserPassword().equals(inputPassword)) {
-							System.out.println("登入成功");
-							temp = each;
-							/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-							session.setAttribute("currentG", temp);
-							session.setAttribute("userId", temp.getUserId());
-							// 登入後將session的購物車物件放進自己的購物車，並移除session的購物車
-							List<CartListVO> cartList = (List<CartListVO>)session.getAttribute("cartList");
-							CartListService cartListService = new CartListService();
-							if(cartList != null) {
-								for(CartListVO cartListVO : cartList) {
-									cartListService.updateCartList(temp.getUserId(), cartListVO.getProductSpecId(), cartListVO.getItemQuantity());
+							if(each.getRegisterStatus() == 1) {
+								System.out.println("登入成功");
+								temp = each;
+								/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
+								session.setAttribute("currentG", temp);
+								session.setAttribute("userId", temp.getUserId());
+								// 登入後將session的購物車物件放進自己的購物車，並移除session的購物車
+								List<CartListVO> cartList = (List<CartListVO>)session.getAttribute("cartList");
+								CartListService cartListService = new CartListService();
+								if(cartList != null) {
+									for(CartListVO cartListVO : cartList) {
+										cartListService.updateCartList(temp.getUserId(), cartListVO.getProductSpecId(), cartListVO.getItemQuantity());
+									}
+									session.removeAttribute("cartList");
 								}
-								session.removeAttribute("cartList");
+								
+								String location = (String) session.getAttribute("location");
+								if(location != null && !location.equals(req.getContextPath()+"/webManager/WebManagerServlet.do") ) {
+									session.removeAttribute("location");
+									res.sendRedirect(location);
+									return;
 							}
 							
-							String location = (String) session.getAttribute("location");
-							if(location != null && !location.equals(req.getContextPath()+"/webManager/WebManagerServlet.do") ) {
-								session.removeAttribute("location");
-								res.sendRedirect(location);
+							} else {
+								errorMsgs.add("尚未認證");
+								System.out.println("尚未認證");
+								session.setAttribute("location", req.getRequestURI());
+								System.out.println(req.getRequestURI());
+								RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+								failureView.forward(req, res);
 								return;
 							}
 
@@ -191,22 +202,33 @@ public class WebManagerServlet extends HttpServlet {
 				for (CorpUserVO each : list) {
 					if (each.getCorpAccount().equals(inputAccount) || each.getEmail().equals(inputAccount)) {
 						if (each.getCorpPassword().equals(inputPassword)) {
-							System.out.println("登入成功");
-							temp = each;
-							/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-							session.setAttribute("corpUserId", temp.getCorpUserId());
-							session.setAttribute("currentC", temp);
-							session.removeAttribute("cartList");
-							String location = (String) session.getAttribute("location");
-							if(location != null && ! location.equals(req.getContextPath()+"/webManager/WebManagerServlet.do")) {
-								session.removeAttribute("location");
-								res.sendRedirect(location);
+							if(each.getRegisterStatus() == 1) {
+								System.out.println("登入成功");
+								temp = each;
+								/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
+								session.setAttribute("corpUserId", temp.getCorpUserId());
+								session.setAttribute("currentC", temp);
+								session.removeAttribute("cartList");
+								String location = (String) session.getAttribute("location");
+								if(location != null && ! location.equals(req.getContextPath()+"/webManager/WebManagerServlet.do")) {
+									session.removeAttribute("location");
+									res.sendRedirect(location);
+									return;
+								}
+								
+								String url = req.getContextPath() + "/Sportify.jsp";
+								res.sendRedirect(url);
+								return;
+							} else {
+								errorMsgs.add("尚未認證");
+								System.out.println("尚未認證");
+								session.setAttribute("location", req.getRequestURI());
+								System.out.println(req.getRequestURI());
+								RequestDispatcher failureView = req.getRequestDispatcher("/login.jsp");
+								failureView.forward(req, res);
 								return;
 							}
 							
-							String url = req.getContextPath() + "/Sportify.jsp";
-							res.sendRedirect(url);
-							return;
 						} else {
 							errorMsgs.add("帳號或密碼錯誤");
 							System.out.println("重新導向登入頁面");

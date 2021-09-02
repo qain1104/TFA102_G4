@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.Timestamp"%>
@@ -6,13 +6,13 @@
 <%@ page import="com.GeneralUser.model.*"%>
 
 <%
-	CorpUserVO corpUserVO = (CorpUserVO) request.getAttribute("corpUserVO");//­è¶i¨Ó²Ä¤@¦¸getAttribute¬OªÅ­È,®³¨Ó«O¦s¥´¹Lªº¸ê®Æ¥Îªº
+	CorpUserVO corpUserVO = (CorpUserVO) request.getAttribute("corpUserVO");//å‰›é€²ä¾†ç¬¬ä¸€æ¬¡getAttributeæ˜¯ç©ºå€¼,æ‹¿ä¾†ä¿å­˜æ‰“éŽçš„è³‡æ–™ç”¨çš„
 	GeneralUserVO generalUserVO = (GeneralUserVO) request.getAttribute("generalUserVO");
-	// ¨¾¤î§Ö¨ú
+	// é˜²æ­¢å¿«å–
 	response.setHeader("Cache-Control", "no-store");
 	response.setHeader("Pragma", "no-cache");
 	response.setDateHeader("Expires", 0);
-%>  
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,20 +25,25 @@
 
 
 	<div id="logreg-forms">
-		<form class="form-signin" method="post"
+		<form class="form-signin" method="post" id="loginForm"
 			action="<%=request.getContextPath()%>/webManager/WebManagerServlet.do">
 			<h1 class="h3 mb-3 font-weight-normal" style="text-align: center">
-				µn¤JSportify</h1>
-			<input type="text" name="inputAccount" class="form-control"
-				placeholder="±b¸¹©Î«H½c" required="required" autofocus> <input
-				type="password" name="inputPassword" class="form-control"
-				placeholder="½Ð¿é¤J±K½X" required="required"> <input type="radio"
-				name="class" class="form-check-input" value="general" checked>¤@¯ë·|­û
+				ç™»å…¥Sportify</h1>
+			<input type="text" name="inputAccount" class="form-control" id="user"
+				placeholder="å¸³è™Ÿæˆ–ä¿¡ç®±" required="required" autofocus> 
+				
+				<div>
+				<input
+				type="password" name="inputPassword" class="form-control" id="pswd"
+				placeholder="è«‹è¼¸å…¥å¯†ç¢¼" required="required" >
+				</div>
+				 <input type="radio"
+				name="class" class="form-check-input" value="general" checked>ä¸€èˆ¬æœƒå“¡
 			<input type="radio" name="class" class="form-check-input"
-				value="corp">¥ø·~·|­û <input type="hidden" name="action"
-				value="login">
-				<br>
-			<%-- ¿ù»~ªí¦C --%>
+				value="corp">ä¼æ¥­æœƒå“¡ <input type="hidden" name="action"
+				value="login"> <br>
+
+			<%-- éŒ¯èª¤è¡¨åˆ— --%>
 			<c:if test="${not empty errorMsgs}">
 				<font style="color: red"></font>
 				<ul>
@@ -47,113 +52,124 @@
 					</c:forEach>
 				</ul>
 			</c:if>
+		 
+		 
 			<button class="btn btn-success btn-block" type="submit">
-				<i class="fas fa-sign-in-alt"></i>ÂIÀ»µn¤J
+				<i class="fas fa-sign-in-alt"></i>é»žæ“Šç™»å…¥
 			</button>
-			<a href="#" id="forgot_pswd">§Ñ°O±K½X¤F¶Ü?</a>
+
+			<a href="#" id="forgot_pswd">å¿˜è¨˜å¯†ç¢¼äº†å—Ž?</a>
 			<hr>
 			<button class="btn btn-primary btn-block" type="button"
 				id="btn-signup">
-				<i class="fas fa-user-plus"></i> ¤@¯ë·|­ûµù¥U
+				<i class="fas fa-user-plus"></i> ä¸€èˆ¬æœƒå“¡è¨»å†Š
 			</button>
 			<span>OR</span>
 			<button class="btn btn-primary btn-block" type="button"
 				id="btn-signup-corp">
-				<i class="fas fa-user-plus"></i> ¥ø·~·|­ûµù¥U
+				<i class="fas fa-user-plus"></i> ä¼æ¥­æœƒå“¡è¨»å†Š
 			</button>
 		</form>
-		<!-- §Ñ°O±K½X  -->
+		<!-- å¿˜è¨˜å¯†ç¢¼  -->
 		<form
 			action="<%=request.getContextPath()%>/webManager/WebManagerServlet.do"
 			method="post" class="form-reset" id="forgetForm">
 			<input type="email" name="resetEmail" class="form-control"
-				placeholder="½Ð¶ñ¤Jµù¥Uemail" required="required" autofocus> <input
+				placeholder="è«‹å¡«å…¥è¨»å†Šemail" required="required" autofocus> <input
 				type="hidden" name="action" value="forgetPassword">
 			<button class="btn btn-primary btn-block" type="submit"
-				id="btnforget" name="btnforget">µo°e½T»{«H</button>
-			<a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i>ªð¦^</a>
+				id="btnforget" name="btnforget">ç™¼é€ç¢ºèªä¿¡</button>
+			<a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i>è¿”å›ž</a>
 		</form>
-		<!-- §Ñ°O±K½X  -->
+		<!-- å¿˜è¨˜å¯†ç¢¼  -->
 
-		<!-- ¤@¯ë·|­ûµù¥U  -->
+		<!-- ä¸€èˆ¬æœƒå“¡è¨»å†Š  -->
 		<form
 			action="<%=request.getContextPath()%>/generalUser/GeneralUserServlet.do"
 			class="form-signup" id="generalUser" method="post">
-			<input type="text" name="userAccount" class="form-control" maxlength="16"
-				placeholder="±b¸¹"
+			<input type="text" name="userAccount" class="form-control"
+				maxlength="16" placeholder="å¸³è™Ÿ"
 				value="<%=(generalUserVO == null) ? "" : generalUserVO.getUserAccount()%>"
-				required="required" maxlength="16"  autofocus> <input type="password"
-				name="userPassword" class="form-control" maxlength="16" placeholder="±K½X"
+				required="required" maxlength="16" autofocus> 
+				<div>
+				<input
+				type="password" name="userPassword" class="form-control"
+				maxlength="16" placeholder="å¯†ç¢¼"
 				value="<%=(generalUserVO == null) ? "" : generalUserVO.getUserPassword()%>"
-				required autofocus> <input type="password"
-				name="user-repeatpass"  maxlength="16" class="form-control" placeholder="¦A¦¸½T»{±K½X"
-				value="" required autofocus> <input type="text"
-				name="userName" maxlength="10" class="form-control" placeholder="©m¦W"
+				required autofocus> 
+			
+				
+				</div>
+				<input type="password"
+				name="user-repeatpass" maxlength="16" class="form-control"
+				placeholder="å†æ¬¡ç¢ºèªå¯†ç¢¼" value="" required autofocus> <input
+				type="text" name="userName" maxlength="10" class="form-control"
+				placeholder="å§“å"
 				value="<%=(generalUserVO == null) ? "" : generalUserVO.getUserName()%>"
 				required="required" autofocus> <input type="text" name="id"
-				class="form-control" maxlength="10" placeholder="¨­¤ÀÃÒ"
+				class="form-control" maxlength="10" placeholder="èº«åˆ†è­‰"
 				value="<%=(generalUserVO == null) ? "" : generalUserVO.getUserId()%>"
 				required="required" autofocus> <input type="email"
-				name="email" class="form-control" maxlength="30" placeholder="«H½c"
+				name="email" class="form-control" maxlength="30" placeholder="ä¿¡ç®±"
 				value="<%=(generalUserVO == null) ? "" : generalUserVO.getEmail()%>"
 				required autofocus> <input type="text" name="address"
-				class="form-control" maxlength="30" placeholder="¦a§}"
+				class="form-control" maxlength="30" placeholder="åœ°å€"
 				value="<%=(generalUserVO == null) ? "" : generalUserVO.getAddress()%>"
 				required autofocus> <input type="tel" name="phone"
-				class="form-control" maxlength="10" placeholder="¹q¸Ü"
+				class="form-control" maxlength="10" placeholder="é›»è©±"
 				value="<%=(generalUserVO == null) ? "" : generalUserVO.getPhone()%>"
 				required autofocus> <input class="form-check-input"
-				type="radio" name="gender" id="man" value=1 checked>¨k©Ê <input
+				type="radio" name="gender" id="man" value=1 checked>ç”·æ€§ <input
 				class="form-check-input" type="radio" name="gender" id="woman"
-				value=0>¤k©Ê <input type="hidden" name="action"
+				value=0>å¥³æ€§ <input type="hidden" name="action"
 				value="GeneralUserSignUp">
-			<!-- ¤W¶Ç·Ó¤ù -->
+			<!-- ä¸Šå‚³ç…§ç‰‡ -->
 			<hr>
 			<button class="btn btn-primary btn-block" type="submit">
-				<i class="fas fa-user-plus"></i>°e¥X¥Ó½Ð
+				<i class="fas fa-user-plus"></i>é€å‡ºç”³è«‹
 			</button>
-			<a href="#" id="cancel_signup"><i class="fas fa-angle-left"></i>ªð¦^</a>
+			<a href="#" id="cancel_signup"><i class="fas fa-angle-left"></i>è¿”å›ž</a>
 		</form>
-		<!-- ¤@¯ë·|­ûµù¥U  -->
+		<!-- ä¸€èˆ¬æœƒå“¡è¨»å†Š  -->
 
-		<!-- ¥ø·~·|­ûµù¥U -->
+		<!-- ä¼æ¥­æœƒå“¡è¨»å†Š -->
 		<form
 			action="<%=request.getContextPath()%>/corpUser/CorpUserServlet.do"
 			method="post" class="form-signup-corp" id="corpUser">
 			<input type="text" id="corpAccount" name="corpAccount"
-				class="form-control" placeholder="±b¸¹"
+				class="form-control" placeholder="å¸³è™Ÿ"
 				value="<%=(corpUserVO == null) ? "" : corpUserVO.getCorpAccount()%>"
 				required="required" autofocus> <input type="password"
 				id="corpPassword" name="corpPassword" class="form-control"
-				placeholder="±K½X"
+				placeholder="å¯†ç¢¼"
 				value="<%=(corpUserVO == null) ? "" : corpUserVO.getCorpPassword()%>"
 				required autofocus> <input type="password"
 				id="corpUser-repeatpass" name="corpUser-repeatpass"
-				class="form-control" placeholder="¦A¦¸½T»{±K½X" required autofocus>
+				class="form-control" placeholder="å†æ¬¡ç¢ºèªå¯†ç¢¼" required autofocus>
 			<input type="text" id="companyName" name="companyName" maxlength="30"
-				maxlength="20" class="form-control" placeholder="¤½¥q¦WºÙ"
+				maxlength="20" class="form-control" placeholder="å…¬å¸åç¨±"
 				value="<%=(corpUserVO == null) ? "" : corpUserVO.getCompanyName()%>"
 				required="required" autofocus> <input type="text" id="ltdNo"
 				name="ltdNo" maxlength="10" class="form-control" placeholder="ltdNo"
 				value="<%=(corpUserVO == null) ? "" : corpUserVO.getLtdNo()%>"
 				required="required" autofocus> <input type="email"
-				id="email" name="email" class="form-control" placeholder="«H½c"
+				id="email" name="email" class="form-control" placeholder="ä¿¡ç®±"
 				value="<%=(corpUserVO == null) ? "" : corpUserVO.getEmail()%>"
 				required autofocus> <input type="tel" id="phone"
-				name="phone" maxlength="10" class="form-control" placeholder="¹q¸Ü"
+				name="phone" maxlength="10" class="form-control" placeholder="é›»è©±"
 				value="<%=(corpUserVO == null) ? "" : corpUserVO.getPhone()%>"
 				required autofocus> <input type="text" id="address"
-				name="address" maxlength="30" class="form-control" placeholder="¦a§}"
+				name="address" maxlength="30" class="form-control" placeholder="åœ°å€"
 				value="<%=(corpUserVO == null) ? "" : corpUserVO.getAddress()%>"
 				required autofocus> <input type="hidden" name="action"
 				value="CorpUserSignUp">
 			<hr>
 			<button class="btn btn-primary btn-block" type="submit">
-				<i class="fas fa-user-plus"></i>°e¥X¥Ó½Ð
+				<i class="fas fa-user-plus"></i>é€å‡ºç”³è«‹
 			</button>
-			<a href="#" id="cancel_signup_corp"><i class="fas fa-angle-left"></i>ªð¦^</a>
+			<a href="#" id="cancel_signup_corp"><i class="fas fa-angle-left"></i>è¿”å›ž</a>
 		</form>
-		<!-- ¥ø·~·|­ûµù¥U -->
+		<!-- ä¼æ¥­æœƒå“¡è¨»å†Š -->
 	</div>
 	<jsp:include page="/footer.jsp" flush="true" />
 	<jsp:include page="/jsLink.jsp" flush="true" />
@@ -161,8 +177,9 @@
 
 	<script>
 		$("#forgetForm").submit(function() {
-			alert("¤w±H«H¨ì¸Ó«H½c¡I");
+			alert("å·²å¯„ä¿¡åˆ°è©²ä¿¡ç®±ï¼");
 		});
 	</script>
+
 </body>
 </html>

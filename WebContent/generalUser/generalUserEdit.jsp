@@ -101,7 +101,7 @@ img {
 							</div>
 						</div>
 						<div class="row mt-3">
-							<div class="col-md-6">
+							<div class="col-md-8">
 								<label class="labels">«H½c:</label><input type="text"
 									readonly="readonly" class="form-control" name="email"
 									value="${currentG.email}">
