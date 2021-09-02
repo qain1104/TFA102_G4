@@ -41,8 +41,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="apple-touch-icon" href="../assets/img/apple-icon.png">
-<link rel="shortcut icon" type="image/x-icon"
-	href="<%=request.getContextPath()%>/assets/img/favicon.ico">
+	<!-- 網頁logo -->
+	<link rel="shortcut icon" href="<%= request.getContextPath() %>/assets/img/logo1.png" type="image/x-icon" />
 
 <!-- 介面排版用的 -->
 <link rel="stylesheet"

@@ -9,7 +9,7 @@
 <%@ page import="com.venue.model.*"%>
 <%@ page import="util.*"%>
 <%
-response.setIntHeader("Refresh", 5);
+	response.setIntHeader("Refresh", 5);
 	Integer managerId = null;
 	Datahandle dh = new Datahandle();
 	REPORTService reportSvc = new REPORTService();
@@ -20,7 +20,9 @@ response.setIntHeader("Refresh", 5);
 	List<VenueVO> venueList = veSvc.getVenueStatus(0);
 %>
 <c:if test="${not empty managerId}">
-<%managerId= (Integer)session.getAttribute("managerId");%>
+	<%
+		managerId = (Integer) session.getAttribute("managerId");
+	%>
 </c:if>
 <!DOCTYPE html>
 <html>
@@ -30,8 +32,10 @@ response.setIntHeader("Refresh", 5);
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="apple-touch-icon" href="../assets/img/apple-icon.png">
-<link rel="shortcut icon" type="image/x-icon"
-	href="<%=request.getContextPath()%>/assets/img/favicon.ico">
+<!-- 網頁logo -->
+<link rel="shortcut icon"
+	href="<%=request.getContextPath()%>/assets/img/logo1.png"
+	type="image/x-icon" />
 
 <!-- 介面排版用的 -->
 <link rel="stylesheet"
@@ -176,8 +180,8 @@ response.setIntHeader("Refresh", 5);
 										</c:if>
 									</c:if>
 									<!-- 商品表格列表 -->
-									
-									
+
+
 									<!-- 場地表格 -->
 									<c:if test="${param.whichClass==2}">
 										<c:set var="list" value="<%=venueList%>"></c:set>
@@ -193,8 +197,7 @@ response.setIntHeader("Refresh", 5);
 												</tr>
 											</thead>
 											<tbody>
-												<c:forEach var="venueVO" items="${list}"
-													varStatus="number">
+												<c:forEach var="venueVO" items="${list}" varStatus="number">
 
 													<tr>
 														<td>${venueVO.venueName}</td>
@@ -211,10 +214,10 @@ response.setIntHeader("Refresh", 5);
 															<div class="d-grid gap-2 d-md-flex">
 																<form METHOD="post"
 																	ACTION="<%=request.getContextPath()%>/article/report.do">
-																	<input type="hidden" name="action"
-																		value="updateVenue"> <input type="hidden"
-																		name="whichClass" value="${param.whichClass}">
-																	<input type="hidden" name="venueSN"
+																	<input type="hidden" name="action" value="updateVenue">
+																	<input type="hidden" name="whichClass"
+																		value="${param.whichClass}"> <input
+																		type="hidden" name="venueSN"
 																		value="${venueVO.venueSN}">
 																	<button class="btn btn-success" type="submit"
 																		name="venueStatus" value="1">通過</button>
@@ -232,7 +235,7 @@ response.setIntHeader("Refresh", 5);
 										</c:if>
 									</c:if>
 									<!-- 場地表格列表 -->
-									
+
 
 									<!-- 檢舉表格 -->
 									<c:if test="${param.whichClass==3}">
@@ -284,8 +287,8 @@ response.setIntHeader("Refresh", 5);
 																			<input type="hidden" name="floor" value="1">
 																		</c:otherwise>
 																	</c:choose>
-																	<input type="hidden"
-																		name="whichClass" value="${param.whichClass}">
+																	<input type="hidden" name="whichClass"
+																		value="${param.whichClass}">
 																	<button class="btn btn-success" type="submit"
 																		name="reportStatus" value="1">通過</button>
 																	<button class="btn btn-success" type="submit"
