@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -223,7 +224,8 @@ public class GeneralUserServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
-
+			
+			
 			try {
 				/*************************** 1.接收請求參數 ***************************************/
 				/* 不能被更新的參數(起) */
@@ -231,11 +233,18 @@ public class GeneralUserServlet extends HttpServlet {
 				Integer registerStatus = new Integer(0);// 註冊一定預設是0
 
 				String userAccount = req.getParameter("userAccount").trim();
+				
+				GeneralUserService generalUserSvc2 = new GeneralUserService();
+				List<GeneralUserVO> list = generalUserSvc2.getAll().stream()
+						.filter(e -> e.getUserAccount().contains(userAccount)).collect(Collectors.toList());
+				
 				String userAccountReg = "^[(a-zA-Z0-9)]{8,16}$";
 				if (userAccount == null || userAccount.trim().length() == 0) {
 					errorMsgs.add("帳號: 請勿空白");
 				} else if (!userAccount.trim().matches(userAccountReg)) { // 以下練習正則(規)表示式(regular-expression)
 					errorMsgs.add("帳號:只能是英文、數字，且長度必需在8到16之間");
+				} else if (!list.isEmpty()) {
+					errorMsgs.add("帳號重複，請更改");
 				}
 
 				String userPassword = req.getParameter("userPassword").trim();
@@ -263,6 +272,13 @@ public class GeneralUserServlet extends HttpServlet {
 				}
 
 				String email = req.getParameter("email").trim(); // 用前端來判斷正確與否
+				List<GeneralUserVO> list2 = generalUserSvc2.getAll().stream()
+						.filter(e -> e.getEmail	().contains(email)).collect(Collectors.toList());
+				if (!list2.isEmpty()) {
+					errorMsgs.add("信箱重複，請更改");
+				}
+				
+				
 				Timestamp createdTime = new Timestamp(System.currentTimeMillis());// jsp顯示時間使用Simpleformat
 				Integer gender = new Integer(req.getParameter("gender").trim());
 

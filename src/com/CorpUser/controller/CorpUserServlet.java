@@ -3,6 +3,7 @@ package com.CorpUser.controller;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -205,11 +206,16 @@ public class CorpUserServlet extends HttpServlet {
 
 				Integer registerStatus = new Integer(0);// 註冊一定預設是0
 				String corpAccount = req.getParameter("corpAccount").trim();
+				CorpUserService corpUserSvc2 = new CorpUserService();
+				List<CorpUserVO> list = corpUserSvc2.getAll().stream()
+						.filter(e -> e.getCorpAccount().contains(corpAccount)).collect(Collectors.toList());
 				String corpAccountReg = "^[(a-zA-Z0-9)]{8,16}$";
 				if (corpAccount == null || corpAccount.trim().length() == 0) {
 					errorMsgs.add("帳號: 請勿空白");
 				} else if (!corpAccount.trim().matches(corpAccountReg)) { // 以下練習正則(規)表示式(regular-expression)
 					errorMsgs.add("帳號: 只能是英文字母、數字 , 且長度必需在8到16之間");
+				} else if (!list.isEmpty()) {
+					errorMsgs.add("帳號重複，請更改");
 				}
 
 				String corpPassword = req.getParameter("corpPassword").trim();
@@ -237,6 +243,12 @@ public class CorpUserServlet extends HttpServlet {
 				}
 
 				String email = req.getParameter("email").trim(); // 用前端來判斷正確與否
+				List<CorpUserVO> list2 = corpUserSvc2.getAll().stream()
+						.filter(e -> e.getEmail().contains(email)).collect(Collectors.toList());
+				if(!list2.isEmpty()) {
+					errorMsgs.add("信箱已註冊");
+				}
+				
 				Timestamp createdTime = new Timestamp(System.currentTimeMillis());
 				byte[] profilePic = null;
 				/* 不能被更新的參數(終) */

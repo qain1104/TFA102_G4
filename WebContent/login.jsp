@@ -108,7 +108,7 @@
 				value="<%=(generalUserVO == null) ? "" : generalUserVO.getUserName()%>"
 				required="required" autofocus> <input type="text" name="id"
 				class="form-control" maxlength="10" placeholder="身分證"
-				value="<%=(generalUserVO == null) ? "" : generalUserVO.getUserId()%>"
+				value="<%=(generalUserVO == null) ? "" : generalUserVO.getId()%>" 
 				required="required" autofocus> <input type="email"
 				name="email" class="form-control" maxlength="30" placeholder="信箱"
 				value="<%=(generalUserVO == null) ? "" : generalUserVO.getEmail()%>"
