@@ -310,7 +310,7 @@ public class WebManagerServlet extends HttpServlet {
 							temp = each;
 							/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 							session.setAttribute("webManagerVO", temp);
-							session.setAttribute("currentW", temp.getManagerId());
+							session.setAttribute("managerId", temp.getManagerId());
 							session.removeAttribute("cartList");
 							String url = "/webManager/webManagerMainPage.jsp";
 							RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp

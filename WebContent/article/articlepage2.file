@@ -5,7 +5,7 @@
 								<c:if test="${!empty param.whichClass}"><c:set var="whichlink" value="&whichClass=${param.whichClass}"></c:set></c:if>
 								<c:if test="${param.whichClass==5}"><c:set var="searchlink" value="&search=${search}"></c:set></c:if>
 								
-								<%if(whichPage>3){%>
+								<%if(whichPage>=3){%>
 								<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=1${whichlink}${searchlink}">1</a></li>
                           		<li class="btn disabled" aria-disabled="true">...</li>
                           		<%}%>
@@ -25,7 +25,7 @@
 								<li class="page-item"><a class="page-link <%=(i==whichPage?"active":"")%>" href="<%=request.getRequestURI()%>?whichPage=<%=i%>${whichlink}${searchlink}"><%=i%></a></li>
 								<%}}}%>
 								
-								<%if((pageNumber-whichPage)>=3){%>
+								<%if((pageNumber-whichPage)>=2){%>
                           		<li class="btn disabled" aria-disabled="true">...</li>
 								<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=pageNumber%>${whichlink}${searchlink}"><%=pageNumber%></a></li>
 								<%}%>
