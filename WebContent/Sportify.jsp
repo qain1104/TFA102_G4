@@ -54,6 +54,8 @@
 				data-bs-slide-to="1"></li>
 			<li data-bs-target="#template-mo-zay-hero-carousel"
 				data-bs-slide-to="2"></li>
+							<li data-bs-target="#template-mo-zay-hero-carousel"
+				data-bs-slide-to="3"></li>
 		</ol>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
@@ -92,7 +94,8 @@
 					<div class="row p-5">
 						<div class="mx-auto col-md-8 col-lg-6 order-lg-last">
 							<img class="img-fluid" src="./assets/img/joinus.jpg" alt="">
-							Creative Designed By 麻雀工作室2 From <a href="https://zh.lovepik.com/image-500642390/join-us-joins-us.html">LovePik.com</a>
+							Creative Designed By 麻雀工作室2 From <a
+								href="https://zh.lovepik.com/image-500642390/join-us-joins-us.html">LovePik.com</a>
 						</div>
 						<div class="col-lg-6 mb-0 d-flex align-items-center">
 							<div class="text-align-left">
@@ -121,14 +124,33 @@
 					</div>
 				</div>
 			</div>
+			<div class="carousel-item">
+				<div class="container">
+					<div class="row p-5">
+						<div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+							<img class="img-fluid" src="./assets/img/articlehomepic.png"
+								alt="">
+						</div>
+						<div class="col-lg-6 mb-0 d-flex align-items-center">
+							<div class="text-align-left">
+								<h1 class="h1">一起加入論壇討論運動、商品的資訊吧！</h1>
+								<h3 class="h2">輕鬆加入 無設限 一起運動 好安全</h3>
+								<p>可以輕鬆監控自己的文章，隨時找到自己發過的文、回過的文、讓討論更熱烈!</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<a class="carousel-control-prev text-decoration-none w-auto ps-3"
-			href="#template-mo-zay-hero-carousel" role="button"
-			data-bs-slide="prev"> <i class="fas fa-chevron-left"></i>
-		</a> <a class="carousel-control-next text-decoration-none w-auto pe-3"
-			href="#template-mo-zay-hero-carousel" role="button"
-			data-bs-slide="next"> <i class="fas fa-chevron-right"></i>
-		</a>
+	</div>
+	<a class="carousel-control-prev text-decoration-none w-auto ps-3"
+		href="#template-mo-zay-hero-carousel" role="button"
+		data-bs-slide="prev"> <i class="fas fa-chevron-left"></i>
+	</a>
+	<a class="carousel-control-next text-decoration-none w-auto pe-3"
+		href="#template-mo-zay-hero-carousel" role="button"
+		data-bs-slide="next"> <i class="fas fa-chevron-right"></i>
+	</a>
 	</div>
 	<!-- End Banner Hero -->
 
