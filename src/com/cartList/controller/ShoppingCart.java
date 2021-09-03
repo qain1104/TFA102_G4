@@ -314,10 +314,11 @@ public class ShoppingCart extends HttpServlet {
 					return;
 					
 				} else {
-					errorMsgs.add("畐计秖ぃì叫э计秖");
-					request.setAttribute("itemQuantity", itemQuantity);
-					RequestDispatcher failureView = request.getRequestDispatcher("/shopping/shoppingcart.jsp");
-					failureView.forward(request, response);
+					response.getWriter().write("add failure");
+//					errorMsgs.add("畐计秖ぃì叫э计秖");
+//					request.setAttribute("itemQuantity", itemQuantity);
+//					RequestDispatcher failureView = request.getRequestDispatcher("/shopping/shoppingcart.jsp");
+//					failureView.forward(request, response);
 					return;
 				}
 				

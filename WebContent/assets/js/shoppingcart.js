@@ -149,6 +149,8 @@ $(function(){
               if(data == "add complete"){
                 input_val.val(quantity_val_plu + 1);
                 span_html.html(quantity_val_plu + 1);
+              } else {
+            	  alert("已超過庫存數量");
               }
 
               cal_quantity();
