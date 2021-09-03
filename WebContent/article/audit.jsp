@@ -256,10 +256,10 @@
 													<c:set var="ttime" value="${reportVO.reportDate}"></c:set>
 
 													<tr>
-														<td><c:choose>
+														<td><a href="<%=request.getContextPath()%>/article/reply.jsp?sn=${reportVO.articleSN}"><c:choose>
 																<c:when test="${reportVO.replySN eq 0}">文章:${reportVO.articleSN}</c:when>
 																<c:otherwise>回覆:${reportVO.replySN}</c:otherwise>
-															</c:choose></td>
+															</c:choose></a></td>
 														<td><c:choose>
 																<c:when test="${reportVO.reportClass eq 0}">不當言論</c:when>
 																<c:when test="${reportVO.reportClass eq 1}">惡意言論</c:when>

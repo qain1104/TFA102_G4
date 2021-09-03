@@ -214,13 +214,7 @@ public class REPORTServlet extends HttpServlet {
 					errorMsgs.add("沒有whichClass.");
 				}
 
-				/*************************** 2. ****************************************/
-				if(reportStatus==1) {
-					String url = req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass;
-					res.sendRedirect(url);
-				}
-				
-				
+				/*************************** 2. ****************************************/				
 				REPORTService reportSvc = new REPORTService();
 				List<REPORTVO> list = null;
 				if (floor == 0) {
@@ -233,8 +227,8 @@ public class REPORTServlet extends HttpServlet {
 				for (REPORTVO reportVO : list) {
 					if (!errorMsgs.isEmpty()) {
 						req.setAttribute("reportVO", reportVO);
-						RequestDispatcher failureView = req.getRequestDispatcher(req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass);
-						failureView.forward(req, res);
+						String url = req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass;
+						res.sendRedirect(url);
 						return; 
 					}
 					reportVO = reportSvc.updateManagerStatus(reportVO, reportStatus, managerId);
@@ -256,8 +250,8 @@ public class REPORTServlet extends HttpServlet {
 				/*************************** *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("審核檢舉失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher(req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass);
-				failureView.forward(req, res);
+				String url = req.getContextPath() + "/article/audit.jsp?whichClass=" + whichClass;
+				res.sendRedirect(url);
 			}
 		}
 		
