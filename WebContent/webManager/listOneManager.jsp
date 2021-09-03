@@ -43,7 +43,7 @@
 						</tr>
 					</tbody>
 		</table>
-		<a class="btn btn-primary fw-bold" href='select_page.jsp'>ªð¦^</a>
+		<a class="btn btn-primary fw-bold" href='managers_page.jsp'>ªð¦^</a>
 	</div>
 
 </body>
