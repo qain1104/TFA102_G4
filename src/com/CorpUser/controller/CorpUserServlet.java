@@ -314,7 +314,7 @@ public class CorpUserServlet extends HttpServlet {
 				String subject = "啟用Sportify會員";
 				String messageText = "您好，點按連結已完成認證! " + link;
 				MailService mailService = new MailService();
-				mailService.sendMail(test, subject, messageText);
+				mailService.sendMail(to, subject, messageText);
 				
 				String url = "/SignUpSuccess.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
