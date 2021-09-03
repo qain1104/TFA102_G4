@@ -783,7 +783,7 @@ public class WebManagerServlet extends HttpServlet {
 			String subject = "請重新設定密碼";
 			String messageText = "Hello!點此重新設定密碼 " + link;
 			MailService mailService = new MailService();
-			mailService.sendMail(test, subject, messageText);
+			mailService.sendMail(to, subject, messageText);
 
 			String url = "/login.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);

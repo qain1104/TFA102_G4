@@ -71,15 +71,15 @@
 							class="btn btn-success">查看場地評論</button></li>
 				</ul>
 			</div>
-			<div class="col text-center">
-				<h3>我的審核</h3>
-				<ul class="list-group">
-					<li class="list-group-item"><button type="button"
-							class="btn btn-success">查看商品審核</button></li>
-					<li class="list-group-item"><button type="button"
-							class="btn btn-success">查看場地審核</button></li>
-				</ul>
-			</div>
+<!-- 			<div class="col text-center"> -->
+<!-- 				<h3>我的審核</h3> -->
+<!-- 				<ul class="list-group"> -->
+<!-- 					<li class="list-group-item"><button type="button" -->
+<!-- 							class="btn btn-success">查看商品審核</button></li> -->
+<!-- 					<li class="list-group-item"><button type="button" -->
+<!-- 							class="btn btn-success">查看場地審核</button></li> -->
+<!-- 				</ul> -->
+<!-- 			</div> -->
 		</div>
 	</div>
 	<!-- Close 一般會員中心 -->

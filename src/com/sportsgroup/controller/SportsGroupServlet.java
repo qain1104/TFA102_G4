@@ -156,7 +156,7 @@ public class SportsGroupServlet extends HttpServlet {
 				}
 
 				if (numberUpLimit <= numberLowLimit) {
-					errorMsgs.add("计ぃ计");
+					errorMsgs.add("计ぃ┪单计");
 				}
 				System.out.println(nLL);
 
@@ -183,6 +183,17 @@ public class SportsGroupServlet extends HttpServlet {
 
 				String remarks = req.getParameter("remarks");
 				System.out.println("硂柑");
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/sportsGroup/sportsGroup.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				
+				
 				/*************************** 2.秨﹍穝糤戈 ***************************************/
 				SportsGroupService sportsGroupSvc = new SportsGroupService();
 
