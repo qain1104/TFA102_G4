@@ -38,7 +38,7 @@ img {
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-6"><label class="labels">管理員名稱:</label><input type="text" readonly="readonly" class="form-control"  value="${webManagerVO.managerName}"></div>
-                    <div class="col-md-6"><label class="labels">管理員email:</label><input type="text" readonly="readonly" class="form-control" value="${webManagerVO.managerEmail}"></div>
+                    <div class="col-md-8"><label class="labels">管理員email:</label><input type="text" readonly="readonly" class="form-control" value="${webManagerVO.managerEmail}"></div>
                     <div class="col-md-6"><label class="labels">管理員帳號:</label><input type="text" readonly="readonly" class="form-control"  value="${webManagerVO.managerAccount}"></div>
                     <div class="col-md-6"><label class="labels">管理員密碼:</label><input type="text" readonly="readonly" class="form-control"  value="${webManagerVO.managerPassword}"></div>
                 </div>
