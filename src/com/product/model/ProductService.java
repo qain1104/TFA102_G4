@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public class ProductService {
 
 	private ProductDAO_interface dao;
-	private ProductJDBCDAO jdbcdao;
+	private ProductJDBCDAO jdbcdao = new ProductJDBCDAO();
 	public ProductService() {
 		dao = new ProductJDBCDAO();
 	}
@@ -55,6 +55,10 @@ public class ProductService {
 	public ProductVO getOneProduct(Integer productSN) {
 		return dao.findByPrimaryKey(productSN);
 	}
+	
+	public ProductVO getOneProductWithProductName(String productName) {
+		return dao.findByProductName(productName);
+	}
 
 	public List<ProductVO> getAll() {
 		return dao.getAll();
@@ -92,5 +96,11 @@ public class ProductService {
 									     .filter(p -> p.getProductClass() == productClass)
 									     .collect(Collectors.toList());
     	return productList;
+    }
+    
+    public List<ProductVO> selectCorpUserId(Integer corpUserId) {
+		
+    	return dao.selectCorpUserId(corpUserId);
+    	
     }
 }

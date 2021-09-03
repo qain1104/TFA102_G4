@@ -307,7 +307,7 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 		try {
 //			Class.forName(driver);
 //			con = DriverManager.getConnection(url, userid, passwd);
-			con = ds.getConnection();;
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_PRICE_CARTLIST);
 			pstmt.setInt(1, cartList.getProductSpecId());
 			rs = pstmt.executeQuery();
@@ -354,7 +354,7 @@ public class ProductSpecJDBCDAO implements ProductSpecDAO_interface {
 
 //			Class.forName(driver);
 //			con = DriverManager.getConnection(url, userid, passwd);
-			con = ds.getConnection();;
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STOCK);
 			
 			pstmt.setInt(1, productStock);

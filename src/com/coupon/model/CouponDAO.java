@@ -9,6 +9,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 public class CouponDAO implements CouponDAO_interface{
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	public static final String THEURL = "jdbc:mysql://mysql5257.chickenkiller.com:3306/TFA102_G4?serverTimezone=Asia/Taipei";
@@ -22,13 +27,26 @@ public class CouponDAO implements CouponDAO_interface{
 	public static final String QUERY_COUPON_SN = "SELECT * FROM COUPON WHERE couponSN = ?";
 	public static final String QUERY_ALLCOUPON = "SELECT * FROM COUPON";
 	
+	// jndi
+	private static DataSource ds = null;
 	static {
 		try {
-			Class.forName(DRIVER);
-		} catch(ClassNotFoundException e) {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	// jdbc
+//	static {
+//		try {
+//			Class.forName(DRIVER);
+//		} catch(ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	@Override
 	public void addCoupon(CouponVO coupon) {
@@ -36,7 +54,8 @@ public class CouponDAO implements CouponDAO_interface{
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(ADD_COUPON);
 			pstmt.setString(1, coupon.getCouponInfo());
 			pstmt.setString(2, coupon.getCouponName());
@@ -73,7 +92,8 @@ public class CouponDAO implements CouponDAO_interface{
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_COUPON);
 			pstmt.setInt(1, couponId);
 			pstmt.executeUpdate();
@@ -104,7 +124,8 @@ public class CouponDAO implements CouponDAO_interface{
 		PreparedStatement pstmt = null;
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_COUPON);
 			pstmt.setString(1, coupon.getCouponInfo());
 			pstmt.setString(2, coupon.getCouponName());
@@ -144,7 +165,8 @@ public class CouponDAO implements CouponDAO_interface{
 		CouponVO coupon = null;
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_COUPON);
 			pstmt.setInt(1, couponId);
 			rs = pstmt.executeQuery();
@@ -194,7 +216,8 @@ public class CouponDAO implements CouponDAO_interface{
 		List<CouponVO> list = new ArrayList<CouponVO>();
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_ALLCOUPON);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -246,7 +269,8 @@ public class CouponDAO implements CouponDAO_interface{
 		CouponVO coupon = null;
 		
 		try {
-			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+//			con = DriverManager.getConnection(THEURL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(QUERY_COUPON_SN);
 			pstmt.setString(1, couponSN);
 			rs = pstmt.executeQuery();

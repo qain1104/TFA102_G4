@@ -25,6 +25,9 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		"DELETE FROM PRODUCT where productSN = ?";
 	private static final String UPDATE = 
 		"UPDATE PRODUCT set corpUserId=? ,productName=? ,productClass=? ,productDetail=? ,productBrand=? ,productOnsale=? ,productStatus=? where productSN = ?";
+	private static final String SELECT_FIND_CORPUSERID = 
+			"SELECT * FROM PRODUCT WHERE corpUserId = ?";
+		
 	
 	// jndi
 	private static DataSource ds = null;
@@ -49,7 +52,8 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 //			Class.forName(driver);
 //			con = DriverManager.getConnection(url, userid, passwd);
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(INSERT_STMT);
+			String[] cols = { "productSN" };
+			pstmt = con.prepareStatement(INSERT_STMT, cols);
 
 			pstmt.setInt(1, productVO.getCorpUserId());
 			pstmt.setString(2, productVO.getProductName());
@@ -343,6 +347,70 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 			}
 
 	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+
+	@Override
+	public List<ProductVO> selectCorpUserId(Integer corpUserId) {
+		List<ProductVO> list = new ArrayList<ProductVO>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(SELECT_FIND_CORPUSERID);
+			pstmt.setInt(1, corpUserId);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				// empVO ¤]ºÙ¬° Domain objects
+				ProductVO productVO = new ProductVO();
+				productVO.setProductSN(rs.getInt("productSN"));
+				productVO.setCorpUserId(rs.getInt("corpUserId"));
+				productVO.setProductName(rs.getString("productName"));
+				productVO.setProductClass(rs.getInt("productClass"));
+				productVO.setProductDetail(rs.getString("productDetail"));
+				productVO.setProductBrand(rs.getString("productBrand"));
+				productVO.setProductOnsale(rs.getTimestamp("productOnsale"));
+				productVO.setProductStatus(rs.getInt("productStatus"));
+				list.add(productVO); // Store the row in the list
+			}
+
+			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());

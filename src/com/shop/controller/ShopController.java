@@ -81,6 +81,7 @@ public class ShopController extends HttpServlet {
 						productService.getAll()
 									  .stream()
 								      .filter(p -> p.getProductName().contains(query))
+								      .filter(p -> p.getProductStatus().equals(1))
 								      .collect(Collectors.toList());
 				request.getSession().setAttribute("shopAllproductList", shopAllproductList);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
@@ -90,7 +91,11 @@ public class ShopController extends HttpServlet {
 		
 		// 進入到商品的陳覽頁面
 		if("shop".equals(action)) {
-			List<ProductVO> shopAllproductList = productService.getAll();
+			List<ProductVO> shopAllproductList = 
+					productService.getAll()
+								  .stream()
+								  .filter(p -> p.getProductStatus().equals(1))
+								  .collect(Collectors.toList());
 			request.getSession().setAttribute("shopAllproductList", shopAllproductList);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
 			dispatcher.forward(request, response);
@@ -134,6 +139,7 @@ public class ShopController extends HttpServlet {
 					productService.getAll()
 								  .stream()
 							      .filter(p -> p.getProductBrand().contains(shopSingleProduct.getProductBrand()))
+							      .filter(p -> p.getProductStatus().equals(1))
 							      .collect(Collectors.toList());
 			Map<ProductVO, Integer> relatedMap = new HashMap<ProductVO, Integer>();
 			for(ProductVO product : relatedProductList) {
@@ -154,28 +160,44 @@ public class ShopController extends HttpServlet {
 		if(category != null) {
 			
 			if(1 == new Integer(category)) {
-				List<ProductVO> shopAllproductList = productService.getProductCategory(1);
+				List<ProductVO> shopAllproductList = 
+						productService.getProductCategory(1)
+									  .stream()
+						              .filter(p -> p.getProductStatus().equals(1))
+						              .collect(Collectors.toList());
 				request.getSession().setAttribute("shopAllproductList", shopAllproductList);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
 				dispatcher.forward(request, response);
 			}
 			
 			if(0 == new Integer(category)) {
-				List<ProductVO> shopAllproductList = productService.getProductCategory(0);
+				List<ProductVO> shopAllproductList = 
+						productService.getProductCategory(0)
+									  .stream()
+			                          .filter(p -> p.getProductStatus().equals(1))
+			                          .collect(Collectors.toList());
 				request.getSession().setAttribute("shopAllproductList", shopAllproductList);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
 				dispatcher.forward(request, response);
 			}
 			
 			if(2 == new Integer(category)) {
-				List<ProductVO> shopAllproductList = productService.getProductCategory(2);
+				List<ProductVO> shopAllproductList = 
+						productService.getProductCategory(2)
+									  .stream()
+									  .filter(p -> p.getProductStatus().equals(1))
+                                      .collect(Collectors.toList());
 				request.getSession().setAttribute("shopAllproductList", shopAllproductList);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
 				dispatcher.forward(request, response);
 			}
 			
 			if(3 == new Integer(category)) {
-				List<ProductVO> shopAllproductList = productService.getProductCategory(3);
+				List<ProductVO> shopAllproductList = 
+						productService.getProductCategory(3)
+									  .stream()
+                                      .filter(p -> p.getProductStatus().equals(1))
+                                      .collect(Collectors.toList());
 				request.getSession().setAttribute("shopAllproductList", shopAllproductList);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/shopping/shop.jsp");
 				dispatcher.forward(request, response);
