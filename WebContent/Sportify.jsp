@@ -112,6 +112,27 @@
                     </div>
                 </div>
             </div>
+            <div class="carousel-item">
+                    <div class="container">
+                        <div class="row p-5">
+                            <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                                <img class="img-fluid" src="./assets/img/banner_img_02.jpg" alt="">
+                            </div>
+                            <div class="col-lg-6 mb-0 d-flex align-items-center">
+                                <div class="text-align-left">
+                                    <h1 class="h1">Proident occaecat</h1>
+                                    <h3 class="h2">Aliquip ex ea commodo consequat</h3>
+                                    <p>
+                                        You are permitted to use this Zay CSS template for your commercial websites. 
+                                                                            You are
+                                        <strong>not permitted</strong>
+                                        to re-distribute the template ZIP file in any kind of template collection websites.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
                 <i class="fas fa-chevron-left"></i>
             </a>
@@ -159,95 +180,7 @@
         <!-- End Categories of The Month -->
 
 
-        <!-- Start Featured Product -->
-        <section class="bg-light">
-            <div class="container py-5">
-                <div class="row text-center py-3">
-                    <div class="col-lg-6 m-auto">
-                        <h1 class="h1">Featured Product</h1>
-                        <p>
-                            Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                                    Excepteur sint occaecat cupidatat non proident.
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-4 mb-4">
-                        <div class="card h-100">
-                            <a href="shop-single.html">
-                                <img src="./assets/img/feature_prod_01.jpg" class="card-img-top" alt="...">
-                            </a>
-                            <div class="card-body">
-                                <ul class="list-unstyled d-flex justify-content-between">
-                                    <li>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
-                                    </li>
-                                    <li class="text-muted text-right">$240.00</li>
-                                </ul>
-                                <a href="shop-single.html" class="h2 text-decoration-none text-dark">Gym Weight</a>
-                                <p class="card-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt in culpa qui officia deserunt.
-                                </p>
-                                <p class="text-muted">Reviews (24)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4 mb-4">
-                        <div class="card h-100">
-                            <a href="shop-single.html">
-                                <img src="./assets/img/feature_prod_02.jpg" class="card-img-top" alt="...">
-                            </a>
-                            <div class="card-body">
-                                <ul class="list-unstyled d-flex justify-content-between">
-                                    <li>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
-                                    </li>
-                                    <li class="text-muted text-right">$480.00</li>
-                                </ul>
-                                <a href="shop-single.html" class="h2 text-decoration-none text-dark">Cloud Nike Shoes</a>
-                                <p class="card-text">
-                                    Aenean gravida dignissim finibus. Nullam ipsum diam, posuere vitae pharetra sed, commodo ullamcorper.
-                                </p>
-                                <p class="text-muted">Reviews (48)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4 mb-4">
-                        <div class="card h-100">
-                            <a href="shop-single.html">
-                                <img src="./assets/img/feature_prod_03.jpg" class="card-img-top" alt="...">
-                            </a>
-                            <div class="card-body">
-                                <ul class="list-unstyled d-flex justify-content-between">
-                                    <li>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                    </li>
-                                    <li class="text-muted text-right">$360.00</li>
-                                </ul>
-                                <a href="shop-single.html" class="h2 text-decoration-none text-dark">Summer Addides Shoes</a>
-                                <p class="card-text">
-                                    Curabitur ac mi sit amet diam luctus porta. Phasellus pulvinar sagittis diam, et scelerisque ipsum lobortis nec.
-                                </p>
-                                <p class="text-muted">Reviews (74)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Featured Product -->
+       
         
 	<!-- Footer -->
 	<jsp:include page="/footer.jsp" flush="true" />
