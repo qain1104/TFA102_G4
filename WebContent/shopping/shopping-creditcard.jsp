@@ -29,7 +29,7 @@
     <title>信用卡付款</title>
 </head>
 <body>
-    <form class="credit-card">
+    <form class="credit-card" method="POST">
         <div class="form-header">
           <h4 class="title">信用卡資料</h4>
         </div>

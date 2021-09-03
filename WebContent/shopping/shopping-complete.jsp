@@ -72,7 +72,7 @@
 							<td class="merchandisesize">${getProductSpec.productSpec}</td>
 							<td class="merchandiseprice">${getProductSpec.productPrice}</td>
 							<td class="merchandisequantity">
-								<ul class="extra list-inline" style="left: -40px">
+								<ul class="extra list-inline" style="left: -30px">
 									<li class="list-inline-item text-right">
 										<input type="hidden" name="product-quanity" value="${order_listVO.purchaseQuantity}">
 									</li>
