@@ -56,6 +56,8 @@
 				data-bs-slide-to="2"></li>
 							<li data-bs-target="#template-mo-zay-hero-carousel"
 				data-bs-slide-to="3"></li>
+				<li data-bs-target="#template-mo-zay-hero-carousel"
+				data-bs-slide-to="4"></li>
 		</ol>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
@@ -136,6 +138,25 @@
 								<h1 class="h1">一起加入論壇討論運動、商品的資訊吧！</h1>
 								<h3 class="h2">輕鬆加入 無設限 一起運動 好安全</h3>
 								<p>可以輕鬆監控自己的文章，隨時找到自己發過的文、回過的文、讓討論更熱烈!</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<div class="container">
+					<div class="row p-5">
+						<div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+							<img class="img-fluid" src="./assets/img/venue.jpg" alt="">
+							 <a
+								href="https://zh.lovepik.com/image-500642390/join-us-joins-us.html"></a>
+							<br>
+						</div>
+						<div class="col-lg-6 mb-0 d-flex align-items-center">
+							<div class="text-align-left">
+								<h1 class="h1">全新的球場!</h1>
+								<h3 class="h2">歡迎熱愛運動的您一起來運動</h3>
+								<p>場地定期保養，地面絕無坑洞!</p>
 							</div>
 						</div>
 					</div>
