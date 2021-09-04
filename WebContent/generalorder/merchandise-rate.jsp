@@ -36,7 +36,7 @@
 
 
     <!-- Start Order management -->
-    <table class="table table-light merchandise_trackinglist">
+    <table class="table table-light merchandise_trackinglist" style="width: auto;">
         <thead>
           <tr>
             <th scope="col">購買日期</th>
