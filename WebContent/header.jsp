@@ -85,7 +85,7 @@ https://templatemo.com/tm-559-zay-shop
 						href="<%=request.getContextPath()%>/shopping/SportifyShop.do?action=shop">商城</a>
 					</li>
 				
-					<li class="nav-item"><a class="nav-link" href="">場地租借</a>
+					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/venueUser/listAllVenue.jsp">場地租借</a>
 
 					</li>
 					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/article/article.jsp">論壇</a>
