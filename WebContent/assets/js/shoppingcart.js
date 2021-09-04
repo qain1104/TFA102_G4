@@ -16,6 +16,11 @@ function cal_single_amount(){
     });
 }
 
+function cal_shoppingcart(){
+	var quantity_cart = $("td.merchandise_name");
+	$("span.cart_quantity").html(quantity_cart.length);
+}
+
 function cal_total_amount(){
   var total_amount = 0;
   var order_delivery_type = parseInt($("span#order_delivery_type").html());
@@ -67,7 +72,7 @@ $(function(){
               cal_quantity();
               cal_single_amount();
               cal_total_amount();
-      
+              cal_shoppingcart()
             },
             error: function(xhr){         // request 發生錯誤的話執行
               console.log(xhr);

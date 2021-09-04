@@ -169,13 +169,13 @@
                     <fieldset class="row mb-3 paying_type">
                         <div class="col-sm-5">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paying" id="cash" value="0" checked <c:if test="${morder.orderDeliveyTypeId == '0'}">checked</c:if>>
+                                <input class="form-check-input" type="radio" name="paying" id="cash" value="0" checked <c:if test="${morder.orderPayment == 0}">checked</c:if>>
                                 <label class="form-check-label" for="cash">
                                     	貨到付款
                                 </label>
                             </div>
                             <div class="form-check  offset-sm-3">
-                            <input class="form-check-input" type="radio" name="paying" id="credit_card" value="1" <c:if test="${morder.orderDeliveyTypeId == '1'}">checked</c:if>>
+                            <input class="form-check-input" type="radio" name="paying" id="credit_card" value="1" <c:if test="${morder.orderPayment == 1}">checked</c:if>>
                             <label class="form-check-label" for="credit_card">
                                 	信用卡
                             </label>
