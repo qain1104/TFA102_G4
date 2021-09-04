@@ -19,7 +19,7 @@
 </head>
 <body>
 	<div class="container mt-5 mb-5">
-		<table class="table-primary justify-content-md-center">
+		<table class="table table-bordered text-center align-middle">
 			<div class="table-primary justify-content-md-center">
 				<thead>
 					<tr class="primary border border-primary text-center mx-auto ">
@@ -37,16 +37,16 @@
 					end="<%=pageIndex+rowsPerPage-1%>">
 					<tbody>
 						<tr
-							class="table-primary border border-primary text-center mx-auto">
+							class="primary border border-primary text-justify">
 							<th scope="row">${webManagerVO.managerId}</th>
 							<td style="min-width: 30px">${webManagerVO.managerStatus==0?'Â÷Â¾':'¦bÂ¾'}</td>
 							<td style="min-width: 30px">${webManagerVO.managerName}</td>
 							<td style="min-width: 30px">${webManagerVO.managerEmail}</td>
 							<td style="min-width: 30px">${webManagerVO.managerAccount}</td>
 <%-- 							<td style="min-width: 30px">${webManagerVO.managerPassword}</td> --%>
-							<td style="min-width: 30px"><img class="rounded-circle mt-5"
+							<td style="max-width: 70px"><img class="rounded-circle"
 								src="<%=request.getContextPath()%>/Readerpic?managerId=${webManagerVO.managerId}"
-								style="max-width: 30%; max-height: 30%"></td>
+								style="max-width: 50%; max-height: 50%"></td>
 						</tr>
 					</tbody>
 				</c:forEach>

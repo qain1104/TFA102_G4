@@ -76,12 +76,15 @@
 			</ul>
 		</div>
 		<div class="border border-3 mt-5 mb-5">
-			<h3>後台人員管理</h3>
-
-			<ul>
-				<li><a class="text-primary fw-bold" href='addManager.jsp'>Add</a>
-					a new Manager.</li>
-			</ul>
+			<c:choose>
+				<c:when test="${webManagerVO.managerId == 3001}">
+					<h3>後台人員管理</h3>
+					<ul>
+						<li><a class="text-primary fw-bold" href='addManager.jsp'>新增</a>管理員</li>
+					</ul>
+				</c:when>
+				<c:otherwise></c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 
