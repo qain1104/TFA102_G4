@@ -25,6 +25,8 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		"DELETE FROM PRODUCT where productSN = ?";
 	private static final String UPDATE = 
 		"UPDATE PRODUCT set corpUserId=? ,productName=? ,productClass=? ,productDetail=? ,productBrand=? ,productOnsale=? ,productStatus=? where productSN = ?";
+	private static final String UPDATEPRODUCTSTATUS = 
+			"UPDATE product set productStatus=? where productSN = ?";
 	private static final String SELECT_FIND_CORPUSERID = 
 			"SELECT * FROM PRODUCT WHERE corpUserId = ?";
 		
@@ -441,7 +443,48 @@ public class ProductJDBCDAO implements ProductDAO_interface {
 		return list;
 	}
 	
+	@Override
+	public void updateStatus(ProductVO productVO) {
 
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATEPRODUCTSTATUS);
+
+			pstmt.setInt(1, productVO.getProductStatus());
+			pstmt.setInt(2, productVO.getProductSN());
+
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+	}
+	
 	@Override
 	public List<ProductVO> getAll(Map<String, String[]> map) {
 		// TODO Auto-generated method stub

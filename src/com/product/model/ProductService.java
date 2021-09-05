@@ -89,6 +89,16 @@ public class ProductService {
         return produvtVO;
     }
     
+    //商品下架
+    public ProductVO updateProductStatusDown(ProductVO productVO, Integer productSN,Integer productStatus) {
+        System.out.println("PSVC 107 row = "+ productVO);
+    	productVO.setProductStatus(productSN);
+        productVO.setProductStatus(productStatus);
+        dao.updateStatus(productVO);
+        System.out.println("PSVC 111 row = "+ productVO);
+        return productVO;
+    }
+    
     // 尋找分類
     public List<ProductVO> getProductCategory(Integer productClass){
     	List<ProductVO> productList = dao.getAll()
