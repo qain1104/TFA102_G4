@@ -15,7 +15,7 @@ public class ProductSpecService {
 		dao = new ProductSpecJDBCDAO();
 	}
 
-	public ProductSpecVO addProduct(Integer productSN, Integer productStock, Integer productPrice, 
+	public ProductSpecVO addProductSpec(Integer productSN, Integer productStock, Integer productPrice, 
 			String productSpec) {
 
 		ProductSpecVO productSpecVO = new ProductSpecVO();
@@ -29,7 +29,7 @@ public class ProductSpecService {
 		return productSpecVO;
 	}
 
-	public ProductSpecVO updateProduct(Integer productSpecId, Integer productSN, Integer productStock, 
+	public ProductSpecVO updateProductSpec(Integer productSpecId, Integer productSN, Integer productStock, 
 			Integer productPrice, String productSpec) {
 
 		ProductSpecVO productSpecVO = new ProductSpecVO();
