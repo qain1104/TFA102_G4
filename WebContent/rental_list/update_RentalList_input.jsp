@@ -222,13 +222,13 @@ th, td {
 						<div class="form-floating" col-lg-2>
 						<select class="form-select" id="floatingSelect"
 									aria-label="Floating label select example" name="rentalTime">
-									<option value="100">9AM ~ 12PM</option>
-									<option value="010">12PM ~ 3PM</option>
-									<option value="001">3PM ~ 6PM</option>
-									<option value="110">9AM ~ 12PM & 12PM ~ 3PM</option>
-									<option value="101">9AM ~ 12PM & 3PM ~ 6PM</option>
-									<option value="011">12PM ~ 3PM & 3PM ~ 6PM</option>
-									<option value="111">9AM ~ 6PM</option>
+									<option value="100"${rentalListVO.rentalTime==100?"selected":""}>9AM ~ 12PM</option>
+									<option value="010"${rentalListVO.rentalTime==010?"selected":""}>12PM ~ 3PM</option>
+									<option value="001"${rentalListVO.rentalTime==001?"selected":""}>3PM ~ 6PM</option>
+									<option value="110"${rentalListVO.rentalTime==110?"selected":""}>9AM ~ 12PM & 12PM ~ 3PM</option>
+									<option value="101"${rentalListVO.rentalTime==101?"selected":""}>9AM ~ 12PM & 3PM ~ 6PM</option>
+									<option value="011"${rentalListVO.rentalTime==011?"selected":""}>12PM ~ 3PM & 3PM ~ 6PM</option>
+									<option value="111"${rentalListVO.rentalTime==111?"selected":""}>9AM ~ 6PM</option>
 								</select><label for="floatingInputGrid">¯²­É®É¬q</label>
 					<%-- 
 							<input type="text" class="form-control" placeholder="text"
