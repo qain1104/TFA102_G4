@@ -322,7 +322,7 @@ th, td {
 						<input type="file" name="beforeUse" accept="image/*" id="file">
 						<div id="preview">
 							<img id="demo" class="image"
-								src="/TFA102_123/BFReader2?rentalListSN=<%=rentalListVO.getRentalListSN()%>" width="300" height="200" border="0">
+								src="<%=request.getContextPath()%>/BFReader2?rentalListSN=<%=rentalListVO.getRentalListSN()%>" width="300" height="200" border="0">
 						</div>
 					</div>
 				</div>
@@ -337,7 +337,7 @@ th, td {
 						<input type="file" name="afterUse" accept="image/*" id="file1">
 						<div id="preview">
 							<img id="demo1" class="image"
-								src="/TFA102_123/AFReader2?rentalListSN=<%=rentalListVO.getRentalListSN()%>" width="300" height="200" border="0">
+								src="<%=request.getContextPath()%>/AFReader2?rentalListSN=<%=rentalListVO.getRentalListSN()%>" width="300" height="200" border="0">
 						</div>
 					</div>
 				</div>
