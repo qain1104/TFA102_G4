@@ -45,7 +45,7 @@
 <html>
 
 <head>
-<title>揪團首頁 哈囉<%=userId%></title>
+<title>揪團首頁 </title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 

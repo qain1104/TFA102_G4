@@ -42,8 +42,8 @@ $('input[name="registTimeAndEnd"]').daterangepicker({
         ],
         "firstDay": 1
     },
-    "startDate": "2021/08/14",
-    "endDate": "2021/08/20"
+    "startDate": "2021/09/05",
+    "endDate": "2021/09/12"
 }, function(start, end) {
 //  console.log("從"+start.format('YYYY-MM-DD hh:mm') + '到' + end.format('YYYY-MM-DD hh:mm'));
   console.log(start.format('YYYY-MM-DD HH:mm:ss'))
@@ -90,7 +90,7 @@ $('input[name="exerciseTime"]').daterangepicker({
         ],
         "firstDay": 1
     },
-    "startDate": "2021/1/1",
+    "startDate": "2021/9/5",
     "endDate": "2021/1/20",
     "applyButtonClasses": "btn-sucess",
     "cancelClass": "btn-sucess"
