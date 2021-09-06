@@ -115,7 +115,8 @@ th, td {
 						<div class="form-floating" col-lg-2>
 							<input type="text" class="form-control" placeholder="text"
 								id="formGroupExampleInput" name="userId"
-								value="<%=(venueWatchListVO == null) ? "" : venueWatchListVO.getUserId()%>">
+								value="${userId}" disabled>
+							
 							<label for="floatingInputGrid">會員編號</label>
 						</div>
 					</div>
@@ -127,7 +128,8 @@ th, td {
 		</table>
 		<div align="center">
 			<input type="hidden" name="action" value="insert"> 
-			<input type="hidden" name="venueSN" value="${venueSN}"> 
+			<input type="hidden" name="venueSN" value="${venueSN}">
+			<input type="hidden" name="userId" value="${userId}"> 
 			<input type="submit" class="btn btn-success" value="送出新增">
 		</div>
 	</FORM>

@@ -61,7 +61,7 @@ h4 {
 
 <style>
 table {
-	width: 800px;
+	width: 400px;
 	background-color: white;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -83,27 +83,16 @@ th, td {
 	<table id="table-1" align="center">
 		<tr>
 			<td>
-				<h3>場地資料</h3>
+				<h3><b>場地資料</b></h3>
 				<h4>
-					<a href="<%=request.getContextPath()%>/venue/select_page.jsp">返回場地管理頁面</a>
+				<button type="button" class="btn btn-success btn-lg "
+					onclick="location.href='<%=request.getContextPath()%>/venueUser/listAllVenue.jsp'">返回場地租借</button>
 				</h4>
 			</td>
 		</tr>
 	</table>
 
-	<div class="mt-3 px-3" align="center">
-		<label for="formGroupExampleInput" class="form-label">場地編號 </label> <input
-			type="text" placeholder="Disabled input" class="form-control"
-			style="width: 50%" id="formGroupExampleInput" align="middle"
-			value="<%=venueVO.getVenueSN()%>" disabled>
-	</div>
 
-	<div class="mt-3 px-3" align="center">
-		<label for="formGroupExampleInput" class="form-label">企業會員編號 </label>
-		<input type="text" placeholder="Disabled input" class="form-control"
-			style="width: 50%" id="formGroupExampleInput"
-			value="<%=venueVO.getCorpUserId()%>" disabled>
-	</div>
 
 	<div class="mt-3 px-3" align="center">
 		<label for="formGroupExampleInput" class="form-label">場地名稱 </label> <input
@@ -134,10 +123,9 @@ th, td {
 	</div>
 
 	<div class="mt-3 px-3" align="center">
-		<label for="formGroupExampleInput" class="form-label">場地圖片 </label> <input
-			type="text" placeholder="Disabled input" class="form-control"
-			style="width: 50%" id="formGroupExampleInput"
-			value="<%=venueVO.getVenuePic()%>" disabled>
+		<label for="formGroupExampleInput" class="form-label">場地圖片 </label><br>
+		 <img width="300px" height="200px"
+								src="<%=request.getContextPath()%>/ReadVenuePic?venueSN=${venueVO.venueSN}">
 	</div>
 
 	<div class="mt-3 px-3" align="center">

@@ -298,10 +298,11 @@ public class RentalListServlet extends HttpServlet{
 					errorMsgs.add("請輸入日期!");
 				}
 				
-				String venueReview = req.getParameter("venueReview").trim();
-				if (venueReview == null || venueReview.trim().length() == 0) {
-					errorMsgs.add("場地評論請勿空白");
-				}	
+				String venueReview = "";
+//				String venueReview = req.getParameter("venueReview").trim();
+//				if (venueReview == null || venueReview.trim().length() == 0) {
+//					errorMsgs.add("場地評論請勿空白");
+//				}	
 				
 				String rentalTime = req.getParameter("rentalTime").trim();
 				if (rentalTime == null || rentalTime.trim().length() == 0) {
@@ -341,7 +342,7 @@ public class RentalListServlet extends HttpServlet{
 				rentalListVO = rentalListSvc.addRentalList(venueSN, userId, returnStatus, rentalDate, 
 						venueReview, BU, AU, rentalTime);
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/venue/listAllVenue.jsp";
+				String url = "/rental_list/listAllVenue.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);				
 				

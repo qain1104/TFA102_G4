@@ -35,7 +35,7 @@ public class RentalListJNDIDAO implements RentalListDAO_interface {
 
 		try {
 
-			ds.getConnection();
+			con=ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setInt(1, rentalListVO.getVenueSN());
@@ -80,7 +80,7 @@ public class RentalListJNDIDAO implements RentalListDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			ds.getConnection();
+			con=ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setInt(1, rentalListVO.getVenueSN());
@@ -124,7 +124,7 @@ public class RentalListJNDIDAO implements RentalListDAO_interface {
 
 		try {
 
-			ds.getConnection();
+			con=ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setInt(1, rentalListSN);
@@ -164,7 +164,7 @@ public class RentalListJNDIDAO implements RentalListDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			ds.getConnection();
+			con=ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, rentalListSN);
@@ -225,7 +225,7 @@ public class RentalListJNDIDAO implements RentalListDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			ds.getConnection();
+			con=ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
