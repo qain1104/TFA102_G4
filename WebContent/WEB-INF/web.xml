@@ -148,7 +148,7 @@
 		<servlet-name>RentalListServlet</servlet-name>
 		<url-pattern>/rental_list/rental_list.do</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>VenueWatchListServlet</servlet-name>
 		<servlet-class>com.venue_watchlist.controller.VenueWatchListServlet</servlet-class>
@@ -157,7 +157,7 @@
 		<servlet-name>VenueWatchListServlet</servlet-name>
 		<url-pattern>/venue_watchlist/venue_watchlist.do</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>RLReader</servlet-name>
 		<servlet-class>pic.RLReader</servlet-class>
@@ -166,7 +166,7 @@
 		<servlet-name>RLReader</servlet-name>
 		<url-pattern>/RLReader</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>AFReader</servlet-name>
 		<servlet-class>pic.AFReader</servlet-class>
@@ -175,7 +175,7 @@
 		<servlet-name>AFReader</servlet-name>
 		<url-pattern>/AFReader</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>AFReader2</servlet-name>
 		<servlet-class>pic.AFReader2</servlet-class>
@@ -184,7 +184,7 @@
 		<servlet-name>AFReader2</servlet-name>
 		<url-pattern>/AFReader2</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>BFReader2</servlet-name>
 		<servlet-class>pic.BFReader2</servlet-class>
@@ -193,7 +193,7 @@
 		<servlet-name>BFReader2</servlet-name>
 		<url-pattern>/BFReader2</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SportsGroupServlet</servlet-name>
 		<servlet-class>com.sportsgroup.controller.SportsGroupServlet</servlet-class>
@@ -202,6 +202,16 @@
 		<servlet-name>SportsGroupServlet</servlet-name>
 		<url-pattern>/sportsGroup/sportsGroup.do</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ProductServlet</servlet-name>
+		<servlet-class>com.product.controller.ProductServlet</servlet-class>
+	</servlet>
 
+
+	<servlet-mapping>
+		<servlet-name>ProductServlet</servlet-name>
+		<url-pattern>/product/product.do</url-pattern>
+	</servlet-mapping>
 
 </web-app>

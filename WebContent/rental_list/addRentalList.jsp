@@ -276,7 +276,7 @@ th, td {
 				</div>--%>
 
 
-			<div class="container py-2">
+	<%--		<div class="container py-2">
 				<div class="row justify-content-md-center">
 					<div class="col col-lg-4">
 						<label for="exampleFormControlTextarea1" class="form-label">場地評論</label>
@@ -284,7 +284,7 @@ th, td {
 							rows="3" name="venueReview"><%=(rentalListVO == null) ? "" : rentalListVO.getVenueReview()%></textarea>
 					</div>
 				</div>
-			</div>
+			</div> --%>
 
 
 			<!--上傳-->

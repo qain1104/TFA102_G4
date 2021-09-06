@@ -91,11 +91,8 @@ table#table02 {
 		<tr>
 			<td><h3>
 					<b>場地列表</b>
-				</h3>
-				<button type="button" class="btn btn-success btn-lg "
+				</h3><button type="button" class="btn btn-success btn-lg "
 					onclick="location.href='<%=request.getContextPath()%>/rental_list/select_page.jsp'">我的租借單</button>
-				<button type="button" class="btn btn-success btn-lg "
-					onclick="location.href='<%=request.getContextPath()%>/venueUser/Appointment_notice.jsp'">預約須知</button>
 				</td>
 		</tr>
 
@@ -117,14 +114,13 @@ table#table02 {
 	<table class="table container" class="overflow-x-scroll">
 		<thead class="table-success">
 			<tr>
-	<%-- 	<th scope="col">場地編號</th>--%>	
+<%-- 			<th scope="col">場地編號</th>--%>
 			<th scope="col">場地名稱</th>
 			<th scope="col">場地類型</th>
 			<td scope="col"><b>場地圖片</b></td>
 			<th scope="col">場地資訊</th>
 			<th scope="col">租借</th>
 			<th scope="col">追蹤</th>
-			
 			</tr>
 		</thead>
 
@@ -133,8 +129,8 @@ table#table02 {
 
 			<tbody>
 				<tr>
-		<%--			<th scope="row">${venueVO.venueSN}</th>--%>	
-					<th scope="row">${venueVO.venueName}</th>
+	<%--				<th scope="row">${venueVO.venueSN}</th>--%>
+	 				<th scope="row">${venueVO.venueName}</th>
 					<th scope="row"><c:choose>
 							<c:when test="${venueVO.venueClass==1}">籃球場</c:when>
 							<c:when test="${venueVO.venueClass==2}">網球場</c:when>
@@ -143,13 +139,13 @@ table#table02 {
 							<c:when test="${venueVO.venueClass==5}">羽球場</c:when>
 						</c:choose></th>
 					
+					
 					<td>
 						<div>
 							<img width="100px" height="100px"
 								src="<%=request.getContextPath()%>/ReadVenuePic?venueSN=${venueVO.venueSN}">
 						</div>
 					</td>
-					
 					<th>
 				<FORM METHOD="post"
 					ACTION="<%=request.getContextPath()%>/venue/venue.do">
@@ -162,21 +158,21 @@ table#table02 {
 					</div>
 				</FORM>
 				</th>
-					
 					<th><FORM METHOD="post"
 						ACTION="<%=request.getContextPath()%>/rental_list/rental_list.do"
 						style="margin-bottom: 0px;">
-						<input type="submit" class="btn btn-success" value="租借" ${empty userId? "disabled":""}>
+						<input type="submit" class="btn btn-success disabled" value="租借">
 						<input type="hidden" name="venueSN" value="${venueVO.venueSN}">
 						<input type="hidden" name="action" value="NewRentalList">
 					</FORM></th>
 					<th><FORM METHOD="post"
 						ACTION="<%=request.getContextPath()%>/rental_list/rental_list.do"
 						style="margin-bottom: 0px;">
-						<input type="submit" class="btn btn-success" value="追蹤" ${empty userId? "disabled":""}>
+						<input type="submit" class="btn btn-success disabled" value="追蹤">
 						<input type="hidden" name="venueSN" value="${venueVO.venueSN}">
 						<input type="hidden" name="action" value="NewVWL">
 					</FORM></th>
+					
 				</tr>
 			</tbody>
 
