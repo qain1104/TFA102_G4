@@ -378,7 +378,7 @@ th, td {
 								<input type="text" class="form-control"
 									placeholder="Disabled input" id="formGroupExampleInput"
 									name="beforeUse" value="" disabled> <img
-									src="/TFA102_123/BFReader2?rentalListSN=<%=rentalListVO.getRentalListSN()%>"
+									src="<%=request.getContextPath()%>/BFReader2?rentalListSN=<%=rentalListVO.getRentalListSN()%>"
 									width="300" height="200" border="0" class="img-thumbnail">
 								<label for="floatingInputGrid">使用前照片</label>
 							</div>
@@ -394,7 +394,7 @@ th, td {
 								<input type="text" class="form-control"
 									placeholder="Disabled input" id="formGroupExampleInput"
 									name="beforeUse" value="" disabled> <img
-									src="/TFA102_123/AFReader2?rentalListSN=<%=rentalListVO.getRentalListSN()%>"
+									src="<%=request.getContextPath()%>/AFReader2?rentalListSN=<%=rentalListVO.getRentalListSN()%>"
 									width="300" height="200" border="0" class="img-thumbnail">
 								<label for="floatingInputGrid">使用後照片</label>
 							</div>

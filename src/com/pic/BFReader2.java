@@ -12,11 +12,11 @@ import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-
 public class BFReader2 extends HttpServlet {
 
 	Connection con;
@@ -30,6 +30,7 @@ public class BFReader2 extends HttpServlet {
 		try {
 			Statement stmt = con.createStatement();
 			String rentalListSN = req.getParameter("rentalListSN").trim();
+			System.out.println(rentalListSN);
 			ResultSet rs = stmt.executeQuery(
 					"select beforeUse from RENTAL_LIST where rentalListSN="+rentalListSN);
 
@@ -64,7 +65,7 @@ public class BFReader2 extends HttpServlet {
 	public void init() throws ServletException {
 		try {
 			Context ctx = new javax.naming.InitialContext();
-			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/David2");
+			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
 			con = ds.getConnection();
 		} catch (NamingException e) {
 			e.printStackTrace();

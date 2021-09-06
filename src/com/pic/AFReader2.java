@@ -66,7 +66,7 @@ public class AFReader2 extends HttpServlet {
 	public void init() throws ServletException {
 		try {
 			Context ctx = new javax.naming.InitialContext();
-			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/David2");
+			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Sportify");
 			con = ds.getConnection();
 		} catch (NamingException e) {
 			e.printStackTrace();

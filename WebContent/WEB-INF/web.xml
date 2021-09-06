@@ -178,7 +178,7 @@
 
 	<servlet>
 		<servlet-name>AFReader2</servlet-name>
-		<servlet-class>pic.AFReader2</servlet-class>
+		<servlet-class>com.pic.AFReader2</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AFReader2</servlet-name>
@@ -187,7 +187,7 @@
 
 	<servlet>
 		<servlet-name>BFReader2</servlet-name>
-		<servlet-class>pic.BFReader2</servlet-class>
+		<servlet-class>com.pic.BFReader2</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>BFReader2</servlet-name>
