@@ -30,7 +30,7 @@ public class BFReader2 extends HttpServlet {
 		try {
 			Statement stmt = con.createStatement();
 			String rentalListSN = req.getParameter("rentalListSN").trim();
-			System.out.println(rentalListSN);
+			
 			ResultSet rs = stmt.executeQuery(
 					"select beforeUse from RENTAL_LIST where rentalListSN="+rentalListSN);
 
