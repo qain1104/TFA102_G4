@@ -311,13 +311,37 @@ public class RentalListServlet extends HttpServlet{
 				
 				Part part = req.getPart("beforeUse");
 				InputStream in  = part.getInputStream();
-				byte[] BU = new byte[in.available()];
-				in.read(BU);
+				RentalListService rentalListSvc = new RentalListService();
+				byte[] BU = null;
+				if(in.available() > 0) {
+					 BU = new byte[in.available()];
+					in.read(BU);
+				}else {
+					RentalListVO rentalListVO = rentalListSvc.getOneRentalList(venueSN);
+					BU = rentalListVO.getBeforeUse();
+				}
 				
 				Part part1 = req.getPart("afterUse");
 				InputStream in1  = part1.getInputStream();
-				byte[] AU = new byte[in1.available()];
-				in1.read(AU);
+				RentalListService rentalListSvc1 = new RentalListService();
+				byte[] AU = null;
+				if(in1.available() > 0) {
+					 AU = new byte[in1.available()];
+					in1.read(AU);
+				}else {
+					RentalListVO rentalListVO = rentalListSvc1.getOneRentalList(venueSN);
+					AU = rentalListVO.getAfterUse();
+				}
+				
+//				Part part = req.getPart("beforeUse");
+//				InputStream in  = part.getInputStream();
+//				byte[] BU = new byte[in.available()];
+//				in.read(BU);
+//				
+//				Part part1 = req.getPart("afterUse");
+//				InputStream in1  = part1.getInputStream();
+//				byte[] AU = new byte[in1.available()];
+//				in1.read(AU);
 				
 				RentalListVO rentalListVO = new RentalListVO();
 				rentalListVO.setVenueSN(venueSN);
@@ -338,7 +362,7 @@ public class RentalListServlet extends HttpServlet{
 				}
 				
 				/***************************2.開始新增資料***************************************/
-				RentalListService rentalListSvc = new RentalListService();
+//				RentalListService rentalListSvc = new RentalListService();
 				rentalListVO = rentalListSvc.addRentalList(venueSN, userId, returnStatus, rentalDate, 
 						venueReview, BU, AU, rentalTime);
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
