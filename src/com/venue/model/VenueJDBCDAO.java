@@ -281,6 +281,4 @@ public class VenueJDBCDAO implements VenueDAO_interface {
 			}
 		}
 	}
-
-	
 }

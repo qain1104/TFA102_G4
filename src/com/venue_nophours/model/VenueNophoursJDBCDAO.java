@@ -53,11 +53,6 @@ public class VenueNophoursJDBCDAO implements VenueNophoursDAO_interface {
 
 			pstmt.setInt(1, venueNophoursVO.getVenueSN());
 			pstmt.setTimestamp(2,venueNophoursVO.getVenueDate());
-//			if(venueNophoursVO.getVenueDate()==null) {
-//				pstmt.setNull(2, java.sql.Types.INTEGER);
-//			}else {
-//			pstmt.setTimestamp(2,venueNophoursVO.getVenueDate());
-//			}
 			pstmt.setString(3, venueNophoursVO.getVenueNophours());
 
 			pstmt.executeUpdate();
@@ -260,6 +255,4 @@ public class VenueNophoursJDBCDAO implements VenueNophoursDAO_interface {
 			}
 		}
 	}
-
-	
 }

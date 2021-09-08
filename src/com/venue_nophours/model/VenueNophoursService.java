@@ -62,12 +62,4 @@ public class VenueNophoursService {
 		dao.update(venueNophoursVO);
 		return venueNophoursVO;
 	}
-	
-//	public static void main(String[] args) {
-//		VenueNophoursService svc = new VenueNophoursService();
-//		VenueNophoursVO vo = svc.getOneVenueNophours(20025);
-//		vo.setVenueNophours("7");
-//		svc.updateTime(vo);
-//		
-//	}
 }

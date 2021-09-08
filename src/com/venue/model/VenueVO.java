@@ -113,6 +113,4 @@ public class VenueVO implements Serializable {
 				+ Arrays.toString(venuePic) + ", venueAccommodate=" + venueAccommodate + ", venuePhone=" + venuePhone
 				+ "]";
 	}
-	
-	
 }

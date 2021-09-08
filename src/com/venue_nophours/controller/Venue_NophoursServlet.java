@@ -50,20 +50,17 @@ public class Venue_NophoursServlet extends HttpServlet {
 					}
 
 					if (!errorMsgs.isEmpty()) {
-						req.setAttribute("chooseDateList", chooseDateList); // 含有輸入格式錯誤的VenueVO物件,也存入req
+						req.setAttribute("chooseDateList", chooseDateList);
 						RequestDispatcher failureView = req.getRequestDispatcher("/venue/addNopDate.jsp");
 						failureView.forward(req, res);
 						return;
 					}
-//				/*************************** 2.開始新增資料 ***************************************/
 //				
-//				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 					req.getSession().setAttribute("chooseDateList", chooseDateList);
 					String url = "/venue/addNopHours.jsp";
-					RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllVenue.jsp
+					RequestDispatcher successView = req.getRequestDispatcher(url);
 					successView.forward(req, res);
 				}
-				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/venue/addNopDate.jsp");
@@ -93,9 +90,9 @@ public class Venue_NophoursServlet extends HttpServlet {
 					for (int i = 0; i < noOpenValues.length; i++) {
 						vnp += Integer.parseInt(noOpenValues[i]);
 					}
-					
+
 					vnpSvc.addVenueNophours(nowSN, ts, String.valueOf(vnp));
-				
+
 				} else {
 					try {
 						d = sdf.parse(date);
@@ -112,7 +109,6 @@ public class Venue_NophoursServlet extends HttpServlet {
 		}
 
 		if ("newNopDate".equals(action)) {
-			System.out.println("有吃到");
 			Integer venueSN = new Integer(req.getParameter("venueSN"));
 			req.getSession().setAttribute("venueSN", venueSN);
 			String location = req.getContextPath() + "/venue/addNopDate.jsp";
@@ -120,7 +116,6 @@ public class Venue_NophoursServlet extends HttpServlet {
 		}
 
 		if ("updateNopDate".equals(action)) {
-			System.out.println("有吃到");
 			Integer venueNophoursSN = new Integer(req.getParameter("venueNophoursSN"));
 			req.getSession().setAttribute("venueNophoursSN", venueNophoursSN);
 			String location = req.getContextPath() + "/venue/updateNop.jsp";
@@ -132,8 +127,6 @@ public class Venue_NophoursServlet extends HttpServlet {
 			Integer whichpage = new Integer(req.getParameter("whichPage"));
 			VenueNophoursService vnpSvc = new VenueNophoursService();
 			VenueNophoursVO venueNophoursVO = vnpSvc.getOneVenueNophours(venueNophoursSN);
-
-			System.out.println("179");
 
 			req.getSession().setAttribute("venueNophoursVO", venueNophoursVO);
 			req.getSession().setAttribute("whichPage", whichpage);
@@ -156,21 +149,15 @@ public class Venue_NophoursServlet extends HttpServlet {
 				for (int i = 0; i < noOpenValues.length; i++) {
 					vnp += Integer.parseInt(noOpenValues[i]);
 				}
-
 			}
 
 			venueNophoursVO = vnpSvc.getOneVenueNophours(venueNophoursSN);
-
 			venueNophoursVO.toString();
-
 			Integer venueSN = venueNophoursVO.getVenueSN();
-
 			vnpSvc.updateTime(venueNophoursVO, String.valueOf(vnp));
-
 			String location = req.getContextPath() + "/venue/listAllVenueNop.jsp?whichPage=" + whichpage + "&venueSN="
 					+ venueSN;
 			res.sendRedirect(location);
-
 		}
 	}
 }
