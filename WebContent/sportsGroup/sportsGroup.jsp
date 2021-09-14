@@ -49,9 +49,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="apple-touch-icon" href="../assets/img/apple-icon.png">
-<link rel="shortcut icon" type="image/x-icon"
-	href="<%=request.getContextPath()%>/assets/img/favicon.ico">
 
 <!-- 介面排版用的 -->
 <link rel="stylesheet"
@@ -68,6 +65,9 @@
 <!-- 匯入圖片 -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/assets/css/fontawesome.min.css">
+	
+	<!-- 網頁logo -->
+	<link rel="shortcut icon" href="<%= request.getContextPath() %>/assets/img/logo1.png" type="image/x-icon" />
 <!-- 	時間選擇器的CSS -->
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/datetimepicker\daterangepicker.css" />
