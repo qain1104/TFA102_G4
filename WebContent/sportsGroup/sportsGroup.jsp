@@ -10,8 +10,6 @@
 	ParticipantService participantSvc = new ParticipantService();
 	List<SportsGroupVO> list = null;
 	List<ParticipantVO> list1 = null;
-	//SportsGroupVO sportsGroupVO = (SportsGroupVO) request.getAttribute("sportsGroupVO");
-	//ParticipantVO participantVO = (ParticipantVO) request.getAttribute("participantVO");
 	SimpleDateFormat tformat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 	Integer userId = (Integer)session.getAttribute("userId");
 %>
